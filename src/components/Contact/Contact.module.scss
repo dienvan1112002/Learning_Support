@@ -1,0 +1,210 @@
+.contact {
+    display: flex;
+    width: 1400px;
+    height: 810px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4rem;
+    flex-shrink: 0;
+}
+.contactHead {
+    display: flex;
+    padding: 5px;
+    margin-left: 5rem;
+}
+.contactHeadP {
+    margin: 0;
+    color: var(--grey-20, #333);
+    font-family: Inter;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    align-self: stretch;
+}
+.contactInfo {
+    display: flex;
+    align-items: center;
+    gap: 114px;
+    align-self: stretch;
+}
+.formLeft {
+    display: flex;
+    padding: 40px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    flex: 1 0 0;
+    border-radius: 16px;
+    border: 1px solid var(--primary-95, #e5efff);
+    background: var(--absolute-white, #fff);
+
+    /* Shadow/Light/Bottom Right */
+    box-shadow: 10px 10px 50px 0px rgba(0, 98, 255, 0.03);
+}
+
+.formLeftInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+    align-self: stretch;
+}
+.hoTen {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    align-self: stretch;
+}
+.email {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    align-self: stretch;
+}
+.description {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+}
+.descriptionL {
+    align-self: stretch;
+    color: var(--grey-30, #4c4c4c);
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; /* 133.333% */
+}
+.descriptionI {
+    display: flex;
+    height: 162px;
+    padding: 18px 16px;
+    align-items: flex-start;
+    gap: 77px;
+    align-self: stretch;
+    border-radius: 10px;
+    border: 1px solid var(--primary-95, #e5efff);
+}
+.formLeftInfoCheckBox {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    align-self: stretch;
+}
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1 0 0;
+}
+.btn {
+    display: flex;
+    padding: 14px 42px;
+    align-items: center;
+    border-radius: 8px;
+    background: var(--blue-100, #7e9cde);
+}
+.formRight {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 80px;
+}
+.phone {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.phoneIcon {
+    display: flex;
+    padding: 22px;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 100px;
+    border: 1px solid var(--primary-95, #e5efff);
+    background: var(--primary-99, #f7faff);
+}
+.phoneInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+}
+.office {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.officeIcon {
+    display: flex;
+    padding: 22px;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 100px;
+    border: 1px solid var(--primary-95, #e5efff);
+    background: var(--primary-99, #f7faff);
+}
+.officeInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+}
+.mail {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.mailIcon {
+    display: flex;
+    padding: 22px;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 100px;
+    border: 1px solid var(--primary-95, #e5efff);
+    background: var(--primary-99, #f7faff);
+}
+.mailInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+}
+.input {
+    display: flex;
+    padding: 18px 16px;
+    align-items: center;
+    gap: 77px;
+    align-self: stretch;
+    border-radius: 10px;
+    border: 1px solid var(--primary-95, #e5efff);
+}
+.formRightBtn {
+    display: flex;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 36px;
+    border: 1px solid var(--primary-97, #f0f6ff);
+    background: var(--primary-99, #f7faff);
+}
+.styleBtn {
+    color: var(--brand-300, #5773ba);
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 125% */
+}
+.formRightP {
+    color: var(--brand-300, #5773ba);
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 28px; /* 155.556% */
+}

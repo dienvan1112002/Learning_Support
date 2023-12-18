@@ -1,0 +1,139 @@
+.wrapper {
+    width: 100%;
+    padding: 6rem 14rem;
+}
+
+.container {
+    display: flex;
+    width: 1240px;
+    height: 505px;
+    align-items: flex-start;
+    gap: 6rem;
+    flex-shrink: 0;
+    align-self: stretch;
+    background: var(--brand-100, #7e9cde);
+}
+
+.container-info {
+    display: flex;
+    gap: 3rem;
+    padding: 5rem;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+.info-left {
+    display: flex;
+    width: 326px;
+    height: 403px;
+    padding: 0px 4px;
+    align-items: center;
+    align-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+.info-img {
+    width: 311px;
+    height: 320px;
+    flex-shrink: 0;
+    border-radius: 11px;
+    border: 1px solid #000;
+}
+.info-btn {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    .thue {
+        display: flex;
+        padding: 1.35rem 3.35rem;
+        width: 42%;
+        color: #fff;
+        font-family: Be Vietnam Pro;
+        justify-content: center;
+        font-size: 1.8rem;
+        border-radius: 8px;
+        background: var(--blue-300, #5773ba);
+    }
+    .follow {
+        display: flex;
+        width: 42%;
+        color: #000;
+
+        font-family: Be Vietnam Pro;
+        justify-content: center;
+        padding: 1.35rem 2.35rem;
+        font-size: 1.8rem;
+        border-radius: 8px;
+        background: #fff;
+    }
+}
+.info-right {
+    display: flex;
+    width: 438px;
+    flex-direction: column;
+    gap: 2.25rem;
+}
+.name {
+    width: 436px;
+    flex-shrink: 0;
+    h2 {
+        color: var(--grey-15, #262626);
+        font-family: Be Vietnam Pro;
+        font-size: 48px;
+        margin: 0;
+        font-weight: 600;
+    }
+}
+.chitiet {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+.linhvuc {
+    display: flex;
+    gap: 2.25rem;
+    p {
+        margin: 0;
+        color: #fff;
+        margin: 0;
+        font-size: 17px;
+        font-style: normal;
+    }
+}
+.danhgia,
+.khoahoc,
+.theodoi,
+.dangki,
+.tilehoanthanh {
+    align-items: center;
+    display: flex;
+    gap: 2.25rem;
+    p {
+        color: #fff;
+        margin: 0;
+        font-size: 17px;
+        font-style: normal;
+    }
+}
+
+.danhgia-chitiet {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+    img {
+        width: 21.972px;
+        height: 20.994px;
+    }
+    p {
+        margin: 0;
+    }
+}
+.container-img {
+    display: flex;
+
+    align-self: stretch;
+    img {
+        width: 100%;
+    }
+}

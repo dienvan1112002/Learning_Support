@@ -1,0 +1,112 @@
+.footer {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    padding: 72px 162px 30px 162px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    border-top: var(--blue-100) solid 0.25px;
+}
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-self: stretch;
+    align-items: center;
+    background: #fff;
+}
+
+.footer-container-left {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+.footer-container-left p {
+    margin: 0;
+}
+.footer-left-top {
+    display: flex;
+    width: 392px;
+    align-items: flex-end;
+
+    gap: 17px;
+}
+.footer-logo {
+    display: flex;
+    width: 3.375rem;
+    height: 3.375rem;
+    padding: 0.4375rem;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+    background: var(--blue-100);
+}
+.footer-logo-name {
+    align-self: center;
+}
+.footer-logo-name p {
+    color: #000;
+    font-family: Be Vietnam Pro;
+    font-size: 1.375rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%; /* 2.0625rem */
+}
+.footer-left-bottom {
+    display: flex;
+    width: 392px;
+    flex-direction: column;
+    /* align-items: flex-start; */
+    /* align-content: flex-start; */
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.footer-left-bottom-email {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.footer-left-bottom-phone {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.footer-left-bottom-map {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+/* right*/
+.footer-container-right {
+    display: flex;
+    gap: 30px;
+    height: 100%;
+    justify-content: space-around;
+    width: 54.25rem;
+}
+.footer-ls {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.footer-sp {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.footer-mxh {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.footer-mxh-items {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 14px;
+}
+.footer-line {
+    height: 1px;
+    background: #bbb;
+}

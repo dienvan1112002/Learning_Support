@@ -1,0 +1,116 @@
+.body {
+}
+.body-top {
+    display: flex;
+    width: 100%;
+    padding: 10px 20px 10px 50px;
+    align-items: center;
+    flex-shrink: 0;
+    border: 1px solid #5773ba;
+    background: #fff;
+}
+.body-top-overview {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 37px;
+    width: 328%;
+    h3 {
+        color: #000;
+        font-family: Be Vietnam Pro;
+        font-size: 60px;
+        font-style: normal;
+        font-weight: 900;
+        line-height: 150%; /* 90px */
+    }
+    p {
+        margin: 0;
+        color: #000;
+        font-family: Be Vietnam Pro;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%; /* 27px */
+    }
+    button {
+        display: flex;
+        width: 215px;
+        height: 74px;
+        padding: 14px 20px;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+        border-radius: 8px;
+        background: var(--Blue-100, #7e9cde);
+    }
+}
+.body-top-img {
+    width: 100%;
+}
+.body-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 63px;
+    align-self: stretch;
+    background: #fff;
+}
+.body-bottom-title {
+    h3 {
+        color: #000;
+        font-family: Be Vietnam Pro;
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%; /* 60px */
+    }
+}
+.body-bottom-content {
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    gap: 5rem;
+}
+.content-page1 {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    gap: 2rem;
+}
+.content-page2 {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    gap: 2rem;
+}
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 1.25rem;
+    h4 {
+        margin: 0;
+        color: #000;
+        font-family: Be Vietnam Pro;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 900;
+        line-height: 150%; /* 27px */
+    }
+    p {
+        margin: 0;
+        width: 378px;
+        height: 108px;
+        color: #000;
+        text-align: justify;
+        font-family: Be Vietnam Pro;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%; /* 27px */
+    }
+}

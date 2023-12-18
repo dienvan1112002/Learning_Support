@@ -1,0 +1,119 @@
+.course {
+    display: flex;
+    padding: 50px;
+    width: 710px;
+    height: 810px;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+.containerCourse {
+}
+.top {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+    align-self: stretch;
+}
+.img {
+    height: 379px;
+    align-self: stretch;
+}
+.containerSubTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+}
+.containerSub {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+    align-self: stretch;
+}
+.containerSubTopLeft {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.containerSubTopLeftItem {
+    display: flex;
+    padding: 10px 16px;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--white-95, #f1f1f3);
+    background: var(--absolute-white, #fff);
+}
+.containerSubTopLeftItemP {
+    color: var(--grey-30, #4c4c4d);
+    font-family: Be Vietnam Pro;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 1.15rem;
+}
+.containerSubTopRight {
+}
+.name {
+    color: var(--grey-15, #262626);
+    font-family: Be Vietnam Pro;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+.containerSubBt {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    align-self: stretch;
+}
+.containerSubBtHead {
+}
+.containerSubBtHeadNt {
+    align-self: stretch;
+    color: var(--grey-15, #262626);
+    font-family: Be Vietnam Pro;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%; /* 36px */
+}
+.containerSubBtPara {
+}
+.containerSubBtParaP {
+    align-self: stretch;
+    color: var(--grey-30, #4c4c4d);
+    text-align: justify;
+    font-family: Be Vietnam Pro;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 27px */
+}
+.btn {
+    display: flex;
+    height: 63px;
+
+    justify-content: center;
+
+    align-self: stretch;
+    border-radius: 6px;
+    background: var(--blue-300, #5773ba);
+}
+.bt {
+    color: #fff;
+    font-family: Be Vietnam Pro;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%; /* 27px */
+}

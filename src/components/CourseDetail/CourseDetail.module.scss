@@ -1,0 +1,211 @@
+.container {
+    display: flex;
+    width: 117.5rem;
+    padding: 2rem 10.125rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4rem;
+}
+
+.course-detail-top {
+    display: flex;
+    height: 33.1875rem;
+    align-items: flex-start;
+    gap: 1.625rem;
+    align-self: stretch;
+}
+.course-detail-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+.course-detail-info-name {
+    display: flex;
+    height: 21.375rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    align-self: stretch;
+}
+.head {
+    width: 49.875rem;
+    h2 {
+        color: var(--grey-15, #262626);
+        font-family: Be Vietnam Pro;
+        font-size: 3rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 150%; /* 4.5rem */
+    }
+}
+.chude {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    .h3 {
+        color: var(--absolute-black, #000);
+        font-family: Be Vietnam Pro;
+        font-size: 2rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 150%; /* 3rem */
+    }
+}
+.thiet-ke {
+    color: var(--brand-200, #6da6c6);
+    font-family: Be Vietnam Pro;
+    font-size: 1.9rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%;
+}
+.danhgia {
+    display: flex;
+    width: 10.375rem;
+    height: 2.875rem;
+    padding-bottom: 1rem;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    p {
+        color: #000;
+        margin: 0;
+        font-family: Be Vietnam Pro;
+        font-size: 1.875rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%; /* 2.8125rem */
+    }
+}
+.author {
+    display: flex;
+    width: 27.25rem;
+    align-items: center;
+    gap: 0.625rem;
+    flex-shrink: 0;
+}
+.avt {
+    width: 6.25rem;
+    height: 6.25rem;
+    flex-shrink: 0;
+}
+.author-detail {
+    display: flex;
+    gap: 0.25rem;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1 0 0;
+}
+.author-detail-name {
+    color: var(--grey-30, #4c4c4c);
+    font-family: Inter;
+    font-size: 1.375rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 146%; /* 2.0075rem */
+}
+.author-detail-act {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+.author-detail-job {
+    color: var(--grey-50, #808080);
+    font-family: Inter;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 1.6875rem */
+}
+
+.course-detail-info-gia {
+    display: flex;
+    padding-top: 1rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.5rem;
+    align-self: stretch;
+}
+.gia {
+    align-self: stretch;
+    color: var(--absolute-black, #000);
+    font-family: Be Vietnam Pro;
+    font-size: 4rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%; /* 6rem */
+}
+.course-detail-info-gia-btn {
+    display: flex;
+    height: 3.5rem;
+    align-items: center;
+    gap: 2rem;
+    align-self: stretch;
+}
+.khoahoc {
+    display: flex;
+    padding: 0.875rem 1.25rem;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 0;
+    align-self: stretch;
+    border-radius: 0.5rem;
+    background: var(--blue-100, #7e9cde);
+}
+.marked {
+    display: flex;
+
+    padding: 0.75rem 0.325rem;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--grey-35, #59595a);
+
+    button {
+        color: var(--brand-100, #7e9cde);
+    }
+}
+.course-detail-img {
+    display: flex;
+    padding: 1.25rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    flex: 1 0 0;
+    align-self: stretch;
+    border-radius: 0.75rem;
+    border: 1px solid var(--white-97, #f7f7f8);
+}
+
+.course-detail-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    align-self: stretch;
+}
+.course-detail-bottom-para {
+    align-self: stretch;
+    color: #000;
+    font-family: Be Vietnam Pro;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%; /* 3rem */
+}
+.course-detail-bottom-destruction {
+    align-self: stretch;
+    p {
+        color: var(--grey-35, #59595a);
+        text-align: justify;
+        font-family: Be Vietnam Pro;
+        font-size: 1.125rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%; /* 1.6875rem */
+    }
+}

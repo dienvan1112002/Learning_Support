@@ -1,0 +1,63 @@
+.container {
+    display: flex;
+    width: 116.25rem;
+    padding: 0rem 8.25rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.header {
+    font-family: Be Vietnam Pro;
+    h4 {
+        color: var(--grey-15, #262626);
+        font-size: 3rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 150%; /* 4.5rem */
+        align-self: stretch;
+    }
+}
+
+.para {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+.all {
+    border-radius: 0.5rem;
+    background: var(--white-90, #e4e4e7);
+    display: flex;
+    font-family: Be Vietnam Pro;
+    padding: 0.5rem 1rem;
+    align-items: flex-start;
+    gap: 0.625rem;
+    p {
+        margin: 0;
+    }
+}
+
+.danhdau {
+    border-radius: 0.5rem;
+    font-family: Be Vietnam Pro;
+    display: flex;
+    padding: 0.5rem 1rem;
+    align-items: flex-start;
+    gap: 0.625rem;
+    p {
+        margin: 0;
+    }
+}
+
+.daxem {
+    font-family: Be Vietnam Pro;
+    border-radius: 0.5rem;
+    display: flex;
+    padding: 0.5rem 1rem;
+    align-items: flex-start;
+    gap: 0.625rem;
+    p {
+        margin: 0;
+    }
+}

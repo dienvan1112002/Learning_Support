@@ -1,0 +1,44 @@
+.body {
+    display: flex;
+    width: 100%;
+    padding: 45px 178px;
+    flex-direction: column;
+    align-items: center;
+    gap: 64px;
+    flex-shrink: 0;
+    font-size: 23px;
+}
+.body-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+    align-self: stretch;
+    h4 {
+        color: #000;
+        font-family: Be Vietnam Pro;
+        font-size: 25px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 150%; /* 30px */
+    }
+}
+.item {
+    display: flex;
+    gap: 2rem;
+    p {
+        margin: 0;
+    }
+}
+.btn {
+    button {
+        display: flex;
+        width: 157px;
+        padding: 14px 20px;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+        border-radius: 8px;
+        background: var(--Blue-100, #7e9cde);
+    }
+}

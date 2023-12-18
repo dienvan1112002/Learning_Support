@@ -1,0 +1,26 @@
+.wrapper {
+    width: 100%;
+}
+.header {
+}
+.body {
+    display: flex;
+    flex-direction: column;
+    gap: 10rem;
+    width: 100%;
+}
+.course-head {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding: 20px 0 0;
+}
+.course-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    margin-bottom: 4rem;
+}
+.footer {
+    width: 100%;
+}
