@@ -7,6 +7,7 @@ import HeaderLogin from 'src/components/Header/HeaderLogin/HeaderLogin';
 import Footer from '../../components/Footer/Footer';
 import LoginLeft from '../../components/Loginleft/Loginleft';
 import FormLogin from 'src/components/Form/FormLogin/FormLogin';
+import FormSignup from 'src/components/Form/FormSignup/FormSignup';
 
 const cx = classNames.bind(styles);
 
@@ -18,7 +19,7 @@ const SignUp = () => {
             </div>
             <div className={cx('body')}>
                 <LoginLeft />
-                <FormLogin title="Đăng ký" name="Đăng nhập " />
+                <FormSignup />
             </div>
 
             <div className={cx('footer')}>

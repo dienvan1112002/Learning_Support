@@ -6,6 +6,7 @@ import Footer from 'src/components/Footer/Footer';
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
 import home from '../../assests/home/home.png';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 const Home = () => {
@@ -26,8 +27,12 @@ const Home = () => {
                         </div>
                     </div>
                     <div className={cx('btn')}>
-                        <button>Khám phá khóa học</button>
-                        <button className={cx('bg-slate-100 rounded text-black')}>Tự chọn gia sư</button>
+                        <Link to="course">
+                            <button>Khám phá khóa học</button>
+                        </Link>
+                        <Link to="teacher">
+                            <button className={cx('bg-slate-100 rounded text-black')}>Tự chọn gia sư</button>
+                        </Link>
                     </div>
                 </div>
                 <div className={cx('body-img')}>

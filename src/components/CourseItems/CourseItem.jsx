@@ -1,6 +1,6 @@
 import styles from './courseItem.module.css';
 import React from 'react';
-import image from '../../assests/sourse/sourse.png';
+import image from '../../assests/sourse/course.png';
 
 const CourseItem = () => {
     return (

@@ -2,7 +2,6 @@ import React from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-
 import styles from './FormLogin.module.scss';
 import classNames from 'classnames/bind';
 import google from '../../../assests/logo/google.png';
@@ -11,7 +10,6 @@ import axios from 'axios';
 const cx = classNames.bind(styles);
 
 const FormLogin = (props) => {
-    
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -74,7 +72,7 @@ const FormLogin = (props) => {
                     </div>
                     <div className={cx('sign-up')}>
                         <p>Bạn chưa có tài khoản?</p>
-                        <Link to={props.link} type="button">
+                        <Link to="../signup" type="button">
                             {props.name}
                         </Link>
                     </div>
