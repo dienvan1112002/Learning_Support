@@ -3,12 +3,24 @@ import Header from 'src/components/Header/HeaderKhach/Header';
 import Footer from 'src/components/Footer/Footer';
 import CourseHead from 'src/components/Course/CourseHead/CourseHead';
 import Course from 'src/components/Course/Course';
+import repository from 'src/repositories/repository';
+import useApi from 'src/utils/useApi';
 
 import classNames from 'classnames/bind';
 import styles from './Course.module.scss';
 
 const cx = classNames.bind(styles);
 const CourseP = () => {
+
+    const apiFunc = () => repository.courseOfInstructor();
+
+    const { result, error } = useApi(apiFunc);
+
+    let courses
+    if (result) {
+         courses = result.data;
+    }
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
@@ -19,9 +31,12 @@ const CourseP = () => {
                     <CourseHead />
                 </div>
                 <div className={cx('course-item')}>
-                    <Course />
-                    <Course />
-                    <Course />
+                   {courses && courses.map((course) => {
+                    return <Course 
+                        key={course._id}
+                        course={course}
+                     />
+                   })}
                 </div>
             </div>
             <div className={cx('footer')}>

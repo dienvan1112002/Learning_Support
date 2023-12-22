@@ -5,44 +5,49 @@ import classNames from 'classnames/bind';
 import course1 from '../../assests/sourse/course1.png';
 import course2 from '../../assests/sourse/course2.png';
 import course3 from '../../assests/sourse/course3.png';
+import no_img from '../../assests/sourse/no_img.jpg';
+import daysFromNow from 'src/helper/function';
 
 const cx = classNames.bind(styles);
-const Course = () => {
+const Course = ({ course }) => {
+
     return (
         <div className="flex justify-center items-center">
             <div className={cx('course-wrapper')}>
                 <div className={cx('course-top')}>
                     <div className={cx('course-info')}>
-                        <h2>Web Design Fundamentals</h2>
+                        <h2>{course.title}</h2>
                         <p>
-                            Learn the fundamentals of web design, including HTML, CSS, and responsive design principles.
-                            Develop the skills to create visually appealing and user-friendly websites.
+                            {course.description}
                         </p>
                     </div>
                     <button className={cx('course-top-btn')}>Xem khóa học</button>
                 </div>
                 <div className={cx('course-img')}>
-                    <div>
-                        <img src={course1} alt="" />
-                    </div>
-                    <div>
-                        <img src={course2} alt="" />
-                    </div>
-                    <div>
-                        <img src={course3} alt="" />
-                    </div>
+                    {course.thumbnails && course.thumbnails.map((thumbnail) => {
+                        return <div key={thumbnail}>
+                            <img 
+                            src={thumbnail} 
+                            alt="122" 
+                            onError={((e) => {
+                                e.target.onerror = null;
+                                e.target.src = no_img;
+                            })}
+                            />
+                        </div>
+                    })}
                 </div>
                 <div className={cx('course-bottom')}>
                     <div className={cx('course-bottom-level')}>
                         <div className={cx('course-bottom-box')}>
-                            <p>4 Weeks</p>
+                            <p>Được cập nhật cách đây {daysFromNow(course.updatedAt)} ngày</p>
                         </div>
                         <div className={cx('course-bottom-box')}>
-                            <p>Beginner</p>
+                            <p>{course.level[0]}</p>
                         </div>
                     </div>
                     <div className={cx('course-bottom-author')}>
-                        <p>By John Smith</p>
+                        <p>{course.instructor.name}</p>
                     </div>
                 </div>
             </div>

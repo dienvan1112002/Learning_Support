@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
+import repository from 'src/repositories/repository';
+import useApi from 'src/utils/useApi';
 
 import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
@@ -11,6 +13,17 @@ import FormLogin from '../../components/Form/FormLogin/FormLogin';
 const cx = classNames.bind(styles);
 
 const Login = () => {
+    const credentials = {
+        username: 'admin2',
+        password: 'admin2',
+    };
+
+    const apiFunc = () => repository.login(credentials);
+
+    const { result, error } = useApi(apiFunc);
+  
+    console.log(result);
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
