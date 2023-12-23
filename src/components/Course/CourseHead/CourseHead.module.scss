@@ -1,11 +1,10 @@
 .container {
     display: flex;
     width: 116.25rem;
-    padding: 0rem 8.25rem;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+    padding: 1rem 8.25rem;
+    justify-content: space-between;
     gap: 1rem;
+    align-self: flex-end;
 }
 
 .header {

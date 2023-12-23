@@ -9,6 +9,7 @@ import Switch from 'src/components/Btn/Switch.jsx';
 import DKGiangVien1 from 'src/pages/DangKiGiangVien/DKGiangVien1.jsx';
 import DKGiangVien from 'src/pages/DangKiGiangVien/DKGiangVien.jsx';
 import HienThi from 'src/components/Teacher/Register/HienThiChungChi/HienThi.jsx';
+import CreateCourse from '../pages/Course/creates/index.jsx';
 
 const publicRoutes = [
     { path: '/', component: Home },
@@ -22,6 +23,7 @@ const publicRoutes = [
     { path: '/dkgv', component: DKGiangVien, },
     { path: '/dkgv1', component: DKGiangVien1, },
     { path: '/test', component: HienThi, },
+    { path: '/course/create', component: CreateCourse},
 
 ]
 

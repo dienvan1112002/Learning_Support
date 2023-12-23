@@ -7,9 +7,12 @@ import course2 from '../../assests/sourse/course2.png';
 import course3 from '../../assests/sourse/course3.png';
 import no_img from '../../assests/sourse/no_img.jpg';
 import daysFromNow from 'src/helper/function';
+import getImageFromBaseURL from 'src/helper/get_image.js';
 
 const cx = classNames.bind(styles);
 const Course = ({ course }) => {
+
+    console.log(course);
 
     return (
         <div className="flex justify-center items-center">
@@ -21,18 +24,19 @@ const Course = ({ course }) => {
                             {course.description}
                         </p>
                     </div>
-                    <button className={cx('course-top-btn')}>Xem khóa học</button>
+                    <button className={cx('btn-primary')}>Xem khóa học</button>
                 </div>
                 <div className={cx('course-img')}>
                     {course.thumbnails && course.thumbnails.map((thumbnail) => {
                         return <div key={thumbnail}>
                             <img 
-                            src={thumbnail} 
+                            src={getImageFromBaseURL(thumbnail)} 
                             alt="122" 
                             onError={((e) => {
                                 e.target.onerror = null;
                                 e.target.src = no_img;
                             })}
+                            style={{ width: '317px', height: '238px' }}
                             />
                         </div>
                     })}

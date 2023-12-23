@@ -12,8 +12,13 @@ const courseOfInstructor = () => {
   return api.get('api/instructor/course');
 }
 
+const registerCourseOfInstructor = (credentials) => {
+  return api.post('api/instructor/course', credentials);
+}
+
 export default {
   login,
   teacher,
-  courseOfInstructor
+  courseOfInstructor,
+  registerCourseOfInstructor
 };

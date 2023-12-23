@@ -30,3 +30,38 @@ body {
     line-height: 1.5;
     text-rendering: optimizeSpeed;
 }
+
+.btn-primary {
+    display: flex;
+    width: 13rem;
+    padding: 0.875rem 1.25rem 0.875rem 3rem;
+    align-items: center;
+    border-radius: 0.5rem;
+    background: var(--blue-100);
+    color: var(--absolute-white, #fff);
+    font-family: Be Vietnam Pro;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%; /* 1.6875rem */
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+  }
