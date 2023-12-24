@@ -19,14 +19,6 @@ const studentRoutes = [
     { path: '/user/contact', component: Contact },
 ];
 
-const instructorRoutes = [
-    { path: '/instructor', component: Home },
-    { path: '/instructor/profile', component: Profile },
-    { path: '/instructor/course', component: Course },
-    { path: '/instructor/teacher', component: Teacher },
-    { path: '/instructor/contact', component: Contact },
-];
-
 function App() {
     return (
         <Router>
@@ -36,17 +28,9 @@ function App() {
                         <Route key={index} path={route.path} element={<route.component />} />
                     ))}
 
-                    {isAuthenticated && userRole === 'student' &&
+                    {isAuthenticated &&
                         (
                             studentRoutes.map((route, index) => (
-                                <Route key={index} path={route.path} element={<route.component />} />
-                            ))
-                        )
-                    }
-
-                    {isAuthenticated && userRole === 'instructor' &&
-                        (
-                            instructorRoutes.map((route, index) => (
                                 <Route key={index} path={route.path} element={<route.component />} />
                             ))
                         )

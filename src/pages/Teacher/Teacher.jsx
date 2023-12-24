@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import classNames from 'classnames/bind';
 import styles from './Teacher.module.scss';
@@ -11,21 +11,29 @@ import TeacherItems from 'src/components/TeacherItems/TeacherItems';
 import PhanTrang from 'src/components/PhanTrang/PhanTrang';
 import HeaderHv from 'src/components/Header/HeaderHv/HeaderHv';
 import roleHeaders from 'src/utils/role';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
 const Teacher = () => {
     const role = localStorage.getItem('role') ?? '';
+    const [listInstructors, setListInstructors] = useState([]);
 
-    const credentials = {
-        username: 'admin2',
-        password: 'admin2',
-    };
+    useEffect(() => {
+        callSomeAPI();
+        return () => {
+            console.log('This will be logged on unmount');
+        };
+    }, [])
 
-    const apiFunc = useCallback(() => repository.teacher(credentials), [credentials]);
-
-    const { result, error } = useApi(apiFunc);
-
+    const callSomeAPI = async () => {
+        const res = await axios.get('http://localhost:3001/api/user/instructor', {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
+        if (res.data.status === 'success') {
+            setListInstructors(res.data.data);
+        }
+    }
 
     return (
         <div className={cx('wrapper')}>
@@ -37,15 +45,10 @@ const Teacher = () => {
                     <TeacherHeader />
                 </div>
                 <div className={cx('container-item')}>
-                    <TeacherItems />
-                    <TeacherItems />
-                    <TeacherItems />
+                    {listInstructors.length && listInstructors.map((ins) => {
+                        return <TeacherItems ins={ins} />
+                    })}
                 </div>
-                {/* <div className={cx('container-item')}>
-                    <TeacherItems />
-                    <TeacherItems />
-                    <TeacherItems />
-                </div> */}
                 <div className={cx('phan-trang')}>
                     <PhanTrang />
                 </div>

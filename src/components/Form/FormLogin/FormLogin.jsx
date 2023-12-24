@@ -17,7 +17,7 @@ const FormLogin = (props) => {
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.post('https://web-api-ekmv.onrender.com/auth/signin', {
+            const response = await axios.post('http://localhost:3001/auth/signin', {
                 username: email,
                 password: password,
             });
@@ -27,11 +27,7 @@ const FormLogin = (props) => {
                 localStorage.setItem('token', response.data.data.token);
                 localStorage.setItem('username', response.data.data.username);
                 localStorage.setItem('role', role);
-                if (role === 'student') {
-                    navigate('/user');
-                } else if (role === 'instructor') {
-                    navigate('/instructor');
-                }
+                navigate('/user');
             }
         } catch (error) {
             console.log(error);

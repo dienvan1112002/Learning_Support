@@ -13,17 +13,6 @@ import FormLogin from '../../components/Form/FormLogin/FormLogin';
 const cx = classNames.bind(styles);
 
 const Login = () => {
-    const credentials = {
-        username: 'admin2',
-        password: 'admin2',
-    };
-
-    const apiFunc = () => repository.login(credentials);
-
-    const { result, error } = useApi(apiFunc);
-  
-    console.log(result);
-
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>

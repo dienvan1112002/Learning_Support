@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'https://web-api-ekmv.onrender.com/',
+  baseURL: 'http://localhost:3001/',
   // other custom settings
 });
 

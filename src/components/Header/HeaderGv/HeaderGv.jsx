@@ -6,20 +6,20 @@ const cx = classNames.bind(styles)
 const navLinks = [
   {
     display: 'Trang chủ',
-    url: '/instructor',
+    url: '/user',
   },
   {
     display: 'Khóa học',
-    url: '/instructor/course',
+    url: '/user/course',
   },
 
   {
     display: 'Giảng Viên',
-    url: '/instructor/teacher',
+    url: '/user/teacher',
   },
   {
     display: 'Liên Hệ',
-    url: '/instructor/contact',
+    url: '/user/contact',
   },
 ];
 

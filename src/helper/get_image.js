@@ -1,5 +1,5 @@
 function getImageFromBaseURL(imageURL) {
-    const imageBaseURL = 'https://web-api-ekmv.onrender.com/';  // May be add in .env file
+    const imageBaseURL = 'http://localhost:3001/';  // May be add in .env file
     return `${imageBaseURL}${imageURL}`;
 }
 

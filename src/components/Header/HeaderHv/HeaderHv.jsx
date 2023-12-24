@@ -46,7 +46,7 @@ const HeaderHv = () => {
     const handleLogout = async () => {
         try {
             // Make the API call to logout
-            await fetch('https://web-api-ekmv.onrender.com/auth/logout', {
+            await fetch('http://localhost:3001/auth/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

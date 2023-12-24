@@ -22,7 +22,7 @@ const FormSignup = () => {
     const handleSubmit = async () => {
         try {
             if (checked) {
-                const response = await axios.post('https://web-api-ekmv.onrender.com/auth/signup', {
+                const response = await axios.post('http://localhost:3001/auth/signup', {
                     username: user,
                     password: password,
                     email: email,
