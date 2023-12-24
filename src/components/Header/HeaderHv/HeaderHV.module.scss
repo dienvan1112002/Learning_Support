@@ -153,3 +153,15 @@
         stroke: var(--Grey-10, #1a1a1a);
     }
 }
+
+.break-layout {
+    position: relative;
+}
+  
+.dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 1000;
+    white-space: nowrap;
+}

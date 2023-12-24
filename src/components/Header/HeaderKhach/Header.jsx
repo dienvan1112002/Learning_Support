@@ -17,16 +17,16 @@ const HeaderKhach = () => {
         },
         {
             display: 'Khóa học',
-            url: 'course',
+            url: '/course',
         },
 
         {
             display: 'Giảng Viên',
-            url: 'teacher',
+            url: '/teacher',
         },
         {
             display: 'Liên Hệ',
-            url: 'contact',
+            url: '/contact',
         },
     ];
     return (

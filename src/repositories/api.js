@@ -2,8 +2,8 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'http://localhost:3001/',
-    // other custom settings
+  baseURL: 'https://web-api-ekmv.onrender.com/',
+  // other custom settings
 });
 
 instance.interceptors.request.use((config) => {
