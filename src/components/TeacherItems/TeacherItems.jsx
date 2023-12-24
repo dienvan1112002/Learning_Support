@@ -1,49 +1,51 @@
 import React from 'react';
 import styles from './TeacherItems.module.css';
-import teacher from '../../assests/teacher/teacher.png';
-import teacherAvt from '../../assests/teacher/teacher_avt/teacherAvt.png';
 import green from '../../assests/teacher/teacher-active/Chamxanh.png';
 import star from '../../assests/teacher/teacher-active/Star.png';
 
-const TeacherItems = () => {
+const TeacherItems = ({ ins }) => {
+    const showProfile = (id) => {
+        console.log(id);
+    }
     return (
         <div className={styles.container}>
             <div className={styles.img}>
-                <img src={teacher} alt="" />
+                <img src={ins.image} alt="" />
             </div>
             <div className={styles.info}>
                 <div className={styles.avt}>
                     <div className={styles.avtCon}>
-                        <img src={teacherAvt} alt="" />
+                        <img src={ins.image} alt="" />
                     </div>
                     <div className={styles.infoActive}>
                         <div className={styles.infoName}>
-                            <h3 className={styles.infoNameH}>Sandesh Koshti</h3>
+                            <h3 className={styles.infoNameH}>{ins.user.name}</h3>
                         </div>
                         <div className={styles.active}>
                             <div>
                                 <img src={green} alt="" />
                             </div>
-                            <p className={styles.activeP}>Đang hoạt động</p>
+                            <p className={styles.activeP}>{ins.active_status === 'online' ? 'Đang hoạt động' : 'Không hoạt động'}</p>
                         </div>
                     </div>
                     <div className={styles.star}>
-                        <div className="w-6 h-6">
-                            <img src={star} alt="" />
-                        </div>
-                        <p className={styles.starP}>4.9 (250)</p>
+
+                        {ins.avg_rating && (
+                            <><div className="w-6 h-6">
+                                <img src={star} alt="" />
+                            </div><p className={styles.starP}>{ins.avg_rating}</p></>
+                        )}
                     </div>
                 </div>
                 <div className={styles.subject}>
-                    <p className={styles.subjectP}>Công nghệ thông tin</p>
-                    <p className={styles.subjectP}>Lập trình c</p>
+                    {ins.subjects.map(sub => <p className={styles.subjectP}>{sub}</p>)}
                 </div>
                 <div className={styles.para}>
-                    <p className={styles.paraP}>Nhận dạy tất cả các môn đại cương và thiết kế</p>
+                    <p className={styles.paraP}>{ins.description}</p>
                 </div>
             </div>
             <div className={styles.btn}>
-                <button className={styles.bt}>Xem hồ sơ</button>
+                <button className={styles.bt} onClick={showProfile(ins._id)}>Xem hồ sơ</button>
             </div>
         </div>
     );

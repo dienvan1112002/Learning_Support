@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import styles from './FormLogin.module.scss';
 import classNames from 'classnames/bind';
@@ -10,21 +10,30 @@ import axios from 'axios';
 const cx = classNames.bind(styles);
 
 const FormLogin = (props) => {
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = async () => {
-        //Call API
         try {
-            const token = await axios.post('https://web-api-ekmv.onrender.com/auth/signin', {
+            const response = await axios.post('http://localhost:3001/auth/signin', {
                 username: email,
                 password: password,
             });
 
-            console.log(token.data.data);
-            document.cookie = `token=${token.data.data}`;
-        } catch (error) {}
+            if (response.data.status === "success") {
+                const role = response.data.data.role;
+                localStorage.setItem('token', response.data.data.token);
+                localStorage.setItem('username', response.data.data.username);
+                localStorage.setItem('role', role);
+                navigate('/user');
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
+
     return (
         <div className={cx('container')}>
             <div className={cx('container-login')}>

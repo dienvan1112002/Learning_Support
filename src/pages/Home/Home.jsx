@@ -1,19 +1,21 @@
 import React from 'react';
-import Header from 'src/components/Header/HeaderKhach/Header';
-import HeaderHv from 'src/components/Header/HeaderHv/HeaderHv';
 import Footer from 'src/components/Footer/Footer';
 
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
 import home from '../../assests/home/home.png';
 import { Link } from 'react-router-dom';
+import roleHeaders from '../../utils/role';
 
 const cx = classNames.bind(styles);
 const Home = () => {
+
+    const role = localStorage.getItem('role') ?? '';
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
-                <HeaderHv />
+                {roleHeaders[role]}
             </div>
             <div className={cx('body')}>
                 <div className={cx('container-body')}>

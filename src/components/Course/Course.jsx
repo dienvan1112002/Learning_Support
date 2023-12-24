@@ -12,8 +12,6 @@ import getImageFromBaseURL from 'src/helper/get_image.js';
 const cx = classNames.bind(styles);
 const Course = ({ course }) => {
 
-    console.log(course);
-
     return (
         <div className="flex justify-center items-center">
             <div className={cx('course-wrapper')}>

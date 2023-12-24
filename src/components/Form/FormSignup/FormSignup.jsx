@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import styles from './FormSignup.module.scss';
 import classNames from 'classnames/bind';
@@ -12,23 +12,28 @@ const FormSignup = () => {
     const [email, setEmail] = useState('');
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
-    const [checked, setChecked] = useState('');
-    const check = document.querySelector('.check-box');
+    const [checked, setChecked] = useState(false);
+    const navigate = useNavigate();
+
+    const handleCheckboxChange = () => {
+        setChecked(!checked); // Toggle the value when the checkbox changes
+    };
 
     const handleSubmit = async () => {
-        //call API
         try {
-            if (check.checked) {
-                setChecked(check);
-                const user_account = await axios
-                    .post('https://web-api-ekmv.onrender.com/auth/signup', {
-                        username: user,
-                        password: password,
-                        email: email,
-                        name: user,
-                    })
-                    .then((data) => console.log(data))
-                    .catch((data) => console.log(data.response.data.message));
+            if (checked) {
+                const response = await axios.post('http://localhost:3001/auth/signup', {
+                    username: user,
+                    password: password,
+                    email: email,
+                    name: user,
+                });
+                if (response.data.status === 'success') {
+                    localStorage.setItem('token', response.data.data.token);
+                    localStorage.setItem('username', response.data.data.username);
+                    localStorage.setItem('role', response.data.data.role);
+                    navigate('/');
+                }
             }
         } catch (error) {
             console.log(error);
@@ -75,11 +80,16 @@ const FormSignup = () => {
                             />
                         </div>
                         <div className={cx('content-check')}>
-                            <input className={cx('check-box')} type="checkbox" />
+                            <input
+                                className={cx('check-box')}
+                                type="checkbox"
+                                checked={checked}
+                                onChange={handleCheckboxChange}
+                            />
                             <label htmlFor="">Đồng ý với điều khoản sử dụng và chính sách quyền riêng tư</label>
                         </div>
                         <div className={cx('content-btn-login')}>
-                            <button onClick={handleSubmit} type="submit">
+                            <button onClick={handleSubmit} type="button">
                                 Đăng ký
                             </button>
                         </div>
