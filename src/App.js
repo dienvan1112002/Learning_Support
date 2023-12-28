@@ -3,8 +3,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Contact from './components/Contact/Contact';
 import Course from './pages/Course/Course';
 import Home from './pages/Home/Home';
+import HomeGV from './pages/Home/HomeGV';
 import Login from './pages/Login/Login';
 import Profile from './pages/Profile/Profile';
+import Student from './pages/Student/Student';
 import Teacher from './pages/Teacher/Teacher';
 import { publicRoutes } from './routes';
 
@@ -19,6 +21,13 @@ const studentRoutes = [
     { path: '/user/contact', component: Contact },
 ];
 
+const instructorRoutes = [
+    { path: '/instructor', component: HomeGV },
+    { path: '/instructor/profile', component: Profile },
+    { path: '/instructor/course', component: Course },
+    { path: '/instructor/student', component: Student },
+];
+
 function App() {
     return (
         <Router>
@@ -28,9 +37,17 @@ function App() {
                         <Route key={index} path={route.path} element={<route.component />} />
                     ))}
 
-                    {isAuthenticated &&
+                    {isAuthenticated && userRole === 'student' &&
                         (
                             studentRoutes.map((route, index) => (
+                                <Route key={index} path={route.path} element={<route.component />} />
+                            ))
+                        )
+                    }
+
+                    {isAuthenticated && userRole === 'instructor' &&
+                        (
+                            instructorRoutes.map((route, index) => (
                                 <Route key={index} path={route.path} element={<route.component />} />
                             ))
                         )

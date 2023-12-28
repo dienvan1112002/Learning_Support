@@ -1,18 +1,18 @@
 import React from 'react';
-import Header from 'src/components/Header/HeaderKhach/Header';
 import Footer from 'src/components/Footer/Footer';
+
+import classNames from 'classnames/bind';
+import styles from './Home.module.scss';
+import roleHeaders from '../../utils/role';
+import Info from 'src/components/Info/info';
 import CourseHead from 'src/components/Course/CourseHead/CourseHead';
 import Course from 'src/components/Course/Course';
 import repository from 'src/repositories/repository';
 import useApi from 'src/utils/useApi';
 
-import classNames from 'classnames/bind';
-import styles from './Course.module.scss';
-import roleHeaders from 'src/utils/role';
-
 const cx = classNames.bind(styles);
-const CourseP = () => {
 
+const HomeGV = () => {
     const apiFunc = () => repository.courseOfInstructor();
 
     const { result, error } = useApi(apiFunc);
@@ -22,13 +22,13 @@ const CourseP = () => {
     if (result) {
         courses = result.data;
     }
-
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
                 {roleHeaders[role]}
             </div>
             <div className={cx('body')}>
+                <Info />
                 <CourseHead />
                 <div className={cx('course-item')}>
                     {courses && courses.map((course) => {
@@ -43,7 +43,7 @@ const CourseP = () => {
                 <Footer />
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default CourseP;
+export default HomeGV;

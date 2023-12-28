@@ -98,7 +98,7 @@ const HeaderHv = () => {
                     <div className={cx('header-right-gv')}>
                         <p>Giảng Viên</p>
                         <div className={cx('gv-icon')}>
-                            <Switch />
+                            <Switch state={false} />
                         </div>
                     </div>
                     <div className={cx('icon-ring')}>
