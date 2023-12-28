@@ -22,19 +22,22 @@ const Course = ({ course }) => {
                             {course.description}
                         </p>
                     </div>
-                    <button className={cx('btn-primary')}>Xem khóa học</button>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                        <button className={cx('btn-primary')}>Xem khóa học</button>
+                        <button style={{ fontWeight: 700 }} type="button" class="btn btn-danger">Xóa</button>
+                    </div>
                 </div>
                 <div className={cx('course-img')}>
                     {course.thumbnails && course.thumbnails.map((thumbnail) => {
                         return <div key={thumbnail}>
-                            <img 
-                            src={getImageFromBaseURL(thumbnail)} 
-                            alt="122" 
-                            onError={((e) => {
-                                e.target.onerror = null;
-                                e.target.src = no_img;
-                            })}
-                            style={{ width: '317px', height: '238px' }}
+                            <img
+                                src={getImageFromBaseURL(thumbnail)}
+                                alt="122"
+                                onError={((e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = no_img;
+                                })}
+                                style={{ width: '317px', height: '238px' }}
                             />
                         </div>
                     })}
