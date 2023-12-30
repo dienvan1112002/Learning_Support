@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Contact from './components/Contact/Contact';
 import Course from './pages/Course/Course';
+import CreateCourse from './pages/Course/creates';
 import Home from './pages/Home/Home';
 import HomeGV from './pages/Home/HomeGV';
 import Login from './pages/Login/Login';
@@ -26,6 +27,7 @@ const instructorRoutes = [
     { path: '/instructor/profile', component: Profile },
     { path: '/instructor/course', component: Course },
     { path: '/instructor/student', component: Student },
+    { path: '/instructor/course/create', component: CreateCourse },
 ];
 
 function App() {
