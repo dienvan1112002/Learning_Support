@@ -23,7 +23,7 @@ const Course = ({ course }) => {
                         </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
-                        <button className={cx('btn-primary')}>Xem khóa học</button>
+                        <button className={cx('btn-primary-no-bs')}>Xem khóa học</button>
                         <button style={{ fontWeight: 700 }} type="button" class="btn btn-danger">Xóa</button>
                     </div>
                 </div>

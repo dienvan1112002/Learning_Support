@@ -22,9 +22,9 @@ const CourseHead = () => {
                     <p>Đã xem</p>
                 </div>
             </div> */}
-           <div>
-                <Link to="/course/create">
-                    <button className={cx('btn-primary')}>Tạo khóa học</button>
+            <div>
+                <Link to="course/create">
+                    <button className={cx('btn-primary-no-bs')}>Tạo khóa học</button>
                 </Link>
             </div>
         </div>
