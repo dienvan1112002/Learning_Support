@@ -1,5 +1,7 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import styles from './create.module.scss';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import classNames from 'classnames/bind';
 import Footer from 'src/components/Footer/Footer';
 import subjects from 'src/constant/subject';
@@ -7,35 +9,134 @@ import levels from 'src/constant/level';
 import repository from 'src/repositories/repository';
 import ImageUploading from 'react-images-uploading';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 import roleHeaders from '../../../utils/role'
 
 const cx = classNames.bind(styles);
+
+const QuizEditor = ({ content, onChange }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleToggleEditor = () => {
+        setIsOpen(!isOpen);
+    };
+
+    return (
+        <div>
+            <button onClick={handleToggleEditor}>
+                {isOpen ? 'Đóng Editor' : 'Mở Editor'}
+            </button>
+            {isOpen && (
+                <ReactQuill value={content} onChange={onChange} />
+            )}
+        </div>
+    );
+};
 
 const CreateCourse = () => {
     const role = localStorage.getItem('role');
     const navigate = useNavigate();
     const [singleImage, setSingleImage] = useState([]);
     const [multipleImages, setMultipleImages] = useState([]);
-    const [editingChapterId, setEditingChapterId] = useState(null);
-    const [editingLessionId, setEditingLessionId] = useState(null);
-    const [editingQuizId, setEditingQuizId] = useState(null);
-    const [editingAnswerId, setEditingAnswerId] = useState(null);
+    const [editingLessonIndex, setEditingLessonIndex] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editingQuizIndex, setEditingQuizIndex] = useState(null);
+    const [isAddingQuestion, setIsAddingQuestion] = useState(false);
+    const [isEditingTitle, setEditingTitle] = useState(false);
+    const [editedQuizTitle, setEditedQuizTitle] = useState('');
+    const [isEditingContent, setEditingContent] = useState(false);
+    const [editedQuizContent, setEditedQuizContent] = useState('');
+
+    const handleSaveQuizContent = (chapterIndex, lessonIndex, quizIndex) => {
+        const newChapters = [...chapters];
+        newChapters[chapterIndex].lessons[lessonIndex].quizzes[quizIndex].content = editedQuizContent;
+        setChapters(newChapters);
+        setEditingContent(false);
+    };
+
+    const handleCancelEditingContent = (quizIndex) => {
+        setEditingQuizIndex(null);
+    };
+
+
+    const handleSaveQuizTitle = (chapterIndex, lessonIndex, quizIndex) => {
+        setEditingTitle(false);
+    };
+
+    const handleCancelEditingTitle = () => {
+        setEditingTitle(false);
+    };
+
+    const handleAddQuestion = (quizIndex) => {
+        setEditingQuizIndex(quizIndex);
+        setIsAddingQuestion(true);
+    };
+
+    const handleDeleteQuestion = (chapterIndex, lessonIndex, quizIndex) => {
+        const newChapters = [...chapters];
+        newChapters[chapterIndex].lessons[lessonIndex].quizzes.splice(quizIndex, 1);
+        setChapters(newChapters);
+    };
+
+    const handleAddContent = (lessonIndex) => {
+        setEditingLessonIndex(lessonIndex);
+        setIsEditing(true);
+    };
+
+    const handleEditContent = (lessonIndex) => {
+        setEditingLessonIndex(lessonIndex);
+        setIsEditing(true);
+    };
+
+    const handleEditQuizContent = (chapterIndex, lessonIndex, quizIndex) => {
+        setEditingQuizIndex(quizIndex);
+        setIsEditing(true);
+    };
+
+    const handleSaveContent = (chapterIndex, lessonIndex, content) => {
+        const newChapters = [...chapters];
+        newChapters[chapterIndex].lessons[lessonIndex].content = content;
+        setChapters(newChapters);
+        setIsEditing(false);
+    };
+
+    const handleCancelEditing = () => {
+        setIsEditing(false);
+        setEditingLessonIndex(null);
+    };
+
+    const handleDeleteLesson = (chapterIndex, lessonIndex) => {
+        const newChapters = [...chapters];
+        newChapters[chapterIndex].lessons.splice(lessonIndex, 1);
+        setChapters(newChapters);
+    };
+
     const [chapters, setChapters] = useState([
         {
             id: 1,
-            title: 'Chuong 1',
+            title: 'Chương 1',
             lessons: [
                 {
                     id: 1,
-                    title: 'Bai 1',
+                    title: 'Bài giảng 1',
+                    content: 'Bài giảng về vật lí',
                     quizzes: [
                         {
                             id: 1,
-                            title: 'Quiz 1',
-                            description: 'This is the first quiz',
+                            title: 'Câu 1',
+                            content: 'Bạn có hiểu vận tốc cực đại là gì không?',
                             answers: [
-                                { id: 1, text: 'Answer 1', isCorrect: false },
-                                { id: 2, text: 'Answer 2', isCorrect: true },
+                                { id: 1, text: 'Đó là vận tốc đạt đỉnh điểm', isCorrect: true },
+                                { id: 2, text: 'Đó là vận tốc đạt cực hạn', isCorrect: false },
+                            ],
+                        },
+                        {
+                            id: 2,
+                            title: 'Câu 2',
+                            content: 'Aaaaaaaaaaaaaaa',
+                            answers: [
+                                { id: 1, text: '121212121', isCorrect: true },
+                                { id: 2, text: '2323232323', isCorrect: false },
                             ],
                         },
                     ],
@@ -44,209 +145,57 @@ const CreateCourse = () => {
         },
     ]);
 
-    const handleEditChapterClick = (id) => {
-        setEditingChapterId(id);
-    };
-
-    const handleSaveChapterClick = (id) => {
-        setEditingChapterId(null);
-        // Perform any additional logic before saving the chapter
-    };
-
-    const handleCancelChapterClick = () => {
-        setEditingChapterId(null);
-        // Reset any temporary state for the chapter if needed
-    };
-
-    const handleDeleteChapterClick = (id) => {
-        const updatedChapters = chapters.filter((chapter) => chapter.id !== id);
-        setChapters(updatedChapters);
-    };
-
-    const handleEditLessionClick = (lessonId) => {
-        setEditingLessionId(lessonId);
-    };
-
-    const handleSaveLessionClick = (chapterId, lessonId) => {
-        setEditingLessionId(null);
-        // Perform any additional logic before saving the lesson
-    };
-
-    const handleCancelLessionClick = () => {
-        setEditingLessionId(null);
-        // Reset any temporary state for the lesson if needed
-    };
-
-    const handleDeleteLessionClick = (chapterId, lessonId) => {
-        const updatedChapters = chapters.map((chapter) => {
-            if (chapter.id === chapterId) {
-                const updatedLessions = chapter.lessons.filter((lesson) => lesson.id !== lessonId);
-                return { ...chapter, lessons: updatedLessions };
-            }
-            return chapter;
+    const addLesson = (chapterIndex) => {
+        const newChapter = [...chapters];
+        newChapter[chapterIndex].lessons.push({
+            title: `Bài giảng ${newChapter[chapterIndex].lessons.length + 1}`,
+            content: '',
+            quizzes: [],
         });
-
-        setChapters(updatedChapters);
+        setChapters(newChapter);
     };
 
-    const handleEditQuizClick = (quizId) => {
-        setEditingQuizId(quizId);
-    };
-
-    const handleSaveQuizClick = (chapterId, lessonId, quizId) => {
-        setEditingQuizId(null);
-        // Perform any additional logic before saving the quiz
-    };
-
-    const handleCancelQuizClick = () => {
-        setEditingQuizId(null);
-        // Reset any temporary state for the quiz if needed
-    };
-
-    const handleDeleteQuizClick = (chapterId, lessonId, quizId) => {
-        const updatedChapters = chapters.map((chapter) => {
-            if (chapter.id === chapterId) {
-                const updatedLessions = chapter.lessons.map((lesson) => {
-                    if (lesson.id === lessonId) {
-                        const updatedQuizzes = lesson.quizzes.filter((quiz) => quiz.id !== quizId);
-                        return { ...lesson, quizzes: updatedQuizzes };
-                    }
-                    return lesson;
-                });
-                return { ...chapter, lessons: updatedLessions };
-            }
-            return chapter;
-        });
-
-        setChapters(updatedChapters);
-    };
-
-    const handleAddChapterClick = () => {
-        const newChapterId = chapters.length + 1;
-        setChapters([...chapters, { id: newChapterId, title: `Chuong ${newChapterId}`, lessons: [] }]);
-    };
-
-    const handleAddLessionClick = (chapterId) => {
-        const chapterIndex = chapters.findIndex((chapter) => chapter.id === chapterId);
-        const newLessionId = chapters[chapterIndex].lessons.length + 1;
-
-        const updatedChapters = [...chapters];
-        updatedChapters[chapterIndex].lessons.push({ id: newLessionId, title: `Bai ${newLessionId}`, quizzes: [] });
-
-        setChapters(updatedChapters);
-    };
-
-    const handleAddQuizClick = (chapterId, lessonId) => {
-        const chapterIndex = chapters.findIndex((chapter) => chapter.id === chapterId);
-        const lessonIndex = chapters[chapterIndex].lessons.findIndex((lesson) => lesson.id === lessonId);
-        const newQuizId = chapters[chapterIndex].lessons[lessonIndex].quizzes.length + 1;
-
-        const updatedChapters = [...chapters];
+    const addQuiz = (chapterIndex, lessonIndex) => {
+        const newChapters = [...chapters];
         const newQuiz = {
-            id: newQuizId,
-            title: `Quiz ${newQuizId}`,
-            description: `This is the description for Quiz ${newQuizId}`,
-            answers: [], // Initialize answers for the new quiz
+            id: uuidv4(),
+            title: "New Quiz",
+            content: "New Quiz Content",
+            answers: [],
         };
-
-        // Check if answers array is not present in the lesson and initialize it
-        if (!updatedChapters[chapterIndex].lessons[lessonIndex].quizzes) {
-            updatedChapters[chapterIndex].lessons[lessonIndex].quizzes = [];
-        }
-
-        updatedChapters[chapterIndex].lessons[lessonIndex].quizzes.push(newQuiz);
-
-        setChapters(updatedChapters);
+        newChapters[chapterIndex].lessons[lessonIndex].quizzes.push(newQuiz);
+        setChapters(newChapters);
     };
 
 
-    const handleAddAnswerClick = (chapterId, lessonId, quizId) => {
-        const chapterIndex = chapters.findIndex((chapter) => chapter.id === chapterId);
-        const lessonIndex = chapters[chapterIndex].lessons.findIndex((lesson) => lesson.id === lessonId);
-        const quizIndex = chapters[chapterIndex].lessons[lessonIndex].quizzes.findIndex((quiz) => quiz.id === quizId);
+    const handleQuillChange = (chapterIndex, lessonIndex, value) => {
+        const newChapters = [...chapters];
+        newChapters[chapterIndex].lessons[lessonIndex].content = value;
+        setChapters(newChapters);
+    };
 
-        const newAnswerId = chapters[chapterIndex].lessons[lessonIndex].quizzes[quizIndex].answers.length + 1;
+    const handleQuizContentChange = (chapterIndex, lessonIndex, quizIndex, value) => {
+        const newChapters = [...chapters];
+        newChapters[chapterIndex].lessons[lessonIndex].quizzes[quizIndex].content = value;
+        setChapters(newChapters);
+    };
 
-        const updatedChapters = [...chapters];
-        updatedChapters[chapterIndex].lessons[lessonIndex].quizzes[quizIndex].answers.push({
-            id: newAnswerId,
-            text: `Answer ${newAnswerId}`,
-            isCorrect: false,
+    const addChapter = () => {
+        const newChapter = [...chapters];
+        newChapter.push({
+            title: `Chương ${newChapter.length + 1}`,
+            lessons: [],
         });
-
-        setChapters(updatedChapters);
+        setChapters(newChapter);
     };
 
-    const handleEditAnswerClick = (chapterId, lessonId, quizId, answerId) => {
-        setEditingAnswerId(answerId);
+    const handleAnswerChange = (chapterIndex, lessonIndex, quizIndex, answerIndex, isChecked) => {
+        // Xử lý thay đổi trạng thái của câu trả lời tại đây
+        const newChapters = [...chapters];
+        newChapters[chapterIndex].lessons[lessonIndex].quizzes[quizIndex].answers[answerIndex].isCorrect = isChecked;
+        setChapters(newChapters);
     };
 
-    const handleSaveAnswerClick = (chapterId, lessonId, quizId, answerId) => {
-        setEditingAnswerId(null);
-        // Perform any additional logic before saving the answer
-    };
-
-    const handleCancelAnswerClick = () => {
-        setEditingAnswerId(null);
-        // Reset any temporary state for the answer if needed
-    };
-
-    const handleEditAnswerChange = (chapterId, lessonId, quizId, answerId, newText, newIsCorrect) => {
-        const updatedChapters = chapters.map((chapter) => {
-            if (chapter.id === chapterId) {
-                const updatedLessions = chapter.lessons.map((lesson) => {
-                    if (lesson.id === lessonId) {
-                        const updatedQuizzes = lesson.quizzes.map((quiz) => {
-                            if (quiz.id === quizId) {
-                                const updatedAnswers = quiz.answers.map((answer) => {
-                                    if (answer.id === answerId) {
-                                        return {
-                                            ...answer,
-                                            text: newText !== undefined ? newText : answer.text,
-                                            isCorrect: newIsCorrect !== undefined ? newIsCorrect : answer.isCorrect,
-                                        };
-                                    }
-                                    return answer;
-                                });
-                                return { ...quiz, answers: updatedAnswers };
-                            }
-                            return quiz;
-                        });
-                        return { ...lesson, quizzes: updatedQuizzes };
-                    }
-                    return lesson;
-                });
-                return { ...chapter, lessons: updatedLessions };
-            }
-            return chapter;
-        });
-
-        setChapters(updatedChapters);
-    };
-
-    const handleDeleteAnswerClick = (chapterId, lessonId, quizId, answerId) => {
-        const updatedChapters = chapters.map((chapter) => {
-            if (chapter.id === chapterId) {
-                const updatedLessions = chapter.lessons.map((lesson) => {
-                    if (lesson.id === lessonId) {
-                        const updatedQuizzes = lesson.quizzes.map((quiz) => {
-                            if (quiz.id === quizId) {
-                                const updatedAnswers = quiz.answers.filter((answer) => answer.id !== answerId);
-                                return { ...quiz, answers: updatedAnswers };
-                            }
-                            return quiz;
-                        });
-                        return { ...lesson, quizzes: updatedQuizzes };
-                    }
-                    return lesson;
-                });
-                return { ...chapter, lessons: updatedLessions };
-            }
-            return chapter;
-        });
-
-        setChapters(updatedChapters);
-    };
 
     const maxNumber = 69;
     const onChangeImageMutiple = (imageList, addUpdateIndex) => {
@@ -395,7 +344,6 @@ const CreateCourse = () => {
                                 )}
                             </ImageUploading>
                         </div>
-
                         <ImageUploading
                             multiple
                             value={multipleImages}
@@ -438,151 +386,119 @@ const CreateCourse = () => {
                         </ImageUploading>
                         <div style={{ width: '100%', backgroundColor: '#86AEDD', border: '1px solid blue', display: 'flex', flexDirection: 'column', padding: '20px' }}>
                             <div style={{ backgroundColor: '#F7F7F8', padding: '10px' }}>
-                                {chapters.map((chapter) => (
-                                    <div key={chapter.id} style={{
-                                        display: 'flex',
-                                        gap: '10px',
-                                        padding: '10px',
-                                        flexDirection: 'column',
-                                        alignItems: 'flex-start',
-                                        alignSelf: 'stretch',
-                                        border: '1px solid #000',
-                                        backgroundColor: '#fff',
-                                        marginTop: '10px',
-                                    }}>
-                                        <div style={{ display: 'flex', gap: '10px' }}>
-                                            {editingChapterId === chapter.id ? (
-                                                <>
-                                                    <input type="text" value={chapter.title} onChange={(e) => setChapters(chapters.map(c => c.id === chapter.id ? { ...c, title: e.target.value } : c))} />
-                                                    <button type="button" className='btn btn-info' onClick={() => handleSaveChapterClick(chapter.id)}>Save</button>
-                                                    <button type="button" className='btn btn-danger' onClick={handleCancelChapterClick}>Close</button>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <span>{chapter.title}:</span>
-                                                    <i className="ri-pencil-line" onClick={() => handleEditChapterClick(chapter.id)}></i>
-                                                    <i className="ri-delete-bin-line" onClick={() => handleDeleteChapterClick(chapter.id)}></i>
-                                                </>
-                                            )}
-                                        </div>
-                                        {chapter.lessons.map((lesson) => (
-                                            <div key={lesson.id} style={{ marginTop: '10px' }}>
-                                                <div style={{ display: 'flex', gap: '10px' }}>
-                                                    {editingLessionId === lesson.id ? (
-                                                        <>
-                                                            <input type="text" value={lesson.title} onChange={(e) => setChapters(chapters.map(c => c.id === chapter.id ? {
-                                                                ...c,
-                                                                lessons: c.lessons.map(s => s.id === lesson.id ? { ...s, title: e.target.value } : s),
-                                                            } : c))} />
-                                                            <button type="button" className='btn btn-info' onClick={() => handleSaveLessionClick(chapter.id, lesson.id)}>Save</button>
-                                                            <button type="button" className='btn btn-danger' onClick={handleCancelLessionClick}>Close</button>
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            <span>{lesson.title}:</span>
-                                                            <i className="ri-pencil-line" onClick={() => handleEditLessionClick(lesson.id)}></i>
-                                                            <i className="ri-delete-bin-line" onClick={() => handleDeleteLessionClick(chapter.id, lesson.id)}></i>
-                                                        </>
-                                                    )}
-                                                </div>
-                                                {lesson.quizzes.map((quiz) => (
-                                                    <div key={quiz.id} style={{ marginTop: '10px' }}>
-                                                        {/* Quiz Content */}
-                                                        <div style={{ display: 'flex', gap: '10px' }}>
-                                                            {editingQuizId === quiz.id ? (
-                                                                <>
-                                                                    {/* Edit Quiz Input Fields */}
-                                                                    <div>
-                                                                        <input
-                                                                            type="text"
-                                                                            value={quiz.title}
-                                                                            onChange={(e) => setChapters(chapters.map(c => c.id === chapter.id ? {
-                                                                                ...c,
-                                                                                lessons: c.lessons.map(s => s.id === lesson.id ? {
-                                                                                    ...s,
-                                                                                    quizzes: s.quizzes.map(q => q.id === quiz.id ? { ...q, title: e.target.value } : q),
-                                                                                } : s),
-                                                                            } : c))}
-                                                                        />
-                                                                        <input
-                                                                            type="text"
-                                                                            value={quiz.description}
-                                                                            onChange={(e) => setChapters(chapters.map(c => c.id === chapter.id ? {
-                                                                                ...c,
-                                                                                lessons: c.lessons.map(s => s.id === lesson.id ? {
-                                                                                    ...s,
-                                                                                    quizzes: s.quizzes.map(q => q.id === quiz.id ? { ...q, description: e.target.value } : q),
-                                                                                } : s),
-                                                                            } : c))}
-                                                                        />
-                                                                    </div>
-                                                                    <button type="button" className='btn btn-info' onClick={() => handleSaveQuizClick(chapter.id, lesson.id, quiz.id)}>Save</button>
-                                                                    <button type="button" className='btn btn-danger' onClick={handleCancelQuizClick}>Close</button>
-                                                                </>
-                                                            ) : (
-                                                                <>
-                                                                    {/* Display Quiz */}
-                                                                    <span>{quiz.title}:</span>
-                                                                    <i className="ri-pencil-line" onClick={() => handleEditQuizClick(quiz.id)}></i>
-                                                                    <i className="ri-delete-bin-line" onClick={() => handleDeleteQuizClick(chapter.id, lesson.id, quiz.id)}></i>
-                                                                </>
-                                                            )}
+                                {chapters.map((chapter, chapterIndex) => (
+                                    <div key={chapterIndex} className="chapter-card">
+                                        <h2>{chapter.title}</h2>
+                                        <div>
+                                            {chapter.lessons.map((lesson, lessonIndex) => (
+                                                <div key={lessonIndex} className="lesson-card">
+                                                    <h3>
+                                                        {lesson.title}
+                                                        {!lesson.content && !isEditing && (
+                                                            <button className="btn btn-primary" onClick={() => handleAddContent(lessonIndex)}>
+                                                                Thêm nội dung
+                                                            </button>
+                                                        )}
+                                                        {lesson.content && !isEditing && (
+                                                            <button className="btn btn-primary" onClick={() => handleEditContent(lessonIndex)}>
+                                                                Sửa nội dung
+                                                            </button>
+                                                        )}
+                                                        <button className="btn btn-danger" onClick={() => handleDeleteLesson(chapterIndex, lessonIndex)}>
+                                                            Xóa bài viết
+                                                        </button>
+                                                    </h3>
+                                                    {isEditing && editingLessonIndex === lessonIndex ? (
+                                                        <div>
+                                                            <ReactQuill
+                                                                value={lesson.content}
+                                                                onChange={(value) => handleQuillChange(chapterIndex, lessonIndex, value)}
+                                                            />
+                                                            <button className="btn btn-primary" onClick={() => handleSaveContent(chapterIndex, lessonIndex, lesson.content)}>
+                                                                Lưu lại
+                                                            </button>
+                                                            <button className="btn btn-danger" onClick={handleCancelEditing}>
+                                                                Hủy
+                                                            </button>
                                                         </div>
-                                                        <p>{quiz.description}</p>
+                                                    ) : (
+                                                        <div>
+                                                            <p>{lesson.content}</p>
+                                                        </div>
+                                                    )}
+                                                    <div>
+                                                        {lesson.quizzes.map((quiz, quizIndex) => (
+                                                            <div id={quiz.id} key={quiz.id} className="quiz-card">
+                                                                {!isEditingContent && editingQuizIndex !== quizIndex ? (
+                                                                    <>
+                                                                        <h4>{quiz.title}</h4>
+                                                                        <p>{quiz.content}</p>
+                                                                        {/* Hiển thị câu trả lời */}
+                                                                        <form>
+                                                                            {quiz.answers.map((answer, answerIndex) => (
+                                                                                <div key={answer.id}>
+                                                                                    <label>
+                                                                                        <input
+                                                                                            type="radio"
+                                                                                            value={answer.text}
+                                                                                            checked={answer.isCorrect}
+                                                                                            onChange={(e) => handleAnswerChange(chapterIndex, lessonIndex, quizIndex, answerIndex, e.target.checked)}
+                                                                                        />
+                                                                                        {answer.text}
+                                                                                    </label>
+                                                                                </div>
+                                                                            ))}
+                                                                        </form>
+                                                                        <button className="btn btn-primary" onClick={() => setEditingQuizIndex(quizIndex)}>
+                                                                            Chỉnh sửa nội dung câu hỏi
+                                                                        </button>
 
-                                                        {/* Answers */}
-                                                        {quiz.answers.map((answer) => (
-                                                            <div key={answer.id} style={{ marginTop: '10px' }}>
-                                                                <div style={{ display: 'flex', gap: '10px' }}>
-                                                                    {editingAnswerId === answer.id ? (
-                                                                        <>
-                                                                            {/* Edit Answer Input Fields */}
-                                                                            <input
-                                                                                type="text"
-                                                                                value={answer.text}
-                                                                                onChange={(e) => handleEditAnswerChange(chapter.id, lesson.id, quiz.id, answer.id, e.target.value)}
-                                                                            />
-                                                                            <label>
-                                                                                <input
-                                                                                    type="checkbox"
-                                                                                    checked={answer.isCorrect}
-                                                                                    onChange={(e) => handleEditAnswerChange(chapter.id, lesson.id, quiz.id, answer.id, undefined, e.target.checked)}
-                                                                                />
-                                                                                Correct
-                                                                            </label>
-                                                                            <button type="button" className='btn btn-info' onClick={() => handleSaveAnswerClick(chapter.id, lesson.id, quiz.id, answer.id)}>Save</button>
-                                                                            <button type="button" className='btn btn-danger' onClick={handleCancelAnswerClick}>Close</button>
-                                                                        </>
-                                                                    ) : (
-                                                                        <>
-                                                                            {/* Display Answer */}
-                                                                            <span>{answer.text} ({answer.isCorrect ? 'Correct' : 'Incorrect'})</span>
-                                                                            <i className="ri-pencil-line" onClick={() => handleEditAnswerClick(chapter.id, lesson.id, quiz.id, answer.id)}></i>
-                                                                            <i className="ri-delete-bin-line" onClick={() => handleDeleteAnswerClick(chapter.id, lesson.id, quiz.id, answer.id)}></i>
-                                                                        </>
-                                                                    )}
-                                                                </div>
+                                                                    </>
+                                                                ) : (
+                                                                    <>
+                                                                        <ReactQuill
+                                                                            value={editedQuizContent}
+                                                                            onChange={(value) => setEditedQuizContent(value)}
+                                                                        />
+                                                                        <button className="btn btn-primary" onClick={() => handleSaveQuizContent(chapterIndex, lessonIndex, quizIndex)}>
+                                                                            Lưu
+                                                                        </button>
+                                                                        <button className="btn btn-danger" onClick={handleCancelEditingContent}>
+                                                                            Hủy
+                                                                        </button>
+                                                                    </>
+                                                                )}
+
+                                                                <button className="btn btn-danger" onClick={() => handleDeleteQuestion(chapterIndex, lessonIndex, quizIndex)}>
+                                                                    Xóa câu hỏi
+                                                                </button>
+
+                                                                {!isEditing && (
+                                                                    <button className="btn btn-primary" onClick={() => handleEditQuizContent(chapterIndex, lessonIndex, quizIndex)}>
+                                                                        Sửa nội dung bài kiểm tra
+                                                                    </button>
+                                                                )}
+                                                                {!isEditing && (
+                                                                    <button className="btn btn-primary" onClick={() => handleAddQuestion(quizIndex)}>
+                                                                        Thêm câu hỏi
+                                                                    </button>
+                                                                )}
                                                             </div>
                                                         ))}
 
-                                                        {/* Add Answer Button */}
-                                                        <button style={{ border: '1px solid' }} type='button' className='btn btn-light' onClick={() => handleAddAnswerClick(chapter.id, lesson.id, quiz.id)}> + Add Answer</button>
+                                                        <button className="btn btn-primary" onClick={() => addQuiz(chapterIndex, lessonIndex)}>
+                                                            Thêm bài kiểm tra
+                                                        </button>
                                                     </div>
-                                                ))}
-
-                                                <div style={{ marginTop: '10px' }}>
-                                                    <button style={{ border: '1px solid' }} type='button' className='btn btn-light' onClick={() => handleAddQuizClick(chapter.id, lesson.id)}> + Add Quiz</button>
                                                 </div>
-                                            </div>
-                                        ))}
-                                        <div style={{ marginTop: '10px' }}>
-                                            <button style={{ border: '1px solid' }} type='button' className='btn btn-light' onClick={() => handleAddLessionClick(chapter.id)}> + Add Lession</button>
+                                            ))}
                                         </div>
+                                        <button className="btn btn-primary" onClick={() => addLesson(chapterIndex)}>
+                                            Thêm bài giảng
+                                        </button>
                                     </div>
                                 ))}
-                            </div>
-                            <div style={{ marginTop: '10px' }}>
-                                <button type='button' className='btn btn-light' onClick={handleAddChapterClick}> + Add Chapter</button>
+                                <button className='btn btn-primary' onClick={addChapter}>Thêm Chương</button>
                             </div>
                         </div>
                         <div style={{ marginTop: '10px' }}>
