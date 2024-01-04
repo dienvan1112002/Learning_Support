@@ -17,8 +17,8 @@ const userRole = localStorage.getItem('role');
 const studentRoutes = [
     { path: '/user', component: Home },
     { path: '/user/profile', component: Profile },
-    { path: '/user/course', component: Course },
-    { path: '/user/teacher', component: Teacher },
+    { path: '/course', component: Course },
+    { path: '/teacher', component: Teacher },
     { path: '/user/contact', component: Contact },
 ];
 

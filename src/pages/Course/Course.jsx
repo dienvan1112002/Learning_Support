@@ -13,13 +13,13 @@ import roleHeaders from 'src/utils/role';
 const cx = classNames.bind(styles);
 const CourseP = () => {
 
-    const apiFunc = () => repository.courseOfInstructor();
+    const apiFunc = () => repository.listCourse();
 
     const { result, error } = useApi(apiFunc);
     const role = localStorage.getItem('role') ?? '';
 
     let courses
-    if (result) {
+    if (result?.status === "success") {
         courses = result.data;
     }
 
