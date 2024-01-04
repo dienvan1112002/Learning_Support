@@ -47,9 +47,9 @@ const Course = ({ course }) => {
                         <div className={cx('course-bottom-box')}>
                             <p>Được cập nhật cách đây {daysFromNow(course.updatedAt)} ngày</p>
                         </div>
-                        <div className={cx('course-bottom-box')}>
+                        {/* <div className={cx('course-bottom-box')}>
                             <p>{course.level[0]}</p>
-                        </div>
+                        </div> */}
                     </div>
                     <div className={cx('course-bottom-author')}>
                         <p>{course.instructor.name}</p>

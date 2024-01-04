@@ -12,6 +12,10 @@ const courseOfInstructor = () => {
   return api.get('api/instructor/course');
 }
 
+const listCourse = () => {
+  return api.get('api/user/course');
+}
+
 const registerCourseOfInstructor = (credentials) => {
   return api.post('api/instructor/course', credentials);
 }
@@ -20,5 +24,6 @@ export default {
   login,
   teacher,
   courseOfInstructor,
-  registerCourseOfInstructor
+  registerCourseOfInstructor,
+  listCourse
 };

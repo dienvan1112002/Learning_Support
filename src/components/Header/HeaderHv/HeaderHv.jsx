@@ -19,11 +19,11 @@ const navLinks = [
     },
     {
         display: 'Khóa học',
-        url: '/user/course',
+        url: '/course',
     },
     {
         display: 'Giảng Viên',
-        url: '/user/teacher',
+        url: '/teacher',
     },
     {
         display: 'Liên Hệ',
