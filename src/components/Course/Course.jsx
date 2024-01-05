@@ -8,9 +8,16 @@ import course3 from '../../assests/sourse/course3.png';
 import no_img from '../../assests/sourse/no_img.jpg';
 import daysFromNow from 'src/helper/function';
 import getImageFromBaseURL from 'src/helper/get_image.js';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 const Course = ({ course }) => {
+    const navigate = useNavigate();
+    const role = localStorage.getItem('role')
+
+    const showCourse = (id) => {
+        navigate(`/course/${id}`);
+    }
 
     return (
         <div className="flex justify-center items-center">
@@ -23,8 +30,8 @@ const Course = ({ course }) => {
                         </p>
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
-                        <button className={cx('btn-primary-no-bs')}>Xem khóa học</button>
-                        <button style={{ fontWeight: 700 }} type="button" class="btn btn-danger">Xóa</button>
+                        <button className={cx('btn-primary-no-bs')} onClick={() => showCourse(course._id)}>Xem khóa học</button>
+                        {role === 'instructor' && <button style={{ fontWeight: 700 }} type="button" class="btn btn-danger">Xóa</button>}
                     </div>
                 </div>
                 <div className={cx('course-img')}>

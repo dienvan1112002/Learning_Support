@@ -1,8 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
+import repository from 'src/repositories/repository';
+import useApi from 'src/utils/useApi';
 
 const Info = () => {
     const [state, setState] = useState(false);
+    const [instructor, setInstructor] = useState(null);
+    const apiFunc = () => repository.instructorInfo();
+
+    const { result, error } = useApi(apiFunc);
+
+    useEffect(() => {
+        if (result?.status == "success") {
+            setInstructor(result.data)
+            console.log(result.data);
+        }
+    }, [result])
     return (
         <div style={{ backgroundColor: '#F7F7F8', padding: '50px 100px' }}>
             <div style={{ padding: '50px 100px 25px 100px', backgroundColor: '#fff' }}>
@@ -13,19 +26,23 @@ const Info = () => {
                 <div style={{ padding: '50px' }}>
                     <div>
                         <h2 style={{ color: '#4360A8' }}>Môn học</h2>
-                        <p style={{ paddingLeft: '10px' }}>Toán</p>
-                        <p style={{ paddingLeft: '10px' }}>Vật lý</p>
+                        {instructor && instructor.subjects.map(sub => {
+                            return <p style={{ paddingLeft: '10px' }}>{sub}</p>
+                        })}
                     </div>
                     <hr />
                     <div>
                         <h2 style={{ color: '#4360A8' }}>Chứng chỉ</h2>
-                        <p style={{ paddingLeft: '10px' }}>Chứng chỉ thiết kế hệ thống</p>
-                        <p style={{ paddingLeft: '10px' }}>Chứng chỉ tin học loại B</p>
+                        {instructor && instructor.certificates.map(cer => {
+                            return <p style={{ paddingLeft: '10px' }}>{cer.name}</p>
+                        })}
                     </div>
                     <hr />
                     <div>
                         <h2 style={{ color: '#4360A8' }}>Trình độ học vấn</h2>
-                        <p style={{ paddingLeft: '10px' }}>Sinh viên năm 4 KMA, GPA 3.9</p>
+                        {instructor && instructor.academic_level.map(lev => {
+                            return <p style={{ paddingLeft: '10px' }}>{lev.name}</p>
+                        })}
                     </div>
                     <hr />
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

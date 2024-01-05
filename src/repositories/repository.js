@@ -8,16 +8,32 @@ const teacher = (credentials) => {
   return api.get('api/instructor/info', credentials);
 }
 
+const teacherInfo = (id) => {
+  return api.get(`/instructor/info/${id}`);
+}
+
 const courseOfInstructor = () => {
   return api.get('api/instructor/course');
 }
 
 const listCourse = () => {
-  return api.get('api/user/course');
+  return api.get('/course');
+}
+
+const courseById = (id) => {
+  return api.get(`/course/${id}`);
+}
+
+const teacherDetail = (id) => {
+  return api.get(`/instructor/${id}`)
 }
 
 const registerCourseOfInstructor = (credentials) => {
   return api.post('api/instructor/course', credentials);
+}
+
+const instructorInfo = () => {
+  return api.get('/api/instructor/info');
 }
 
 export default {
@@ -25,5 +41,9 @@ export default {
   teacher,
   courseOfInstructor,
   registerCourseOfInstructor,
-  listCourse
+  listCourse,
+  teacherInfo,
+  courseById,
+  teacherDetail,
+  instructorInfo
 };

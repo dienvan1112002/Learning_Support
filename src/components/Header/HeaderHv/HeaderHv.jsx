@@ -15,7 +15,7 @@ const cx = classNames.bind(styles);
 const navLinks = [
     {
         display: 'Trang chủ',
-        url: '/user',
+        url: '/',
     },
     {
         display: 'Khóa học',
@@ -27,7 +27,7 @@ const navLinks = [
     },
     {
         display: 'Liên Hệ',
-        url: '/user/contact',
+        url: '/contact',
     },
 ];
 

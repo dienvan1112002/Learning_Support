@@ -1,13 +1,27 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import HeaderGv from 'src/components/Header/HeaderGv/HeaderGv';
 import styles from './Profile.module.scss';
 import Footer from 'src/components/Footer/Footer';
 import Info from 'src/components/Info/info';
+import repository from 'src/repositories/repository';
+import useApi from 'src/utils/useApi';
 
 const cx = classNames.bind(styles);
 
 const Profile = () => {
+    const { id } = useParams();
+
+    const apiFunc = () => repository.teacherInfo(id);
+
+    const { result, error } = useApi(apiFunc);
+
+    if (result?.status === "success") {
+        var teacher = result.data;
+        console.log("teacher == ", teacher);
+    }
+
     return (
         <div>
             <HeaderGv />

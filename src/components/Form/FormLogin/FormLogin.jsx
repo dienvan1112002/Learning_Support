@@ -27,7 +27,13 @@ const FormLogin = (props) => {
                 localStorage.setItem('token', response.data.data.token);
                 localStorage.setItem('username', response.data.data.username);
                 localStorage.setItem('role', role);
-                navigate('/user');
+                if (role === "instructor") {
+                    navigate('/instructor');
+                    window.location.reload(false);
+                } else {
+                    navigate('/');
+                    window.location.reload(false);
+                }
             }
         } catch (error) {
             console.log(error);

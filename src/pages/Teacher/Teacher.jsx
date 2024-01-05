@@ -19,21 +19,21 @@ const Teacher = () => {
     const role = localStorage.getItem('role') ?? '';
     const [listInstructors, setListInstructors] = useState([]);
 
-    // useEffect(() => {
-    //     callSomeAPI();
-    //     return () => {
-    //         console.log('This will be logged on unmount');
-    //     };
-    // }, [])
+    useEffect(() => {
+        callSomeAPI();
+        return () => {
+            console.log('This will be logged on unmount');
+        };
+    }, [])
 
-    // const callSomeAPI = async () => {
-    //     const res = await axios.get('http://localhost:3001/api/user/instructor', {
-    //         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    //     });
-    //     if (res.data.status === 'success') {
-    //         setListInstructors(res.data.data);
-    //     }
-    // }
+    const callSomeAPI = async () => {
+        const res = await axios.get('http://localhost:3001/instructor', {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
+        if (res.data.status === 'success') {
+            setListInstructors(res.data.data);
+        }
+    }
 
     return (
         <div className={cx('wrapper')}>

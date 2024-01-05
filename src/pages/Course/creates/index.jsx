@@ -9,7 +9,6 @@ import levels from 'src/constant/level';
 import repository from 'src/repositories/repository';
 import ImageUploading from 'react-images-uploading';
 import { useNavigate } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 import roleHeaders from '../../../utils/role'
 
 const cx = classNames.bind(styles);
@@ -31,11 +30,30 @@ const CreateCourse = () => {
             assignments: [
                 {
                     id: 1,
-                    type: '',
+                    type: 'video',
                     title: 'Gioi thieu',
                     content: '',
                     isEditing: false,
-                    isAddContent: false
+                    isAddContent: false,
+                    isAddQuiz: false,
+                    quiz: [
+                        {
+                            id: 1,
+                            question: 'AAA',
+                            answers: [
+                                {
+                                    id: 1,
+                                    text: 'A',
+                                    isCorrect: false
+                                },
+                                {
+                                    id: 2,
+                                    text: 'B',
+                                    isCorrect: true
+                                },
+                            ]
+                        },
+                    ]
                 },
             ],
         },
@@ -221,6 +239,47 @@ const CreateCourse = () => {
         );
     };
 
+    const handleAddQuiz = (chapterId, assignmentId) => {
+        setChapters((prevChapters) =>
+            prevChapters.map((chapter) =>
+                chapter.id === chapterId
+                    ? {
+                        ...chapter,
+                        assignments: chapter.assignments.map((assignment) =>
+                            assignment.id === assignmentId
+                                ? {
+                                    ...assignment,
+                                    content: '',
+                                    isAddQuiz: true
+                                }
+                                : assignment
+                        ),
+                    }
+                    : chapter
+            )
+        );
+    };
+
+    const handleCancelAddQuiz = (chapterId, assignmentId) => {
+        setChapters((prevChapters) =>
+            prevChapters.map((chapter) =>
+                chapter.id === chapterId
+                    ? {
+                        ...chapter,
+                        assignments: chapter.assignments.map((assignment) =>
+                            assignment.id === assignmentId
+                                ? {
+                                    ...assignment,
+                                    isAddQuiz: false
+                                }
+                                : assignment
+                        ),
+                    }
+                    : chapter
+            )
+        );
+    }
+
     const handleSaveContent = (chapterId, assignmentId, content) => {
         setChapters((prevChapters) =>
             prevChapters.map((chapter) =>
@@ -285,6 +344,30 @@ const CreateCourse = () => {
                     : chapter
             )
         );
+    };
+
+    const handleQuestionChange = (index, value) => {
+        console.log(index, value);
+    };
+
+    const handleAnswerChange = (questionIndex, answerIndex, value) => {
+        console.log(questionIndex, answerIndex, value);
+    };
+
+    const handleCorrectChange = (questionIndex, answerIndex) => {
+        console.log(questionIndex, answerIndex);
+    };
+
+    const addAnswer = (questionIndex) => {
+        console.log(questionIndex);
+    };
+
+    const removeQuestion = (questionIndex) => {
+        console.log(questionIndex);
+    };
+
+    const removeAnswer = (questionIndex, answerIndex) => {
+        console.log(questionIndex, answerIndex);
     };
 
     const maxNumber = 69;
@@ -579,9 +662,54 @@ const CreateCourse = () => {
                                                                             )}
                                                                         </>
                                                                     )}
+                                                                    {
+                                                                        assignment.isAddQuiz && (
+                                                                            <>
+                                                                                <ReactQuill
+                                                                                    value={editedContent}
+                                                                                    onChange={(value) => setEditedContent(value)}
+                                                                                />
+                                                                                <div>
+                                                                                    <p>Answers</p>
+                                                                                    {assignment.quiz?.map((quizItem) => (
+                                                                                        <div key={quizItem.id}>
+                                                                                            <h3>{quizItem.question}</h3>
+                                                                                            {/* {quizItem.answers.map((answer, answerIndex) => (
+                                                                                                <div key={answer.id} className="answer-container">
+                                                                                                    <input
+                                                                                                        type="radio"
+                                                                                                        onChange={() => { }}
+                                                                                                    />
+                                                                                                    <textarea
+                                                                                                        className="answer-textarea"
+                                                                                                        rows="2"
+                                                                                                        onChange={(e) => { }}
+                                                                                                    />
+                                                                                                    <button className="remove-button" onClick={() => removeAnswer(quizItem.id, answerIndex)}>
+                                                                                                        Remove Answer
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            ))}
 
-                                                                    {!assignment.content && <button className='btn btn-outline' onClick={() => handleAddContent(chapter.id, assignment.id)} style={{ background: '#fff', border: '1px solid' }}>
+                                                                                            <button className="add-answer-button" onClick={() => addAnswer(quizItem.id)}>
+                                                                                                Add Answer
+                                                                                            </button> */}
+                                                                                        </div>
+                                                                                    ))}
+
+                                                                                </div>
+                                                                            </>
+                                                                        )
+                                                                    }
+
+                                                                    {!assignment.content && assignment.type == 'video' && <button className='btn btn-outline' onClick={() => handleAddContent(chapter.id, assignment.id)} style={{ background: '#fff', border: '1px solid' }}>
                                                                         + Noi dung
+                                                                    </button>}
+                                                                    {assignment.type == 'quiz' && assignment.isAddQuiz && <button className='btn btn-danger' onClick={() => handleCancelAddQuiz(chapter.id, assignment.id)} style={{ border: '1px solid' }}>
+                                                                        Huy
+                                                                    </button>}
+                                                                    {assignment.type == 'quiz' && !assignment.isAddQuiz && <button className='btn btn-outline' onClick={() => handleAddQuiz(chapter.id, assignment.id)} style={{ background: '#fff', border: '1px solid' }}>
+                                                                        + Cau hoi
                                                                     </button>}
                                                                 </>
                                                             )
@@ -590,8 +718,8 @@ const CreateCourse = () => {
                                                 </div>
                                             ))}
                                             <div style={{ display: 'flex', padding: '20px 0 10px 0', gap: '10px' }}>
-                                                <button className='btn btn-outline' onClick={() => handleAddAssignment(chapter.id, 'Bai giang')} style={{ background: '#fff', border: '1px solid' }}>+ Bai giang</button>
-                                                <button className='btn btn-outline' onClick={() => handleAddAssignment(chapter.id, 'Bai trac nghiem')} style={{ background: '#fff', border: '1px solid' }}>+ Bai trac nghiem</button>
+                                                <button className='btn btn-outline' onClick={() => handleAddAssignment(chapter.id, 'video')} style={{ background: '#fff', border: '1px solid' }}>+ Bai giang</button>
+                                                <button className='btn btn-outline' onClick={() => handleAddAssignment(chapter.id, 'quiz')} style={{ background: '#fff', border: '1px solid' }}>+ Bai trac nghiem</button>
                                             </div>
                                         </div>
                                     </div>

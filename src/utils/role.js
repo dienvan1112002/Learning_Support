@@ -5,6 +5,7 @@ import HeaderGv from "src/components/Header/HeaderGv/HeaderGv";
 
 const roleHeaders = {
     '': <HeaderKhach />,
+    null: <HeaderKhach />,
     'student': <HeaderHv />,
     'instructor': <HeaderGv />,
     'admin': <HeaderDkgv />

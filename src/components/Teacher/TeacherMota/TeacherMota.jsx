@@ -9,7 +9,25 @@ import star from '../../../assests/teacher/teacher-active/Star.png';
 import teacher from '../../../assests/teacher/teacher_avt/teacherAvt.png';
 
 const cx = classNames.bind(styles);
-const TeacherMota = () => {
+const TeacherMota = ({ teacher }) => {
+
+    const formatDate = (date) => {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear(),
+            hour = d.getHours(),
+            minute = d.getMinutes(),
+            second = d.getSeconds()
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [year, month, day].join('-').concat(' ', [hour, minute, second].join(':'));
+    }
+
     return (
         <div className={cx('container')}>
             <div className={cx('info')}>
@@ -30,14 +48,17 @@ const TeacherMota = () => {
                     <div className={cx('mota-head')}>
                         <h3>Chúng chỉ</h3>
                     </div>
-                    <p>Chứng chỉ thiết kế hệ thống</p>
-                    <p>Chứng chỉ tin học loại B</p>
+                    {teacher?.certificates && teacher?.certificates.map((cer, index) => {
+                        return <p key={index}>{cer.name}</p>
+                    })}
                 </div>
                 <div className={cx('mota')}>
                     <div className={cx('mota-head')}>
                         <h3>Trình độ học vấn</h3>
                     </div>
-                    <p>Sinh viên năm 4 KMA, GPA 3.9 </p>
+                    {teacher?.academic_level && teacher?.academic_level.map((lev, index) => {
+                        return <p key={index}>{lev.name}</p>
+                    })}
                 </div>
             </div>
             <div className={cx('danhgia')}>
@@ -46,79 +67,34 @@ const TeacherMota = () => {
                 </div>
                 <div className={cx('comment')}>
                     <div className={cx('comment-info')}>
-                        <div>
-                            <img src={teacher} alt="teacher" />
-                        </div>
-                        <div className={cx('comment-info-chitiet')}>
-                            <div className={cx('comment-info-chitiet-top')}>
-                                <div className={cx('comment-info-name')}>
-                                    <p>Hoàng Trung</p>
-                                </div>
-                                <div className={cx('comment-info-time')}>
-                                    <p>12:47:41, 30/10/2023</p>
-                                </div>
-                                <div className={cx('comment-info-star')}>
-                                    <img src={star} alt="" />
-                                    <img src={star} alt="" />
-                                    <img src={star} alt="" />
-                                    <img src={star} alt="" />
-                                    <img src={star} alt="" />
-                                </div>
-                            </div>
-                            <div className={cx('comment-info-chitiet-nd')}>
-                                <p>Dạy chất lượng</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={cx('comment-info')}>
-                        <div>
-                            <img src={teacher} alt="teacher" />
-                        </div>
-                        <div className={cx('comment-info-chitiet')}>
-                            <div className={cx('comment-info-chitiet-top')}>
-                                <div className={cx('comment-info-name')}>
-                                    <p>Hoàng Trung</p>
-                                </div>
-                                <div className={cx('comment-info-time')}>
-                                    <p>12:47:41, 30/10/2023</p>
-                                </div>
-                                <div className={cx('comment-info-star')}>
-                                    <img src={star} alt="" />
-                                    <img src={star} alt="" />
-                                    <img src={star} alt="" />
-                                    <img src={star} alt="" />
-                                    <img src={star} alt="" />
-                                </div>
-                            </div>
-                            <div className={cx('comment-info-chitiet-nd')}>
-                                <p>Dạy chất lượng</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={cx('comment-info')}>
-                        <div>
-                            <img src={teacher} alt="teacher" />
-                        </div>
-                        <div className={cx('comment-info-chitiet')}>
-                            <div className={cx('comment-info-chitiet-top')}>
-                                <div className={cx('comment-info-name')}>
-                                    <p>Hoàng Trung</p>
-                                </div>
-                                <div className={cx('comment-info-time')}>
-                                    <p>12:47:41, 30/10/2023</p>
-                                </div>
-                                <div className={cx('comment-info-star')}>
-                                    <img src={star} alt="" />
-                                    <img src={star} alt="" />
-                                    <img src={star} alt="" />
-                                    <img src={star} alt="" />
-                                    <img src={star} alt="" />
-                                </div>
-                            </div>
-                            <div className={cx('comment-info-chitiet-nd')}>
-                                <p>Dạy chất lượng</p>
-                            </div>
-                        </div>
+                        {
+                            teacher?.reviews && teacher?.reviews.map((review, index) => {
+                                return (
+                                    <div key={index}>
+                                        <div>
+                                            <img src={review.user.image} alt="teacher" />
+                                        </div>
+                                        <div className={cx('comment-info-chitiet')}>
+
+                                            <div className={cx('comment-info-chitiet-top')}>
+                                                <div className={cx('comment-info-name')}>
+                                                    <p>{review.user.name}</p>
+                                                </div>
+                                                <div className={cx('comment-info-time')}>
+                                                    <p>{formatDate(review.user.updatedAt)}</p>
+                                                </div>
+                                                <div className={cx('comment-info-star')}>
+                                                    {[...Array(review.star)].map((_, index) => <img key={index} src={star} />)}
+                                                </div>
+                                            </div>
+                                            <div className={cx('comment-info-chitiet-nd')}>
+                                                <p>{review.content}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                 </div>
             </div>
