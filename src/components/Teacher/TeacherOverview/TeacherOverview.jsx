@@ -7,44 +7,50 @@ import teacher from '../../../assests/teacher/teacher1.png';
 import star from '../../../assests/teacher/teacher-active/Star.png';
 
 const cx = classNames.bind(styles);
-const TeacherOverview = () => {
+const TeacherOverview = ({ teacher }) => {
+    console.log("teacher overview === ", teacher);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
                 <div className={cx('container-info')}>
                     <div className={cx('info-left')}>
                         <div className={cx('info-img')}>
-                            <img src={teacher} alt="cogiao" />
+                            {teacher?.user?.image && <img src={teacher?.user?.image} alt="cogiao" />}
                         </div>
                         <div className={cx('info-btn')}>
                             <div className={cx('thue')}>
                                 <button>Thuê</button>
                             </div>
                             <div className={cx('follow')}>
-                                <button>Theo dõi</button>
+                                {teacher?.isFollowed == false ? <button>Theo dõi</button> : <button>Bỏ theo dõi</button>}
                             </div>
                         </div>
                     </div>
                     <div className={cx('info-right')}>
                         <div className={cx('name')}>
-                            <h2>Nguyễn Văn A</h2>
+                            <h2>{teacher?.user?.name}</h2>
                         </div>
                         <div className={cx('chitiet')}>
                             <div className={cx('linhvuc')}>
                                 <div>
-                                    <b>Lĩnh vực:</b>
+                                    <b>Môn học:</b>
                                 </div>
-                                <p>Thiết kế</p>
+                                {teacher?.subjects && teacher?.subjects.map(subject => {
+                                    return <p>{subject},</p>
+                                })}
                             </div>
 
                             <div className={cx('danhgia')}>
                                 <div>
                                     <b>Đánh giá:</b>
                                 </div>
-                                <div className={cx('danhgia-chitiet')}>
-                                    <img src={star} alt="" />
-                                    <p>4.8 (41)</p>
-                                </div>
+                                {teacher?.avg_rating && (
+                                    <div className={cx('danhgia-chitiet')}>
+                                        <img src={star} alt="" />
+                                        <p>{teacher?.avg_rating} (41)</p>
+                                    </div>
+                                )}
+                                {!teacher?.avg_rating && <p>Chưa có đánh giá</p>}
                             </div>
 
                             <div className={cx('khoahoc')}>
@@ -52,27 +58,27 @@ const TeacherOverview = () => {
                                     <b>Khóa học:</b>
                                 </div>
                                 <div>
-                                    <p>15</p>
+                                    <p>{teacher?.num_course}</p>
                                 </div>
                             </div>
                             <div className={cx('theodoi')}>
                                 <div>
                                     <b>Theo dõi:</b>
                                 </div>
-                                <p>100</p>
+                                <p>{teacher?.follower}</p>
                             </div>
                             <div className={cx('dangki')}>
                                 <div>
                                     <b>Số lượt đăng kí học:</b>
                                 </div>
-                                <p>50</p>
+                                <p>{teacher?.num_registration}</p>
                             </div>
-                            <div className={cx('tilehoanthanh')}>
+                            {/* <div className={cx('tilehoanthanh')}>
                                 <div>
                                     <b>Tỷ lệ hoàn thành:</b>
                                 </div>
                                 <p>95%</p>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

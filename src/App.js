@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Contact from './components/Contact/Contact';
+import CourseDetail from './components/CourseDetail/CourseDetail';
 import Course from './pages/Course/Course';
 import CreateCourse from './pages/Course/creates';
 import Home from './pages/Home/Home';
@@ -15,8 +16,6 @@ const isAuthenticated = !!localStorage.getItem('token');
 const userRole = localStorage.getItem('role');
 
 const studentRoutes = [
-    { path: '/user', component: Home },
-    { path: '/user/profile', component: Profile },
     { path: '/course', component: Course },
     { path: '/teacher', component: Teacher },
     { path: '/user/contact', component: Contact },

@@ -1,21 +1,27 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './TeacherItems.module.css';
 import green from '../../assests/teacher/teacher-active/Chamxanh.png';
 import star from '../../assests/teacher/teacher-active/Star.png';
 
 const TeacherItems = ({ ins }) => {
+    const navigate = useNavigate();
+
     const showProfile = (id) => {
-        console.log(id);
+        console.log("id === ", id);
+        // Chuyển hướng sang route tương ứng
+        navigate(`/teacher/${id}`);
     }
+
     return (
         <div className={styles.container}>
             <div className={styles.img}>
-                <img src={ins.image} alt="" />
+                <img src={ins.user.image} alt="" />
             </div>
             <div className={styles.info}>
                 <div className={styles.avt}>
                     <div className={styles.avtCon}>
-                        <img src={ins.image} alt="" />
+                        <img src={ins.user.image} alt="" />
                     </div>
                     <div className={styles.infoActive}>
                         <div className={styles.infoName}>
@@ -45,7 +51,7 @@ const TeacherItems = ({ ins }) => {
                 </div>
             </div>
             <div className={styles.btn}>
-                <button className={styles.bt} onClick={showProfile(ins._id)}>Xem hồ sơ</button>
+                <button className={styles.bt} onClick={() => showProfile(ins._id)}>Xem hồ sơ</button>
             </div>
         </div>
     );

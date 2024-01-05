@@ -6,6 +6,7 @@ import styles from './CourseHead.module.scss';
 
 const cx = classNames.bind(styles);
 const CourseHead = () => {
+    const role = localStorage.getItem('role');
     return (
         <div className={cx('container')}>
             <div className={cx('header')}>
@@ -22,11 +23,11 @@ const CourseHead = () => {
                     <p>Đã xem</p>
                 </div>
             </div> */}
-            <div>
+            {role == 'instructor' && <div>
                 <Link to="course/create">
                     <button className={cx('btn-primary-no-bs')}>Tạo khóa học</button>
                 </Link>
-            </div>
+            </div>}
         </div>
     );
 };

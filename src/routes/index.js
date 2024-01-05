@@ -10,11 +10,15 @@ import DKGiangVien1 from 'src/pages/DangKiGiangVien/DKGiangVien1.jsx';
 import DKGiangVien from 'src/pages/DangKiGiangVien/DKGiangVien.jsx';
 import HienThi from 'src/components/Teacher/Register/HienThiChungChi/HienThi.jsx';
 import CreateCourse from '../pages/Course/creates/index.jsx';
+import CourseDetail from 'src/components/CourseDetail/CourseDetail.jsx';
+import TeacherDetail from 'src/components/Teacher/TeacherDetail/TeacherDetail.jsx';
 
 const publicRoutes = [
     { path: '/', component: Home },
     { path: '/course', component: Course },
+    { path: '/course/:id', component: CourseDetail },
     { path: '/teacher', component: Teacher },
+    { path: '/teacher/:id', component: TeacherDetail },
     { path: '/contact', component: Contact },
     { path: '/login', component: Login, },
     { path: '/signup', component: SignUp, },
