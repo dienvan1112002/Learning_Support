@@ -21,10 +21,6 @@ const CreateCourse = () => {
     const [isEditingContent, setIsEditingContent] = useState(false);
     const [isDeletingContent, setIsDeletingContent] = useState(false);
     const [editedContent, setEditedContent] = useState("");
-    const [checkboxStates, setCheckboxStates] = useState([]);
-    const [textareaStates, setTextareaStates] = useState([]);
-    const [questionContent, setQuestionContent] = useState('');
-    const MAX_ANSWERS = 4;
 
     const [chapters, setChapters] = useState([
         {
@@ -44,6 +40,7 @@ const CreateCourse = () => {
                         {
                             id: 1,
                             question: 'Mulalsada sdada',
+                            isAddQuestion: false,
                             answers: [
                                 {
                                     id: 1,
@@ -247,11 +244,31 @@ const CreateCourse = () => {
         );
     };
 
-    const handleAddQuiz = (chapterId, assignmentId) => {
-        // Reset the states for checkboxes and textareas
-        setCheckboxStates([]);
-        setTextareaStates([]);
+    const handleQuizQuestionChange = (chapterId, assignmentId, quizIndex, value) => {
+        setChapters((prevChapters) =>
+            prevChapters.map((chapter) =>
+                chapter.id === chapterId
+                    ? {
+                        ...chapter,
+                        assignments: chapter.assignments.map((assignment) =>
+                            assignment.id === assignmentId
+                                ? {
+                                    ...assignment,
+                                    quiz: assignment.quiz.map((quizItem, currentIndex) =>
+                                        currentIndex === quizIndex
+                                            ? { ...quizItem, question: value }
+                                            : quizItem
+                                    ),
+                                }
+                                : assignment
+                        ),
+                    }
+                    : chapter
+            )
+        );
+    };
 
+    const handleAddQuiz = (chapterId, assignmentId) => {
         setChapters((prevChapters) =>
             prevChapters.map((chapter) =>
                 chapter.id === chapterId
@@ -267,6 +284,7 @@ const CreateCourse = () => {
                                         {
                                             id: assignment.quiz.length + 1,
                                             question: '',
+                                            isAddQuestion: true,
                                             answers: [
                                                 {
                                                     id: 1,
@@ -365,7 +383,7 @@ const CreateCourse = () => {
                                     isAddQuiz: false,
                                     quiz: assignment.quiz.map((quizItem) => ({
                                         ...quizItem,
-                                        question: questionContent || '',
+                                        isAddQuestion: false,
                                         answers: quizItem.answers.map((answer) => ({
                                             ...answer,
                                             isCorrect: answer.isCorrect || false,
@@ -380,7 +398,6 @@ const CreateCourse = () => {
             )
         );
 
-        setQuestionContent('');
     };
 
     const handleRemoveQuiz = (chapterId, assignmentId, quizId) => {
@@ -424,26 +441,41 @@ const CreateCourse = () => {
         );
     }
 
+    const isValidUrl = urlString => {
+        var urlPattern = new RegExp('^(https?:\\/\\/)?' + // validate protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // validate domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))' + // validate OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // validate port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?' + // validate query string
+            '(\\#[-a-z\\d_]*)?$', 'i'); // validate fragment locator
+        return !!urlPattern.test(urlString);
+    }
+
     const handleSaveContent = (chapterId, assignmentId, content) => {
-        setChapters((prevChapters) =>
-            prevChapters.map((chapter) =>
-                chapter.id === chapterId
-                    ? {
-                        ...chapter,
-                        assignments: chapter.assignments.map((assignment) =>
-                            assignment.id === assignmentId
-                                ? {
-                                    ...assignment,
-                                    content: content,
-                                    isAddContent: false,
-                                }
-                                : assignment
-                        ),
-                    }
-                    : chapter
-            )
-        );
-        setIsEditingContent(false)
+        content = content.slice(3, content.length - 4);
+        if (isValidUrl(content)) {
+            setChapters((prevChapters) =>
+                prevChapters.map((chapter) =>
+                    chapter.id === chapterId
+                        ? {
+                            ...chapter,
+                            assignments: chapter.assignments.map((assignment) =>
+                                assignment.id === assignmentId
+                                    ? {
+                                        ...assignment,
+                                        content: content,
+                                        isAddContent: false,
+                                    }
+                                    : assignment
+                            ),
+                        }
+                        : chapter
+                )
+            );
+            setIsEditingContent(false)
+        } else {
+            alert("Please provide valid URL")
+        }
     };
 
     const handleDeleteContent = (chapterId, assignmentId) => {
@@ -522,10 +554,6 @@ const CreateCourse = () => {
                     : chapter
             )
         );
-
-        // Add initial states for the new answer
-        setCheckboxStates((prevStates) => [...prevStates, false]);
-        setTextareaStates((prevStates) => [...prevStates, '']);
     };
 
     const removeAnswer = (chapterId, assignmentId, quizIndex, answerIndex) => {
@@ -853,20 +881,21 @@ const CreateCourse = () => {
                                                                     {
                                                                         assignment.isAddQuiz && (
                                                                             <>
-                                                                                <ReactQuill
-                                                                                    value={assignment.content || questionContent}
-                                                                                    onChange={(value) => setQuestionContent(value)}
-                                                                                />
                                                                                 <div>
                                                                                     <p>Answers</p>
                                                                                     {assignment.quiz && assignment.quiz.map((quizItem, quizIndex) => (
                                                                                         <div key={quizItem.id}>
-                                                                                            {quizItem.question === '' && (
+                                                                                            {quizItem.isAddQuestion === true && (
                                                                                                 <>
+                                                                                                    <ReactQuill
+                                                                                                        value={quizItem.question || ''}
+                                                                                                        onChange={(value) => handleQuizQuestionChange(chapter.id, assignment.id, quizIndex, value)}
+                                                                                                    />
                                                                                                     {quizItem.answers.map((answer, answerIndex) => (
                                                                                                         <div key={answer.id} className="answer-container" style={{ display: 'flex', marginBottom: '10px', gap: '10px' }}>
                                                                                                             <input
-                                                                                                                type="checkbox"
+                                                                                                                type="radio"
+                                                                                                                name='answer'
                                                                                                                 checked={answer.isCorrect || false}
                                                                                                                 onChange={() => handleCheckboxChange(chapter.id, assignment.id, quizIndex, answerIndex)}
                                                                                                             />
@@ -891,7 +920,7 @@ const CreateCourse = () => {
                                                                                     <button className='btn btn-danger' onClick={() => handleCancelAddQuiz(chapter.id, assignment.id)} style={{ border: '1px solid' }}>
                                                                                         Huy
                                                                                     </button>
-                                                                                    <button className='btn btn-info' onClick={() => handleSaveAddQuiz(chapter.id, assignment.id, assignment.quiz)} style={{ border: '1px solid' }}>
+                                                                                    <button className='btn btn-info' onClick={() => handleSaveAddQuiz(chapter.id, assignment.id)} style={{ border: '1px solid' }}>
                                                                                         Luu
                                                                                     </button>
                                                                                 </div>
