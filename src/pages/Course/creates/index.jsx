@@ -290,57 +290,69 @@ const CreateCourse = () => {
         );
     };
 
-    const handleCheckboxChange = (quizIndex, answerIndex) => {
-        setCheckboxStates((prevStates) => {
-            const newStates = [...prevStates];
-            const index = quizIndex * MAX_ANSWERS + answerIndex;
-
-            // Make sure the array is long enough
-            while (newStates.length <= index) {
-                newStates.push(false);
-            }
-
-            // Update the state for the specific checkbox
-            newStates[index] = !prevStates[index];
-
-            return newStates;
-        });
+    const handleCheckboxChange = (chapterId, assignmentId, quizIndex, answerId) => {
+        setChapters((prevChapters) =>
+            prevChapters.map((chapter) =>
+                chapter.id === chapterId
+                    ? {
+                        ...chapter,
+                        assignments: chapter.assignments.map((assignment) =>
+                            assignment.id === assignmentId
+                                ? {
+                                    ...assignment,
+                                    quiz: assignment.quiz.map((quizItem, currentIndex) =>
+                                        currentIndex === quizIndex
+                                            ? {
+                                                ...quizItem,
+                                                answers: quizItem.answers.map((answer, answerIndex) =>
+                                                    answerId === answerIndex
+                                                        ? { ...answer, isCorrect: !answer.isCorrect }
+                                                        : answer
+                                                ),
+                                            }
+                                            : quizItem
+                                    ),
+                                }
+                                : assignment
+                        ),
+                    }
+                    : chapter
+            )
+        );
     };
 
-    const handleTextareaChange = (quizIndex, answerIndex, value) => {
-        setTextareaStates((prevStates) => {
-            const newStates = [...prevStates];
-            const index = quizIndex * MAX_ANSWERS + answerIndex;
-
-            // Make sure the array is long enough
-            while (newStates.length <= index) {
-                newStates.push('');
-            }
-
-            // Update the state for the specific textarea
-            newStates[index] = value;
-
-            return newStates;
-        });
+    const handleTextareaChange = (chapterId, assignmentId, quizIndex, answerIndex, value) => {
+        setChapters((prevChapters) =>
+            prevChapters.map((chapter) =>
+                chapter.id === chapterId
+                    ? {
+                        ...chapter,
+                        assignments: chapter.assignments.map((assignment) =>
+                            assignment.id === assignmentId
+                                ? {
+                                    ...assignment,
+                                    quiz: assignment.quiz.map((quizItem, currentIndex) =>
+                                        currentIndex === quizIndex
+                                            ? {
+                                                ...quizItem,
+                                                answers: quizItem.answers.map((answer, currentAnswerIndex) =>
+                                                    currentAnswerIndex === answerIndex
+                                                        ? { ...answer, text: value }
+                                                        : answer
+                                                ),
+                                            }
+                                            : quizItem
+                                    ),
+                                }
+                                : assignment
+                        ),
+                    }
+                    : chapter
+            )
+        );
     };
 
-    const handleSaveAddQuiz = (chapterId, assignmentId, quizData) => {
-        const updatedQuizData = quizData.map((quizItem, quizIndex) => {
-            const updatedAnswers = quizItem.answers.map((answer, answerIndex) => ({
-                ...answer,
-                isCorrect: checkboxStates[quizIndex * MAX_ANSWERS + answerIndex] || false,
-                text: textareaStates[quizIndex * MAX_ANSWERS + answerIndex] || '',
-            }));
-
-            return {
-                ...quizItem,
-                question: quizIndex === quizData.length - 1 ? (questionContent || '') : quizItem.question,
-                answers: updatedAnswers,
-            };
-        });
-
-        console.log("updatedQuizData == ", updatedQuizData);
-
+    const handleSaveAddQuiz = (chapterId, assignmentId) => {
         setChapters((prevChapters) =>
             prevChapters.map((chapter) =>
                 chapter.id === chapterId
@@ -351,7 +363,15 @@ const CreateCourse = () => {
                                 ? {
                                     ...assignment,
                                     isAddQuiz: false,
-                                    quiz: updatedQuizData,
+                                    quiz: assignment.quiz.map((quizItem) => ({
+                                        ...quizItem,
+                                        question: questionContent || '',
+                                        answers: quizItem.answers.map((answer) => ({
+                                            ...answer,
+                                            isCorrect: answer.isCorrect || false,
+                                            text: answer.text || '',
+                                        })),
+                                    })),
                                 }
                                 : assignment
                         ),
@@ -360,8 +380,6 @@ const CreateCourse = () => {
             )
         );
 
-        setCheckboxStates([]);
-        setTextareaStates([]);
         setQuestionContent('');
     };
 
@@ -594,6 +612,8 @@ const CreateCourse = () => {
             console.log(error);
         }
     };
+
+    console.log("chapters == ", chapters);
 
     return (
         <div className={cx('wrapper')}>
@@ -847,14 +867,14 @@ const CreateCourse = () => {
                                                                                                         <div key={answer.id} className="answer-container" style={{ display: 'flex', marginBottom: '10px', gap: '10px' }}>
                                                                                                             <input
                                                                                                                 type="checkbox"
-                                                                                                                checked={checkboxStates[quizIndex * MAX_ANSWERS + answerIndex] || false}
-                                                                                                                onChange={() => handleCheckboxChange(quizIndex, answerIndex)}
+                                                                                                                checked={answer.isCorrect || false}
+                                                                                                                onChange={() => handleCheckboxChange(chapter.id, assignment.id, quizIndex, answerIndex)}
                                                                                                             />
                                                                                                             <textarea
                                                                                                                 className="answer-textarea"
                                                                                                                 rows="2"
-                                                                                                                value={textareaStates[quizIndex * MAX_ANSWERS + answerIndex] || ''}
-                                                                                                                onChange={(e) => handleTextareaChange(quizIndex, answerIndex, e.target.value)}
+                                                                                                                value={answer.text || ''}
+                                                                                                                onChange={(e) => handleTextareaChange(chapter.id, assignment.id, quizIndex, answerIndex, e.target.value)}
                                                                                                             />
                                                                                                             <i className="ri-delete-bin-line" onClick={() => removeAnswer(chapter.id, assignment.id, quizItem.id, answerIndex)}></i>
                                                                                                         </div>
