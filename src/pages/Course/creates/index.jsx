@@ -631,75 +631,67 @@ const CreateCourse = () => {
 
         try {
             const response = await repository.registerCourseOfInstructor(data);
-            var listChapterId = [];
-            chapters && chapters.map(async (chapter) => {
-                const createdChapter = await repository.createChapter({ title: chapter.title });
-                listChapterId.push(createdChapter.data.data._id)
-                if (response.status == 200 && listChapterId.length > 0) {
-                    await repository.updateCourse(response.data.data._id, {
-                        title: response.data.data.title,
-                        description: response.data.data.description,
-                        level: response.data.data.level,
-                        thumbnails: response.data.data.thumbnails,
-                        cover_image: response.data.data.cover_image,
-                        subject: response.data.data.subject,
-                        price: response.data.data.price,
-                        chapters: listChapterId
-                    });
-                }
-                const listChapters = chapter.assignments.map(async (assignment) => {
-                    const formatedQuiz = assignment.quiz.map(quiz => {
-                        return {
+
+            if (response.status === 200) {
+                var listChapterId = [];
+
+                await Promise.all(chapters.map(async (chapter) => {
+                    const createdChapter = await repository.createChapter({ title: chapter.title });
+                    listChapterId.push(createdChapter.data.data._id);
+
+                    const listChapters = await Promise.all(chapter.assignments.map(async (assignment) => {
+                        const formatedQuiz = assignment.quiz.map(quiz => ({
                             answers: quiz.answers,
                             question: quiz.question
-                        }
-                    })
-                    const createdLesson = await repository.createLesson({
-                        title: assignment.title,
-                        description: assignment.content,
-                        lessonType: assignment.type
-                    })
-                    if (assignment.type === 'quizz') {
-                        const createdQuizz = await repository.createQuizz({
-                            list_question: formatedQuiz
-                        })
-                        if (createdQuizz.status == 200) {
-                            const updatedLesson = await repository.updateLesson(createdLesson.data.data._id, {
-                                title: createdLesson.data.data.title,
-                                description: createdLesson.data.data.description,
-                                lessonType: "quizz",
-                                content: createdQuizz.data.data._id
-                            })
-                        }
-                    } else {
-                        const createdVideo = await repository.createVideo({
-                            url: assignment.content
-                        })
-                        if (createdVideo.status == 200) {
-                            await repository.updateLesson(createdLesson.data.data._id, {
-                                title: createdLesson.data.data.title,
-                                description: createdLesson.data.data.description,
-                                lessonType: "video",
-                                content: createdVideo.data.data._id
-                            })
-                        }
-                    }
-                    return createdLesson.data.data._id
-                })
-                await repository.updateChapter(createdChapter.data.data._id, {
-                    title: createdChapter.data.data.title,
-                    lessons: listChapters
-                })
-            })
+                        }));
 
-            // if (response.status === 200) {
-            //     alert('Đăng kí khóa học thành công');
-            //     navigate('/course');
-            // }
+                        const createdLesson = await repository.createLesson({
+                            title: assignment.title,
+                            description: assignment.content,
+                            lessonType: assignment.type
+                        });
+
+                        if (assignment.type === 'quizz') {
+                            const createdQuizz = await repository.createQuizz({ list_question: formatedQuiz });
+
+                            if (createdQuizz.status === 200) {
+                                await repository.updateLesson(createdLesson.data.data._id, {
+                                    title: createdLesson.data.data.title,
+                                    description: createdLesson.data.data.description,
+                                    lessonType: 'quizz',
+                                    content: createdQuizz.data.data._id
+                                });
+                            }
+                        } else {
+                            const createdVideo = await repository.createVideo({ url: assignment.content });
+
+                            if (createdVideo.status === 200) {
+                                await repository.updateLesson(createdLesson.data.data._id, {
+                                    title: createdLesson.data.data.title,
+                                    description: createdLesson.data.data.description,
+                                    lessonType: 'video',
+                                    content: createdVideo.data.data._id
+                                });
+                            }
+                        }
+
+                        return createdLesson.data.data._id;
+                    }));
+
+                    await repository.updateChapter(createdChapter.data.data._id, {
+                        title: createdChapter.data.data.title,
+                        lessons: listChapters
+                    });
+                }));
+
+                alert('Đăng kí khóa học thành công');
+                navigate('/course');
+            }
         } catch (error) {
             alert('Đăng kí khóa học thất bại');
-            console.log(error);
+            console.error(error);
         }
+
     };
 
     console.log("chapters == ", chapters);
