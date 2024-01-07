@@ -684,8 +684,19 @@ const CreateCourse = () => {
                     });
                 }));
 
+                await repository.updateCourse(response.data.data._id, {
+                    title: response.data.data.title,
+                    description: response.data.data.description,
+                    level: response.data.data.level,
+                    thumbnails: response.data.data.thumbnails,
+                    subject: response.data.data.subject,
+                    cover_image: response.data.data.cover_image,
+                    price: response.data.data.price,
+                    chapters: listChapterId
+                })
+
                 alert('Đăng kí khóa học thành công');
-                navigate('/course');
+                navigate('/instructor');
             }
         } catch (error) {
             alert('Đăng kí khóa học thất bại');
