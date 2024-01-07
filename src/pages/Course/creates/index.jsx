@@ -39,7 +39,8 @@ const CreateCourse = () => {
                     quiz: [
                         {
                             id: 1,
-                            question: 'AAA',
+                            question: 'Mulalsada sdada',
+                            isAddQuestion: false,
                             answers: [
                                 {
                                     id: 1,
@@ -178,10 +179,14 @@ const CreateCourse = () => {
 
     const handleAddAssignment = (chapterId, type) => {
         const newAssignment = {
-            id: chapters.length + 1,
+            id: chapters[chapterId - 1].assignments.length + 1,
             type,
             title: `New Assignment`,
-            content: ''
+            content: '',
+            isEditing: false,
+            isAddContent: false,
+            isAddQuiz: false,
+            quiz: []
         };
 
         setChapters((prevChapters) =>
@@ -239,6 +244,30 @@ const CreateCourse = () => {
         );
     };
 
+    const handleQuizQuestionChange = (chapterId, assignmentId, quizIndex, value) => {
+        setChapters((prevChapters) =>
+            prevChapters.map((chapter) =>
+                chapter.id === chapterId
+                    ? {
+                        ...chapter,
+                        assignments: chapter.assignments.map((assignment) =>
+                            assignment.id === assignmentId
+                                ? {
+                                    ...assignment,
+                                    quiz: assignment.quiz.map((quizItem, currentIndex) =>
+                                        currentIndex === quizIndex
+                                            ? { ...quizItem, question: value }
+                                            : quizItem
+                                    ),
+                                }
+                                : assignment
+                        ),
+                    }
+                    : chapter
+            )
+        );
+    };
+
     const handleAddQuiz = (chapterId, assignmentId) => {
         setChapters((prevChapters) =>
             prevChapters.map((chapter) =>
@@ -249,8 +278,139 @@ const CreateCourse = () => {
                             assignment.id === assignmentId
                                 ? {
                                     ...assignment,
-                                    content: '',
-                                    isAddQuiz: true
+                                    isAddQuiz: true,
+                                    quiz: [
+                                        ...assignment.quiz,
+                                        {
+                                            id: assignment.quiz.length + 1,
+                                            question: '',
+                                            isAddQuestion: true,
+                                            answers: [
+                                                {
+                                                    id: 1,
+                                                    text: '',
+                                                    isCorrect: false,
+                                                },
+                                                {
+                                                    id: 2,
+                                                    text: '',
+                                                    isCorrect: false,
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                }
+                                : assignment
+                        ),
+                    }
+                    : chapter
+            )
+        );
+    };
+
+    const handleCheckboxChange = (chapterId, assignmentId, quizIndex, answerId) => {
+        setChapters((prevChapters) =>
+            prevChapters.map((chapter) =>
+                chapter.id === chapterId
+                    ? {
+                        ...chapter,
+                        assignments: chapter.assignments.map((assignment) =>
+                            assignment.id === assignmentId
+                                ? {
+                                    ...assignment,
+                                    quiz: assignment.quiz.map((quizItem, currentIndex) =>
+                                        currentIndex === quizIndex
+                                            ? {
+                                                ...quizItem,
+                                                answers: quizItem.answers.map((answer, answerIndex) =>
+                                                    answerId === answerIndex
+                                                        ? { ...answer, isCorrect: !answer.isCorrect }
+                                                        : answer
+                                                ),
+                                            }
+                                            : quizItem
+                                    ),
+                                }
+                                : assignment
+                        ),
+                    }
+                    : chapter
+            )
+        );
+    };
+
+    const handleTextareaChange = (chapterId, assignmentId, quizIndex, answerIndex, value) => {
+        setChapters((prevChapters) =>
+            prevChapters.map((chapter) =>
+                chapter.id === chapterId
+                    ? {
+                        ...chapter,
+                        assignments: chapter.assignments.map((assignment) =>
+                            assignment.id === assignmentId
+                                ? {
+                                    ...assignment,
+                                    quiz: assignment.quiz.map((quizItem, currentIndex) =>
+                                        currentIndex === quizIndex
+                                            ? {
+                                                ...quizItem,
+                                                answers: quizItem.answers.map((answer, currentAnswerIndex) =>
+                                                    currentAnswerIndex === answerIndex
+                                                        ? { ...answer, text: value }
+                                                        : answer
+                                                ),
+                                            }
+                                            : quizItem
+                                    ),
+                                }
+                                : assignment
+                        ),
+                    }
+                    : chapter
+            )
+        );
+    };
+
+    const handleSaveAddQuiz = (chapterId, assignmentId) => {
+        setChapters((prevChapters) =>
+            prevChapters.map((chapter) =>
+                chapter.id === chapterId
+                    ? {
+                        ...chapter,
+                        assignments: chapter.assignments.map((assignment) =>
+                            assignment.id === assignmentId
+                                ? {
+                                    ...assignment,
+                                    isAddQuiz: false,
+                                    quiz: assignment.quiz.map((quizItem) => ({
+                                        ...quizItem,
+                                        isAddQuestion: false,
+                                        answers: quizItem.answers.map((answer) => ({
+                                            ...answer,
+                                            isCorrect: answer.isCorrect || false,
+                                            text: answer.text || '',
+                                        })),
+                                    })),
+                                }
+                                : assignment
+                        ),
+                    }
+                    : chapter
+            )
+        );
+
+    };
+
+    const handleRemoveQuiz = (chapterId, assignmentId, quizId) => {
+        setChapters((prevChapters) =>
+            prevChapters.map((chapter) =>
+                chapter.id === chapterId
+                    ? {
+                        ...chapter,
+                        assignments: chapter.assignments.map((assignment) =>
+                            assignment.id === assignmentId
+                                ? {
+                                    ...assignment,
+                                    quiz: assignment.quiz.filter((quizItem) => quizItem.id !== quizId),
                                 }
                                 : assignment
                         ),
@@ -270,7 +430,8 @@ const CreateCourse = () => {
                             assignment.id === assignmentId
                                 ? {
                                     ...assignment,
-                                    isAddQuiz: false
+                                    isAddQuiz: false,
+                                    quiz: []
                                 }
                                 : assignment
                         ),
@@ -280,26 +441,41 @@ const CreateCourse = () => {
         );
     }
 
+    const isValidUrl = urlString => {
+        var urlPattern = new RegExp('^(https?:\\/\\/)?' + // validate protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // validate domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))' + // validate OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // validate port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?' + // validate query string
+            '(\\#[-a-z\\d_]*)?$', 'i'); // validate fragment locator
+        return !!urlPattern.test(urlString);
+    }
+
     const handleSaveContent = (chapterId, assignmentId, content) => {
-        setChapters((prevChapters) =>
-            prevChapters.map((chapter) =>
-                chapter.id === chapterId
-                    ? {
-                        ...chapter,
-                        assignments: chapter.assignments.map((assignment) =>
-                            assignment.id === assignmentId
-                                ? {
-                                    ...assignment,
-                                    content: content,
-                                    isAddContent: false,
-                                }
-                                : assignment
-                        ),
-                    }
-                    : chapter
-            )
-        );
-        setIsEditingContent(false)
+        content = content.slice(3, content.length - 4);
+        if (isValidUrl(content)) {
+            setChapters((prevChapters) =>
+                prevChapters.map((chapter) =>
+                    chapter.id === chapterId
+                        ? {
+                            ...chapter,
+                            assignments: chapter.assignments.map((assignment) =>
+                                assignment.id === assignmentId
+                                    ? {
+                                        ...assignment,
+                                        content: content,
+                                        isAddContent: false,
+                                    }
+                                    : assignment
+                            ),
+                        }
+                        : chapter
+                )
+            );
+            setIsEditingContent(false)
+        } else {
+            alert("Please provide valid URL")
+        }
     };
 
     const handleDeleteContent = (chapterId, assignmentId) => {
@@ -346,28 +522,66 @@ const CreateCourse = () => {
         );
     };
 
-    const handleQuestionChange = (index, value) => {
-        console.log(index, value);
+    const addAnswer = (chapterId, assignmentId, quizIndex) => {
+        const newAnswer = {
+            id: chapters[chapterId - 1].assignments[assignmentId - 1].quiz[quizIndex - 1].answers.length + 1,
+            text: '',
+            isCorrect: false
+        };
+
+        setChapters((prevChapters) =>
+            prevChapters.map((chapter) =>
+                chapter.id === chapterId
+                    ? {
+                        ...chapter,
+                        assignments: chapter.assignments.map((assignment) =>
+                            assignment.id === assignmentId
+                                ? {
+                                    ...assignment,
+                                    quiz: assignment.quiz.map((quiz, index) =>
+                                        quiz.id === quizIndex
+                                            ? {
+                                                ...quiz,
+                                                answers: [
+                                                    ...quiz.answers, newAnswer
+                                                ]
+                                            } : quiz
+                                    )
+                                }
+                                : assignment
+                        ),
+                    }
+                    : chapter
+            )
+        );
     };
 
-    const handleAnswerChange = (questionIndex, answerIndex, value) => {
-        console.log(questionIndex, answerIndex, value);
-    };
-
-    const handleCorrectChange = (questionIndex, answerIndex) => {
-        console.log(questionIndex, answerIndex);
-    };
-
-    const addAnswer = (questionIndex) => {
-        console.log(questionIndex);
-    };
-
-    const removeQuestion = (questionIndex) => {
-        console.log(questionIndex);
-    };
-
-    const removeAnswer = (questionIndex, answerIndex) => {
-        console.log(questionIndex, answerIndex);
+    const removeAnswer = (chapterId, assignmentId, quizIndex, answerIndex) => {
+        setChapters((prevChapters) =>
+            prevChapters.map((chapter) =>
+                chapter.id === chapterId
+                    ? {
+                        ...chapter,
+                        assignments: chapter.assignments.map((assignment) =>
+                            assignment.id === assignmentId
+                                ? {
+                                    ...assignment,
+                                    quiz: assignment.quiz.map((quiz) =>
+                                        quiz.id === quizIndex
+                                            ? {
+                                                ...quiz,
+                                                answers: quiz.answers.filter(
+                                                    (answer) => answer.id !== answerIndex
+                                                )
+                                            } : quiz
+                                    )
+                                }
+                                : assignment
+                        ),
+                    }
+                    : chapter
+            )
+        );
     };
 
     const maxNumber = 69;
@@ -426,6 +640,8 @@ const CreateCourse = () => {
             console.log(error);
         }
     };
+
+    console.log("chapters == ", chapters);
 
     return (
         <div className={cx('wrapper')}>
@@ -558,7 +774,7 @@ const CreateCourse = () => {
                             )}
                         </ImageUploading>
                         <div style={{ width: '100%', backgroundColor: '#86AEDD', border: '1px solid blue', display: 'flex', flexDirection: 'column', padding: '20px' }}>
-                            {chapters.map((chapter) => (
+                            {chapters && chapters.map((chapter) => (
                                 <div key={chapter.id} style={{ backgroundColor: '#F7F7F8', padding: '5px' }}>
                                     <div style={{ padding: '5px' }}>
                                         <div style={{ border: '1px solid', padding: '5px', display: 'flex', gap: '10px' }}>
@@ -665,38 +881,48 @@ const CreateCourse = () => {
                                                                     {
                                                                         assignment.isAddQuiz && (
                                                                             <>
-                                                                                <ReactQuill
-                                                                                    value={editedContent}
-                                                                                    onChange={(value) => setEditedContent(value)}
-                                                                                />
                                                                                 <div>
                                                                                     <p>Answers</p>
-                                                                                    {assignment.quiz?.map((quizItem) => (
+                                                                                    {assignment.quiz && assignment.quiz.map((quizItem, quizIndex) => (
                                                                                         <div key={quizItem.id}>
-                                                                                            <h3>{quizItem.question}</h3>
-                                                                                            {/* {quizItem.answers.map((answer, answerIndex) => (
-                                                                                                <div key={answer.id} className="answer-container">
-                                                                                                    <input
-                                                                                                        type="radio"
-                                                                                                        onChange={() => { }}
+                                                                                            {quizItem.isAddQuestion === true && (
+                                                                                                <>
+                                                                                                    <ReactQuill
+                                                                                                        value={quizItem.question || ''}
+                                                                                                        onChange={(value) => handleQuizQuestionChange(chapter.id, assignment.id, quizIndex, value)}
                                                                                                     />
-                                                                                                    <textarea
-                                                                                                        className="answer-textarea"
-                                                                                                        rows="2"
-                                                                                                        onChange={(e) => { }}
-                                                                                                    />
-                                                                                                    <button className="remove-button" onClick={() => removeAnswer(quizItem.id, answerIndex)}>
-                                                                                                        Remove Answer
+                                                                                                    {quizItem.answers.map((answer, answerIndex) => (
+                                                                                                        <div key={answer.id} className="answer-container" style={{ display: 'flex', marginBottom: '10px', gap: '10px' }}>
+                                                                                                            <input
+                                                                                                                type="radio"
+                                                                                                                name='answer'
+                                                                                                                checked={answer.isCorrect || false}
+                                                                                                                onChange={() => handleCheckboxChange(chapter.id, assignment.id, quizIndex, answerIndex)}
+                                                                                                            />
+                                                                                                            <textarea
+                                                                                                                className="answer-textarea"
+                                                                                                                rows="2"
+                                                                                                                value={answer.text || ''}
+                                                                                                                onChange={(e) => handleTextareaChange(chapter.id, assignment.id, quizIndex, answerIndex, e.target.value)}
+                                                                                                            />
+                                                                                                            <i className="ri-delete-bin-line" onClick={() => removeAnswer(chapter.id, assignment.id, quizItem.id, answerIndex)}></i>
+                                                                                                        </div>
+                                                                                                    ))}
+                                                                                                    <button className="add-answer-button btn btn-primary" onClick={() => addAnswer(chapter.id, assignment.id, quizItem.id)}>
+                                                                                                        Add Answer
                                                                                                     </button>
-                                                                                                </div>
-                                                                                            ))}
-
-                                                                                            <button className="add-answer-button" onClick={() => addAnswer(quizItem.id)}>
-                                                                                                Add Answer
-                                                                                            </button> */}
+                                                                                                </>
+                                                                                            )}
                                                                                         </div>
                                                                                     ))}
-
+                                                                                </div>
+                                                                                <div>
+                                                                                    <button className='btn btn-danger' onClick={() => handleCancelAddQuiz(chapter.id, assignment.id)} style={{ border: '1px solid' }}>
+                                                                                        Huy
+                                                                                    </button>
+                                                                                    <button className='btn btn-info' onClick={() => handleSaveAddQuiz(chapter.id, assignment.id)} style={{ border: '1px solid' }}>
+                                                                                        Luu
+                                                                                    </button>
                                                                                 </div>
                                                                             </>
                                                                         )
@@ -705,12 +931,21 @@ const CreateCourse = () => {
                                                                     {!assignment.content && assignment.type == 'video' && <button className='btn btn-outline' onClick={() => handleAddContent(chapter.id, assignment.id)} style={{ background: '#fff', border: '1px solid' }}>
                                                                         + Noi dung
                                                                     </button>}
-                                                                    {assignment.type == 'quiz' && assignment.isAddQuiz && <button className='btn btn-danger' onClick={() => handleCancelAddQuiz(chapter.id, assignment.id)} style={{ border: '1px solid' }}>
-                                                                        Huy
-                                                                    </button>}
-                                                                    {assignment.type == 'quiz' && !assignment.isAddQuiz && <button className='btn btn-outline' onClick={() => handleAddQuiz(chapter.id, assignment.id)} style={{ background: '#fff', border: '1px solid' }}>
-                                                                        + Cau hoi
-                                                                    </button>}
+                                                                    {
+                                                                        assignment.type === 'quiz' && assignment.quiz && assignment.quiz.map((quizItem, quizIndex) => (
+                                                                            <div key={quizItem.id}>
+                                                                                <span style={{ display: 'flex', gap: '10px' }}>
+                                                                                    {quizIndex + 1}. <div dangerouslySetInnerHTML={{ __html: quizItem.question }} />
+                                                                                    <i className="ri-delete-bin-line" onClick={() => handleRemoveQuiz(chapter.id, assignment.id, quizItem.id)}></i>
+                                                                                </span>
+                                                                            </div>
+                                                                        ))
+                                                                    }
+                                                                    {assignment.type == 'quiz' && !assignment.isAddQuiz && (
+                                                                        <button className='btn btn-outline' onClick={() => handleAddQuiz(chapter.id, assignment.id)} style={{ background: '#fff', border: '1px solid' }}>
+                                                                            + Cau hoi
+                                                                        </button>
+                                                                    )}
                                                                 </>
                                                             )
                                                         }
