@@ -489,7 +489,7 @@ const CreateCourse = () => {
                                 ? {
                                     ...assignment,
                                     quiz: assignment.quiz.map((quiz, index) =>
-                                        index === quizIndex
+                                        quiz.id === quizIndex
                                             ? {
                                                 ...quiz,
                                                 answers: [
