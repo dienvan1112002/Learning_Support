@@ -36,6 +36,34 @@ const instructorInfo = () => {
   return api.get('/api/instructor/info');
 }
 
+const createChapter = (credentials) => {
+  return api.post('/api/instructor/chapter', credentials)
+}
+
+const updateChapter = (id, credentials) => {
+  return api.put(`/api/instructor/chapter/${id}`, credentials)
+}
+
+const updateCourse = (id, credentials) => {
+  return api.put(`/api/instructor/course/${id}`, credentials)
+}
+
+const createLesson = (credentials) => {
+  return api.post('/api/instructor/lesson', credentials)
+}
+
+const createQuizz = (credentials) => {
+  return api.post('/api/instructor/quizz', credentials)
+}
+
+const createVideo = (credentials) => {
+  return api.post('/api/instructor/video', credentials)
+}
+
+const updateLesson = (id, credentials) => {
+  return api.put(`/api/instructor/lesson/${id}`, credentials)
+}
+
 export default {
   login,
   teacher,
@@ -45,5 +73,12 @@ export default {
   teacherInfo,
   courseById,
   teacherDetail,
-  instructorInfo
+  instructorInfo,
+  createChapter,
+  updateChapter,
+  updateCourse,
+  createLesson,
+  createQuizz,
+  createVideo,
+  updateLesson
 };
