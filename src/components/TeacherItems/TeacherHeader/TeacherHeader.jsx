@@ -1,28 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './TeacherHeader.module.scss';
 
 const cx = classNames.bind(styles);
 
-const TeacherHeader = () => {
+const TeacherHeader = ({ handleGetUrl }) => {
+    const [active, setActive] = useState();
+    const listNewTeacher = async (status, id) => {
+        setActive(id)
+        switch (status) {
+            case 'all':
+                handleGetUrl('all')
+                break;
+            case 'new':
+                handleGetUrl('new')
+                break;
+            case 'online':
+                handleGetUrl('online')
+                break;
+            default:
+                handleGetUrl('all')
+        }
+
+    }
+
+    const renderDiv = [
+        {
+            id: 1,
+            title: 'Tất cả',
+            status: 'all'
+        },
+        {
+            id: 2,
+            title: 'Giảng viên mới',
+            status: 'new'
+        },
+        {
+            id: 3,
+            title: 'Đang hoạt động',
+            status: 'online'
+        }
+    ]
     return (
         <div className={cx('wrapper')}>
             <div className={cx('head')}>
                 <h3>Giảng Viên</h3>
             </div>
             <div className={cx('lists')}>
-                <div className={cx('lists-all')}>
-                    <p>Tất cả </p>
-                </div>
-                <div className={cx('lists-hot')}>
-                    <p>Giảng viên nổi bật </p>
-                </div>
-                <div className={cx('lists-new')}>
-                    <p>Giảng viên mới </p>
-                </div>
-                <div className={cx('lists-active')}>
-                    <p>Đang hoạt động</p>
-                </div>
+                {renderDiv.map((div, index) => {
+                    return (
+                        <div key={div.id} className={cx('lists-all', `${div.id === active ? 'active-status' : ''}`)}>
+                            <p onClick={() => listNewTeacher(div.status, div.id)}>{div.title}</p>
+                        </div>
+
+                    )
+                })}
             </div>
         </div>
     );

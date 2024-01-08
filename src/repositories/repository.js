@@ -64,6 +64,15 @@ const updateLesson = (id, credentials) => {
   return api.put(`/api/instructor/lesson/${id}`, credentials)
 }
 
+const listAllTeacher = (credentials = null) => {
+  if (credentials) return api.get('/instructor?active_status=online');
+  return api.get('/instructor?sort=DSC');
+}
+
+const listNewTeacher = () => {
+  return api.get('/instructor?value_sort=createdAt');
+}
+
 export default {
   login,
   teacher,
@@ -80,5 +89,7 @@ export default {
   createLesson,
   createQuizz,
   createVideo,
-  updateLesson
+  updateLesson,
+  listAllTeacher,
+  listNewTeacher
 };

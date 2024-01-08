@@ -31,13 +31,15 @@
     align-items: flex-start;
     gap: 0.625rem;
     border-radius: 0.5rem;
-    background: var(--white-90, #e4e4e7);
     p {
         font-family: Be Vietnam Pro;
         margin: 0;
         font-weight: 500;
         line-height: 150%; /* 1.6875rem */
     }
+}
+.active-status {
+    background: var(--white-90, #e4e4e7);
 }
 .lists-hot {
     p {

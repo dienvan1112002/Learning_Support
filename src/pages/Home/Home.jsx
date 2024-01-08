@@ -10,12 +10,19 @@ import roleHeaders from '../../utils/role';
 const cx = classNames.bind(styles);
 const Home = () => {
 
-    const role = localStorage.getItem('role') ?? '';
+    let role = localStorage.getItem('role') ?? '';
+
+    const displayHeader = () => {
+        if (role === 'instructor' || role === 'student') {
+            role = 'student'
+        }
+        return role;
+    }
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
-                {roleHeaders[role]}
+                {roleHeaders[displayHeader()]}
             </div>
             <div className={cx('body')}>
                 <div className={cx('container-body')}>

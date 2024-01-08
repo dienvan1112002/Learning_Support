@@ -1,17 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import classNames from 'classnames/bind';
 import styles from './Teacher.module.scss';
-import useApi from 'src/utils/useApi';
 import repository from 'src/repositories/repository';
 
 import Footer from 'src/components/Footer/Footer';
 import TeacherHeader from 'src/components/TeacherItems/TeacherHeader/TeacherHeader';
 import TeacherItems from 'src/components/TeacherItems/TeacherItems';
 import PhanTrang from 'src/components/PhanTrang/PhanTrang';
-import HeaderHv from 'src/components/Header/HeaderHv/HeaderHv';
 import roleHeaders from 'src/utils/role';
-import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -20,18 +17,23 @@ const Teacher = () => {
     const [listInstructors, setListInstructors] = useState([]);
 
     useEffect(() => {
-        callSomeAPI();
-        return () => {
-            console.log('This will be logged on unmount');
-        };
+        const getListTeacher = async () => {
+            const listTeacher = await repository.listAllTeacher();
+            setListInstructors(listTeacher.data.data)
+        }
+        getListTeacher()
     }, [])
 
-    const callSomeAPI = async () => {
-        const res = await axios.get('http://localhost:3001/instructor', {
-            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-        });
-        if (res.data.status === 'success') {
-            setListInstructors(res.data.data);
+    const handleGetUrl = async (e) => {
+        if (e === 'new') {
+            const listTeacher = await repository.listNewTeacher();
+            setListInstructors(listTeacher.data.data)
+        } else if (e === 'all') {
+            const listTeacher = await repository.listAllTeacher();
+            setListInstructors(listTeacher.data.data)
+        } else {
+            const listTeacher = await repository.listAllTeacher(true);
+            setListInstructors(listTeacher.data.data)
         }
     }
 
@@ -42,10 +44,10 @@ const Teacher = () => {
             </div>
             <div className={cx('body')}>
                 <div className={cx('teacher-head')}>
-                    <TeacherHeader />
+                    <TeacherHeader handleGetUrl={handleGetUrl} />
                 </div>
                 <div className={cx('container-item')}>
-                    {listInstructors.length && listInstructors.map((ins) => {
+                    {listInstructors && listInstructors.map((ins) => {
                         return <TeacherItems ins={ins} />
                     })}
                 </div>

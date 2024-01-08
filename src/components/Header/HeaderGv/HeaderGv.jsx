@@ -94,10 +94,7 @@ const HeaderGv = () => {
         {/* đăng kí, đăng nhập */}
         <div className={cx('header-right')}>
           <div className={cx('header-right-gv')}>
-            <p>Giảng Viên</p>
-            <div className={cx('gv-icon')}>
-              <Switch state={true} />
-            </div>
+            <a href='/'>Học Viên</a>
           </div>
           <div className={cx('icon-ring')}>
             <PiBellRingingDuotone />
