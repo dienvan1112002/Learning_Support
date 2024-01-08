@@ -15,3 +15,36 @@
 .footer {
     width: 100%;
 }
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+  
+.pagination {
+    display: flex;
+    list-style: none;
+    cursor: pointer;
+}
+  
+.pagination li {
+    margin: 0 5px;
+}
+  
+.pagination a {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+}
+  
+.pagination a.active {
+    background-color: #428bca;
+    color: #fff;
+}
+  
+.pagination a:hover {
+    background-color: #ddd;
+}

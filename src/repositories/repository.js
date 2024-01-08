@@ -8,8 +8,8 @@ const teacher = (credentials) => {
   return api.get('api/instructor/info', credentials);
 }
 
-const teacherInfo = (id) => {
-  return api.get(`/instructor/info/${id}`);
+const teacherInfo = () => {
+  return api.get('/instructor/info');
 }
 
 const courseOfInstructor = () => {
@@ -34,6 +34,10 @@ const registerCourseOfInstructor = (credentials) => {
 
 const instructorInfo = () => {
   return api.get('/api/instructor/info');
+}
+
+const updateInfo = (credentials) => {
+  return api.put('/api/instructor/info', credentials);
 }
 
 const createChapter = (credentials) => {
@@ -91,5 +95,6 @@ export default {
   createVideo,
   updateLesson,
   listAllTeacher,
-  listNewTeacher
+  listNewTeacher,
+  updateInfo
 };

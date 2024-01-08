@@ -35,9 +35,12 @@ const TeacherOverview = ({ teacher }) => {
                                 <div>
                                     <b>Môn học:</b>
                                 </div>
-                                {teacher?.subjects && teacher?.subjects.map(subject => {
-                                    return <p>{subject},</p>
-                                })}
+                                {teacher?.subjects && teacher?.subjects.map((subject, index) => (
+                                    <React.Fragment key={index}>
+                                        {index > 0 && ', '}
+                                        <p>{subject}</p>
+                                    </React.Fragment>
+                                ))}
                             </div>
 
                             <div className={cx('danhgia')}>

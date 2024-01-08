@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import repository from 'src/repositories/repository';
 import useApi from 'src/utils/useApi';
-import { useNavigate } from 'react-router-dom';
+import subjects from 'src/constant/subject';
 
-const Info = () => {
-    const navigate = useNavigate();
+const UpdateInfo = () => {
     const [state, setState] = useState(false);
     const [instructor, setInstructor] = useState(null);
+    const [editMode, setEditMode] = useState(false);
+    const [selectedSubjects, setSelectedSubjects] = useState([]);
     const apiFunc = () => repository.instructorInfo();
 
     const { result, error } = useApi(apiFunc);
@@ -17,27 +18,70 @@ const Info = () => {
             setInstructor(result.data)
         }
     }, [result])
+
+    const handleUpdate = () => {
+        setEditMode(false);
+    };
+
     return (
         <div style={{ backgroundColor: '#F7F7F8', padding: '50px 100px' }}>
             <div style={{ padding: '50px 100px 25px 100px', backgroundColor: '#fff' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h2>Thông tin hiển thị</h2>
                     <button
-                        onClick={() => navigate('/instructor/profile')}
                         style={{ padding: '10px 20px' }}
                         type="button"
                         className="btn btn-outline-secondary"
+                        onClick={() => setEditMode(true)}
                     >
                         Sửa thông tin
                     </button>
                 </div>
                 <div style={{ padding: '50px' }}>
-                    <div>
-                        <h2 style={{ color: '#4360A8' }}>Môn học</h2>
-                        {instructor && instructor.subjects.map(sub => {
-                            return <p style={{ paddingLeft: '10px' }}>{sub}</p>
-                        })}
-                    </div>
+                    {!editMode && (
+                        <div>
+                            <h2 style={{ color: '#4360A8' }}>Môn học</h2>
+                            {instructor && instructor.subjects.map((sub, index) => {
+                                return <p key={index} style={{ paddingLeft: '10px' }}>{sub}</p>
+                            })}
+                        </div>
+                    )}
+                    {editMode && (
+                        <>
+                            <div style={{ marginBottom: '15px' }}>
+                                <h2 style={{ color: '#4360A8' }}>Chọn Môn học</h2>
+                                <select
+                                    id="subjects"
+                                    name="subjects"
+                                    multiple
+                                    value={selectedSubjects}
+                                    style={{
+                                        width: '100%',
+                                        padding: '8px',
+                                        marginTop: '5px',
+                                        marginBottom: '10px',
+                                        border: '1px solid #ccc',
+                                        borderRadius: '4px',
+                                        boxSizing: 'border-box',
+                                    }}
+                                    onChange={(e) => setSelectedSubjects(Array.from(e.target.selectedOptions, (option) => option.value))}
+                                >
+                                    {subjects.map((subject) => (
+                                        <option key={subject} value={subject}>{subject}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div style={{ paddingTop: '10px' }}>
+                                <button
+                                    type="button"
+                                    className="btn btn-primary"
+                                    onClick={handleUpdate}
+                                >
+                                    Cập nhật
+                                </button>
+                            </div>
+                        </>
+                    )}
                     <hr />
                     <div>
                         <h2 style={{ color: '#4360A8' }}>Chứng chỉ</h2>
@@ -73,8 +117,8 @@ const Info = () => {
                 </div>
 
             </div>
-        </div>
+        </div >
     )
 }
 
-export default Info;
+export default UpdateInfo;

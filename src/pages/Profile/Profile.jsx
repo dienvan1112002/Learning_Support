@@ -1,26 +1,58 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import ImageUploading from 'react-images-uploading';
 import classNames from 'classnames/bind';
 import HeaderGv from 'src/components/Header/HeaderGv/HeaderGv';
 import styles from './Profile.module.scss';
 import Footer from 'src/components/Footer/Footer';
 import Info from 'src/components/Info/info';
 import repository from 'src/repositories/repository';
-import useApi from 'src/utils/useApi';
+import UpdateInfo from 'src/components/Info/UpdateInfo';
 
 const cx = classNames.bind(styles);
 
 const Profile = () => {
-    const { id } = useParams();
+    const [editMode, setEditMode] = useState(false);
+    const [editedTeacher, setEditedTeacher] = useState({});
+    const [images, setImages] = useState([]);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [teacher, setTeacher] = useState();
 
-    const apiFunc = () => repository.teacherInfo(id);
+    const maxNumber = 1;
 
-    const { result, error } = useApi(apiFunc);
+    useEffect(() => {
+        const teacherInfo = async () => {
+            const teacherData = await repository.instructorInfo();
+            setTeacher(teacherData.data.data)
+        }
+        teacherInfo()
+    }, [])
 
-    if (result?.status === "success") {
-        var teacher = result.data;
-        console.log("teacher == ", teacher);
-    }
+    const handleEdit = () => {
+        setEditMode(true);
+        // Set the initial values for the input fields
+        setEditedTeacher({
+            name: teacher?.user.name,
+            price: teacher.price,
+            description: 'Nhận dạy tất cả các môn khoa học tự nhiên', // You can replace this with the actual description
+        });
+    };
+
+    const handleSave = async () => {
+        console.log('Edited Information:', editedTeacher);
+        console.log('Selected Image:', selectedImage);
+
+        setEditMode(false);
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        setSelectedImage(file);
+    };
+
+    const onChange = (imageList) => {
+        setImages(imageList);
+        setSelectedImage(imageList[0]?.data_url);
+    };
 
     return (
         <div>
@@ -30,31 +62,84 @@ const Profile = () => {
                     <div className='card'>
                         <div className='card-body' style={{ display: 'flex', padding: '50px' }}>
                             <div className="col-md-8">
-                                <div className='row' style={{ display: 'flex', padding: '10px' }}>
-                                    <div style={{ fontStyle: 'bold', fontWeight: 700 }} className='col-md-4'>Tên:</div>
-                                    <div className='col-md-8'>Thu Thảo</div>
-                                </div>
-                                <div className='row' style={{ display: 'flex', padding: '10px' }}>
-                                    <div style={{ fontStyle: 'bold', fontWeight: 700 }} className='col-md-4'>Giá thuê:</div>
-                                    <div className='col-md-8'>100000 đ/h</div>
-                                </div>
-                                <div className='row' style={{ display: 'flex', padding: '10px' }}>
-                                    <div style={{ fontStyle: 'bold', fontWeight: 700 }} className='col-md-4'>Mô tả:</div>
-                                    <div className='col-md-8'>Nhận dạy tất cả các môn khoa học tự nhiên</div>
-                                </div>
+                                {editMode ? (
+                                    <>
+                                        <div className='row' style={{ display: 'flex', padding: '10px' }}>
+                                            <div style={{ fontStyle: 'bold', fontWeight: 700 }} className='col-md-4'>Tên:</div>
+                                            <input
+                                                className='col-md-8 form-control'
+                                                value={editedTeacher.name}
+                                                onChange={(e) => setEditedTeacher({ ...editedTeacher, name: e.target.value })}
+                                            />
+                                        </div>
+                                        <div className='row' style={{ display: 'flex', padding: '10px' }}>
+                                            <div style={{ fontStyle: 'bold', fontWeight: 700 }} className='col-md-4'>Giá thuê:</div>
+                                            <input
+                                                className='col-md-8 form-control'
+                                                value={editedTeacher.price}
+                                                onChange={(e) => setEditedTeacher({ ...editedTeacher, price: e.target.value })}
+                                            />
+                                        </div>
+                                        <div className='row' style={{ display: 'flex', padding: '10px' }}>
+                                            <div style={{ fontStyle: 'bold', fontWeight: 700 }} className='col-md-4'>Mô tả:</div>
+                                            <input
+                                                className='col-md-8 form-control'
+                                                value={editedTeacher.description}
+                                                onChange={(e) => setEditedTeacher({ ...editedTeacher, description: e.target.value })}
+                                            />
+                                        </div>
+                                        <ImageUploading
+                                            multiple
+                                            value={images}
+                                            onChange={onChange}
+                                            maxNumber={maxNumber}
+                                            dataURLKey="data_url"
+                                        >
+                                            {({ imageList, onImageUpload }) => (
+                                                <div className='row' style={{ display: 'flex', padding: '10px' }}>
+                                                    <div style={{ fontStyle: 'bold', fontWeight: 700 }} className='col-md-4'>Chọn ảnh:</div>
+                                                    <div className='col-md-8'>
+                                                        <button type="button" className="btn btn-primary" onClick={onImageUpload}>Chọn ảnh</button>
+                                                        {imageList.map((image) => (
+                                                            <img key={image.key} src={image.data_url} alt="Selected" style={{ width: '100px', height: '100px', margin: '10px' }} />
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </ImageUploading>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className='row' style={{ display: 'flex', padding: '10px' }}>
+                                            <div style={{ fontStyle: 'bold', fontWeight: 700 }} className='col-md-4'>Tên:</div>
+                                            <div className='col-md-8'>{teacher?.user.name}</div>
+                                        </div>
+                                        <div className='row' style={{ display: 'flex', padding: '10px' }}>
+                                            <div style={{ fontStyle: 'bold, fontWeight: 700' }} className='col-md-4'>Giá thuê:</div>
+                                            <div className='col-md-8'>{teacher?.price} đ/h</div>
+                                        </div>
+                                        <div className='row' style={{ display: 'flex', padding: '10px' }}>
+                                            <div style={{ fontStyle: 'bold', fontWeight: 700 }} className='col-md-4'>Mô tả:</div>
+                                            <div className='col-md-8'>Nhận dạy tất cả các môn khoa học tự nhiên</div>
+                                        </div>
+                                    </>
+                                )}
                                 <div style={{ paddingTop: '60px', paddingLeft: '180px' }}>
-                                    <button type="button" class="btn btn-primary">Lưu</button>
+                                    {editMode ? (
+                                        <button type="button" className="btn btn-success" onClick={handleSave}>Lưu</button>
+                                    ) : (
+                                        <button type="button" className="btn btn-primary" onClick={handleEdit}>Sửa</button>
+                                    )}
                                 </div>
                             </div>
                             <div className="col-md-4" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
-                                <img style={{ width: '200px', height: '200px', borderRadius: '50%' }} src="https://i.pinimg.com/564x/c1/9a/1d/c19a1d3823b60a19194fe700f0524ae6.jpg" alt="" />
-                                <button type="button" class="btn btn-primary">Chọn ảnh</button>
+                                <img style={{ width: '200px', height: '200px', borderRadius: '50%' }} src={selectedImage || teacher?.user.image} alt="" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <Info />
+            <UpdateInfo />
             <div>
                 <Footer />
             </div>

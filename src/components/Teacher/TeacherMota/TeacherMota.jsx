@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './TeacherMota.module.scss';
-
-import { IoMdArrowDropleft } from 'react-icons/io';
-import { IoMdArrowDropright } from 'react-icons/io';
-
 import star from '../../../assests/teacher/teacher-active/Star.png';
-import teacher from '../../../assests/teacher/teacher_avt/teacherAvt.png';
+import ReactPaginate from 'react-paginate';
 
 const cx = classNames.bind(styles);
 const TeacherMota = ({ teacher }) => {
+    const [currentReviewPage, setCurrentReviewPage] = useState(0);
+    const reviewsPerPage = 5;
+    const startReviewIndex = currentReviewPage * reviewsPerPage;
+    const endReviewIndex = (currentReviewPage + 1) * reviewsPerPage;
+
+    const displayedReviews = teacher?.reviews?.slice(startReviewIndex, endReviewIndex) || [];
+
+    const handleReviewPageClick = ({ selected }) => {
+        setCurrentReviewPage(selected);
+    };
 
     const formatDate = (date) => {
         var d = new Date(date),
@@ -66,49 +72,43 @@ const TeacherMota = ({ teacher }) => {
                     <h3>Đánh giá</h3>
                 </div>
                 <div className={cx('comment')}>
-                    <div className={cx('comment-info')}>
-                        {
-                            teacher?.reviews && teacher?.reviews.map((review, index) => {
-                                return (
-                                    <div key={index}>
-                                        <div>
-                                            <img src={review.user.image} alt="teacher" />
-                                        </div>
-                                        <div className={cx('comment-info-chitiet')}>
+                    {displayedReviews.map((review, index) => (
+                        <div key={index}>
+                            <div key={index}>
+                                <div>
+                                    <img src={review.user.image} alt="teacher" />
+                                </div>
+                                <div className={cx('comment-info-chitiet')}>
 
-                                            <div className={cx('comment-info-chitiet-top')}>
-                                                <div className={cx('comment-info-name')}>
-                                                    <p>{review.user.name}</p>
-                                                </div>
-                                                <div className={cx('comment-info-time')}>
-                                                    <p>{formatDate(review.user.updatedAt)}</p>
-                                                </div>
-                                                <div className={cx('comment-info-star')}>
-                                                    {[...Array(review.star)].map((_, index) => <img key={index} src={star} />)}
-                                                </div>
-                                            </div>
-                                            <div className={cx('comment-info-chitiet-nd')}>
-                                                <p>{review.content}</p>
-                                            </div>
+                                    <div className={cx('comment-info-chitiet-top')}>
+                                        <div className={cx('comment-info-name')}>
+                                            <p>{review.user.name}</p>
+                                        </div>
+                                        <div className={cx('comment-info-time')}>
+                                            <p>{formatDate(review.user.updatedAt)}</p>
+                                        </div>
+                                        <div className={cx('comment-info-star')}>
+                                            {[...Array(review.star)].map((_, index) => <img key={index} src={star} />)}
                                         </div>
                                     </div>
-                                )
-                            })
-                        }
-                    </div>
+                                    <div className={cx('comment-info-chitiet-nd')}>
+                                        <p>{review.content}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-            </div>
-            <div className={cx('footer')}>
-                <div className={cx('footer-trai')}>
-                    <IoMdArrowDropleft />
-                </div>
-                <div className={cx('footer-01')}>01</div>
-                <div className={cx('footer-trai')}>02</div>
-                <div className={cx('footer-trai')}>...</div>
-                <div className={cx('footer-trai')}>10</div>
-                <div className={cx('footer-phai')}>
-                    <IoMdArrowDropright />
-                </div>
+                <ReactPaginate
+                    pageCount={Math.ceil((teacher?.reviews?.length || 0) / reviewsPerPage)}
+                    pageRangeDisplayed={5}
+                    marginPagesDisplayed={2}
+                    onPageChange={handleReviewPageClick}
+                    containerClassName={'pagination-container'}
+                    activeClassName={'active'}
+                    previousLabel={'<'}
+                    nextLabel={'>'}
+                />
             </div>
         </div>
     );

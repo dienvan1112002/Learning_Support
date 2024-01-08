@@ -31,7 +31,7 @@ const Course = ({ course }) => {
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
                         <button className={cx('btn-primary-no-bs')} onClick={() => showCourse(course._id)}>Xem khóa học</button>
-                        {role === 'instructor' && <button style={{ fontWeight: 700 }} type="button" class="btn btn-danger">Xóa</button>}
+                        {role === 'instructor' && <button style={{ fontWeight: 700 }} type="button" className="btn btn-danger">Xóa</button>}
                     </div>
                 </div>
                 <div className={cx('course-img')}>
