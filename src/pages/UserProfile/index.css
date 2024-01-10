@@ -1,0 +1,99 @@
+body {
+    font-family: Be Vietnam Pro !important;
+    font-size: 18px !important;
+}
+
+.content {
+    padding: 50px;
+}
+.btn-save {
+    width: 126px;
+    height: 47px;
+    padding: 14px 20px;
+    justify-content: center;
+    align-items: center;
+    background: #7E9CDE !important;
+}
+.text-save {
+    color: #FFF;
+    font-family: Be Vietnam Pro;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%;
+    margin-top: -3px;
+}
+
+input {
+    height: 45px;
+}
+
+.title-noti {
+    color: #000;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.content-noti {
+    color: #656565;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.cart {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+}
+
+svg {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    fill: #5773BA;
+}
+
+.action {
+    color: #000;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%;
+}
+
+.action-detail {
+    color: #000;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.action-date {
+    color: #444;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.money-detail {
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.money {
+    color: #5773BA;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 150%;
+}

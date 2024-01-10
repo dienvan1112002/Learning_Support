@@ -8,6 +8,10 @@ import Login from './pages/Login/Login';
 import Profile from './pages/Profile/Profile';
 import Student from './pages/Student/Student';
 import Teacher from './pages/Teacher/Teacher';
+import ChangePassword from './pages/UserProfile/ChangePassword';
+import MainProfile from './pages/UserProfile/MainProfile';
+import NotiSetting from './pages/UserProfile/NotiSetting';
+import UserPayment from './pages/UserProfile/UserPayment';
 import { publicRoutes } from './routes';
 
 const isAuthenticated = !!localStorage.getItem('token');
@@ -17,6 +21,10 @@ const studentRoutes = [
     { path: '/course', component: Course },
     { path: '/teacher', component: Teacher },
     { path: '/user/contact', component: Contact },
+    { path: '/user/profile', component: MainProfile },
+    { path: '/user/change-password', component: ChangePassword },
+    { path: '/user/notification-settings', component: NotiSetting },
+    { path: '/user/payment', component: UserPayment },
 ];
 
 const instructorRoutes = [

@@ -1,0 +1,48 @@
+.sidebar-tab {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.icon {
+    color: #fff;
+    font-size: 22px;
+}
+
+.main-sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+  
+.main-sidebar li {
+    padding: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+  
+.main-sidebar li:hover {
+    background-color: #e0e0e0;
+}
+  
+.main-sidebar li:active {
+    background-color: #c0c0c0;
+}
+  
+.main-sidebar a {
+    text-decoration: none;
+    color: #333;
+}
+  
+.main-sidebar a:hover {
+    text-decoration: underline;
+}
+
+.sidebar-tab.active,
+.main-sidebar li.active {
+  background-color: #c0c0c0;
+}
+
+.sidebar-tab.active div,
+.main-sidebar li.active a {
+  color: #333;
+}
