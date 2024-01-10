@@ -8,7 +8,6 @@ import logo from '../../../assests/logo/shapelogo.png';
 
 import { PiBellRingingDuotone } from 'react-icons/pi';
 import { FaRegUserCircle } from 'react-icons/fa';
-import Switch from 'src/components/Btn/Switch';
 
 const cx = classNames.bind(styles);
 const navLinks = [
@@ -94,7 +93,7 @@ const HeaderGv = () => {
         {/* đăng kí, đăng nhập */}
         <div className={cx('header-right')}>
           <div className={cx('header-right-gv')}>
-            <a href='/'>Học Viên</a>
+            <a onClick={() => localStorage.setItem('active', 'student')} href='/'>Học Viên</a>
           </div>
           <div className={cx('icon-ring')}>
             <PiBellRingingDuotone />

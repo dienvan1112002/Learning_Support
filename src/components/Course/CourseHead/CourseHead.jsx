@@ -24,7 +24,7 @@ const CourseHead = () => {
                 </div>
             </div> */}
             {role == 'instructor' && <div>
-                <Link to="course/create">
+                <Link to="/instructor/course/create">
                     <button className={cx('btn-primary-no-bs')}>Tạo khóa học</button>
                 </Link>
             </div>}

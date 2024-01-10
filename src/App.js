@@ -1,10 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Contact from './components/Contact/Contact';
-import CourseDetail from './components/CourseDetail/CourseDetail';
 import Course from './pages/Course/Course';
 import CreateCourse from './pages/Course/creates';
-import Home from './pages/Home/Home';
 import HomeGV from './pages/Home/HomeGV';
 import Login from './pages/Login/Login';
 import Profile from './pages/Profile/Profile';

@@ -6,10 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from './HeaderHV.module.scss';
 import logo from '../../../assests/logo/shapelogo.png';
 
-import { LiaToggleOffSolid } from 'react-icons/lia';
 import { PiBellRingingDuotone } from 'react-icons/pi';
 import { FaRegUserCircle } from 'react-icons/fa';
-import Switch from 'src/components/Btn/Switch';
 
 const cx = classNames.bind(styles);
 const navLinks = [
@@ -34,6 +32,7 @@ const navLinks = [
 const HeaderHv = () => {
     const navigate = useNavigate();
     const [showDropdown, setShowDropdown] = useState(false);
+    const role = localStorage.getItem('role');
 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
@@ -95,9 +94,13 @@ const HeaderHv = () => {
                 </div>
                 {/* đăng kí, đăng nhập */}
                 <div className={cx('header-right')}>
-                    <div className={cx('header-right-gv')}>
-                        <a href='/instructor'>Giảng Viên</a>
-                    </div>
+                    {
+                        role === 'instructor' && (
+                            <div className={cx('header-right-gv')}>
+                                <a onClick={() => localStorage.setItem('active', 'instructor')} href='/instructor'>Giảng Viên</a>
+                            </div>
+                        )
+                    }
                     <div className={cx('icon-ring')}>
                         <PiBellRingingDuotone />
                     </div>

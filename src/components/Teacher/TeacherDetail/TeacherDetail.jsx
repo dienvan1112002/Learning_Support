@@ -13,9 +13,21 @@ const cx = classNames.bind(styles);
 const TeacherDetail = () => {
     const { id } = useParams();
     const [teacher, setTeacher] = useState(null)
-    const role = localStorage.getItem('role')
+    let role = localStorage.getItem('role') ?? '';
+    const active = localStorage.getItem('active');
+    if (active === 'instructor') {
+        role = 'instructor'
+    } else if (active === 'student') {
+        role = 'student'
+    }
 
-    const apiFunc = () => repository.teacherDetail(id);
+    const apiFunc = () => {
+        if (role === 'student') {
+            return repository.teacherDetailAPI(id);
+        } else {
+            return repository.teacherDetail(id);
+        }
+    }
 
     const { result, error } = useApi(apiFunc);
 

@@ -28,6 +28,10 @@ const teacherDetail = (id) => {
   return api.get(`/instructor/${id}`)
 }
 
+const teacherDetailAPI = (id) => {
+  return api.get(`/api/user/instructor/${id}`)
+}
+
 const registerCourseOfInstructor = (credentials) => {
   return api.post('api/instructor/course', credentials);
 }
@@ -77,6 +81,14 @@ const listNewTeacher = () => {
   return api.get('/instructor?value_sort=createdAt');
 }
 
+const updateFollowStatusInstructor = (id) => {
+  return api.put(`/api/user/instructor/${id}/follow`);
+}
+
+const updateBookmark = (id) => {
+  return api.put(`/api/user/course/${id}/bookmarked`);
+}
+
 export default {
   login,
   teacher,
@@ -96,5 +108,8 @@ export default {
   updateLesson,
   listAllTeacher,
   listNewTeacher,
-  updateInfo
+  updateInfo,
+  updateFollowStatusInstructor,
+  teacherDetailAPI,
+  updateBookmark
 };

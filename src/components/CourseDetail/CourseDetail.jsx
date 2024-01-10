@@ -5,17 +5,28 @@ import classNames from 'classnames/bind';
 import styles from './CourseDetail.module.scss';
 import course4 from '../../assests/sourse/course4.png';
 import Star from '../../assests/teacher/teacher-active/Star.png';
-import techer from '../../assests/teacher/teacher_avt/teacherAvt1.png';
-import chamxanh from '../../assests/teacher/teacher-active/Chamxanh.png';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import repository from 'src/repositories/repository';
 import useApi from 'src/utils/useApi';
 import CourseContent from './CourseContent/CourseContent';
 const cx = classNames.bind(styles);
 
 const CourseDetail = () => {
+    const navigate = useNavigate();
     const [course, setCourse] = useState(null);
     const { id } = useParams();
+    const role = localStorage.getItem('role');
+
+    const updateBookmark = async () => {
+        if (role !== 'student') {
+            navigate('/login');
+            return;
+        }
+        const res = await repository.updateBookmark(id);
+        if (res.data.status === 'success') {
+            window.location.reload();
+        }
+    }
 
     const apiFunc = () => repository.courseById(id);
 
@@ -76,9 +87,9 @@ const CourseDetail = () => {
                             <div className={cx('marked')}>
                                 {
                                     course?.isBookmarked == false ? (
-                                        <button>Đánh dấu</button>
+                                        <button onClick={() => updateBookmark()}>Đánh dấu</button>
                                     ) : (
-                                        <button>Bỏ đánh dấu</button>
+                                        <button onClick={() => updateBookmark()}>Bỏ đánh dấu</button>
                                     )
                                 }
                                 <FaBookmark />

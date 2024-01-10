@@ -16,11 +16,18 @@ const CourseP = () => {
     const apiFunc = () => repository.listCourse();
 
     const { result, error } = useApi(apiFunc);
-    const role = localStorage.getItem('role') ?? '';
+    let role = localStorage.getItem('role') ?? '';
+    const active = localStorage.getItem('active');
 
     let courses
     if (result?.status === "success") {
         courses = result.data;
+    }
+
+    if (active === 'instructor') {
+        role = 'instructor'
+    } else if (active === 'student') {
+        role = 'student'
     }
 
     return (

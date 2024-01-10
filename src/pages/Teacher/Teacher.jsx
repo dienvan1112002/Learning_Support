@@ -14,7 +14,8 @@ import './pagination.css'
 const cx = classNames.bind(styles);
 
 const Teacher = () => {
-    const role = localStorage.getItem('role') ?? '';
+    let role = localStorage.getItem('role') ?? '';
+    const active = localStorage.getItem('active');
     const [listInstructors, setListInstructors] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const itemsPerPage = 3;
@@ -28,6 +29,12 @@ const Teacher = () => {
     const handlePageClick = ({ selected }) => {
         setCurrentPage(selected);
     };
+
+    if (active === 'instructor') {
+        role = 'instructor'
+    } else if (active === 'student') {
+        role = 'student'
+    }
 
     useEffect(() => {
         const getListTeacher = async () => {

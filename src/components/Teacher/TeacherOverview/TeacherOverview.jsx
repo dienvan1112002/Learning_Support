@@ -3,12 +3,26 @@ import classNames from 'classnames/bind';
 import styles from './TeacherOverview.module.scss';
 
 import nen from '../../../assests/teacher/nen/nen.png';
-import teacher from '../../../assests/teacher/teacher1.png';
 import star from '../../../assests/teacher/teacher-active/Star.png';
+import repository from 'src/repositories/repository';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 const TeacherOverview = ({ teacher }) => {
-    console.log("teacher overview === ", teacher);
+    const navigate = useNavigate();
+    const role = localStorage.getItem('role');
+
+    const updateFollowStatus = async () => {
+        if (role !== 'student') {
+            navigate('/login');
+            return;
+        }
+        const res = await repository.updateFollowStatusInstructor(teacher.user._id);
+        if (res.data.status === 'success') {
+            window.location.reload();
+        }
+    }
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
@@ -22,7 +36,11 @@ const TeacherOverview = ({ teacher }) => {
                                 <button>Thuê</button>
                             </div>
                             <div className={cx('follow')}>
-                                {teacher?.isFollowed == false ? <button>Theo dõi</button> : <button>Bỏ theo dõi</button>}
+                                {teacher?.isFollowed == false ?
+                                    <button onClick={() => updateFollowStatus()}>Theo dõi</button>
+                                    :
+                                    <button onClick={() => updateFollowStatus()}>Bỏ theo dõi</button>
+                                }
                             </div>
                         </div>
                     </div>

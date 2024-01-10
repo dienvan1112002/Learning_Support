@@ -9,7 +9,14 @@ import roleHeaders from 'src/utils/role';
 
 const cx = classNames.bind(styles);
 const ContactP = () => {
-    const role = localStorage.getItem('role') ?? '';
+    let role = localStorage.getItem('role') ?? '';
+    const active = localStorage.getItem('active');
+    if (active === 'instructor') {
+        role = 'instructor'
+    } else if (active === 'student') {
+        role = 'student'
+    }
+    
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
