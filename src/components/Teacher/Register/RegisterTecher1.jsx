@@ -1,10 +1,13 @@
 import React from 'react';
 import styles from './RegisterTecher1.module.scss';
 import classNames from 'classnames/bind';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 const RegisterTecher1 = () => {
+    const navigate = useNavigate();
+
     return (
         <div className={cx('body')}>
             <div className={cx('body-item')}>
@@ -87,7 +90,7 @@ const RegisterTecher1 = () => {
                 </div>
             </div>
             <div className={cx('btn')}>
-                <button>Tiếp</button>
+                <button onClick={() => navigate('/user/register-instructor/step/2')}>Tiếp</button>
             </div>
         </div>
     );

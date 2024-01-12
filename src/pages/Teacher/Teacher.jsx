@@ -18,7 +18,7 @@ const Teacher = () => {
     const active = localStorage.getItem('active');
     const [listInstructors, setListInstructors] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
-    const itemsPerPage = 3;
+    const itemsPerPage = 9;
 
     const totalItems = listInstructors.length;
 

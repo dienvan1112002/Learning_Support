@@ -32,7 +32,7 @@ const navLinks = [
 const HeaderHv = () => {
     const navigate = useNavigate();
     const [showDropdown, setShowDropdown] = useState(false);
-    const role = localStorage.getItem('role');
+    const role = localStorage.getItem('role')
 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
@@ -57,6 +57,14 @@ const HeaderHv = () => {
             console.error('Error during logout:', error);
         }
     };
+
+    const redirectRegisterInstructor = () => {
+        if (role == 'student') {
+            navigate('/user/register-instructor');
+        } else {
+            navigate('/instructor');
+        }
+    }
 
     return (
         <div className={cx('header')}>
@@ -94,13 +102,9 @@ const HeaderHv = () => {
                 </div>
                 {/* đăng kí, đăng nhập */}
                 <div className={cx('header-right')}>
-                    {
-                        role === 'instructor' && (
-                            <div className={cx('header-right-gv')}>
-                                <a onClick={() => localStorage.setItem('active', 'instructor')} href='/instructor'>Giảng Viên</a>
-                            </div>
-                        )
-                    }
+                    <div className={cx('header-right-gv')}>
+                        <div onClick={() => redirectRegisterInstructor()}>Giảng Viên</div>
+                    </div>
                     <div className={cx('icon-ring')}>
                         <PiBellRingingDuotone />
                     </div>
