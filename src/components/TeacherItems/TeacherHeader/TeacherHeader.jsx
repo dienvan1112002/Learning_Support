@@ -49,7 +49,7 @@ const TeacherHeader = ({ handleGetUrl }) => {
             <div className={cx('lists')}>
                 {renderDiv.map((div, index) => {
                     return (
-                        <div key={div.id} className={cx('lists-all', `${div.id === active ? 'active-status' : ''}`)}>
+                        <div key={index} className={cx('lists-all', `${div.id === active ? 'active-status' : ''}`)}>
                             <p onClick={() => listNewTeacher(div.status, div.id)}>{div.title}</p>
                         </div>
 

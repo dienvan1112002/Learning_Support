@@ -6,9 +6,10 @@ import nen from '../../../assests/teacher/nen/nen.png';
 import star from '../../../assests/teacher/teacher-active/Star.png';
 import repository from 'src/repositories/repository';
 import { useNavigate } from 'react-router-dom';
+import Notification from 'src/components/Notification/Notification';
 
 const cx = classNames.bind(styles);
-const TeacherOverview = ({ teacher }) => {
+const   TeacherOverview = ({ teacher }) => {
     const navigate = useNavigate();
     const role = localStorage.getItem('role');
 
@@ -33,7 +34,7 @@ const TeacherOverview = ({ teacher }) => {
                         </div>
                         <div className={cx('info-btn')}>
                             <div className={cx('thue')}>
-                                <button>Thuê</button>
+                                <button onClick={() => navigate(`/teacher/${teacher._id}/rent`)}>Thuê</button>
                             </div>
                             <div className={cx('follow')}>
                                 {teacher?.isFollowed == false ?
@@ -103,6 +104,7 @@ const TeacherOverview = ({ teacher }) => {
                         </div>
                     </div>
                 </div>
+                <Notification />
                 <div className={cx('container-img')}>
                     <img src={nen} alt="" />
                 </div>

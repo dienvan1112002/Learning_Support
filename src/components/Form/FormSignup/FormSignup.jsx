@@ -31,6 +31,7 @@ const FormSignup = () => {
                 if (response.data.status === 'success') {
                     localStorage.setItem('token', response.data.data.token);
                     localStorage.setItem('username', response.data.data.username);
+                    localStorage.setItem('userId', response.data.data.user_id);
                     localStorage.setItem('role', response.data.data.role);
                     navigate('/');
                 }

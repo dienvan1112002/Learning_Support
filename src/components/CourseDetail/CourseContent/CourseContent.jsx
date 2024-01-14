@@ -19,7 +19,7 @@ const CourseContent = ({ chapter }) => {
                     {chapter.chapter.lessons.map((lesson, index) => {
                         return (
                             <>
-                                <div className={cx('lists-item')} id={`index__${lesson._id}`}>
+                                <div key={index} className={cx('lists-item')} id={`index__${lesson._id}`}>
                                     <div className={cx('lists-item-name')}>
                                         <div className={cx('lists-item-title')}>
                                             <h4>{lesson.title}</h4>

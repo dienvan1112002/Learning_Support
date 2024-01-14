@@ -35,15 +35,6 @@ const RegisterTecher3 = () => {
             item: 'Chứng chỉ tin học loại B',
         },
     ]);
-    const handleCheckboxChange = (itemId) => {
-        const updatedItems = items.map((item) => {
-            if (item.id === itemId) {
-                return { ...item, checked: !item.checked };
-            }
-            return item;
-        });
-        setItems(updatedItems);
-    };
 
     const handleDelete = (itemId, listType) => {
         let updatedList = listType === 'items' ? [...items] : [...itemhv];

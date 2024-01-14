@@ -34,22 +34,22 @@ const Info = () => {
                 <div style={{ padding: '50px' }}>
                     <div>
                         <h2 style={{ color: '#4360A8' }}>Môn học</h2>
-                        {instructor && instructor.subjects.map(sub => {
-                            return <p style={{ paddingLeft: '10px' }}>{sub}</p>
+                        {instructor && instructor.subjects.map((sub, index) => {
+                            return <p key={index} style={{ paddingLeft: '10px' }}>{sub}</p>
                         })}
                     </div>
                     <hr />
                     <div>
                         <h2 style={{ color: '#4360A8' }}>Chứng chỉ</h2>
-                        {instructor && instructor.certificates.map(cer => {
-                            return <p style={{ paddingLeft: '10px' }}>{cer.name}</p>
+                        {instructor && instructor.certificates.map((cer, index) => {
+                            return <p key={index} style={{ paddingLeft: '10px' }}>{cer.name}</p>
                         })}
                     </div>
                     <hr />
                     <div>
                         <h2 style={{ color: '#4360A8' }}>Trình độ học vấn</h2>
-                        {instructor && instructor.academic_level.map(lev => {
-                            return <p style={{ paddingLeft: '10px' }}>{lev.name}</p>
+                        {instructor && instructor.academic_level.map((lev, index) => {
+                            return <p key={index} style={{ paddingLeft: '10px' }}>{lev.name}</p>
                         })}
                     </div>
                     <hr />

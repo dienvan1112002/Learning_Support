@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Footer from 'src/components/Footer/Footer';
 
 import classNames from 'classnames/bind';
@@ -6,6 +6,7 @@ import styles from './Home.module.scss';
 import home from '../../assests/home/home.png';
 import { Link } from 'react-router-dom';
 import roleHeaders from '../../utils/role';
+import { requestForToken } from 'src/firebase';
 
 const cx = classNames.bind(styles);
 const Home = () => {
@@ -18,6 +19,10 @@ const Home = () => {
         }
         return role;
     }
+
+    useEffect(() => {
+        requestForToken();
+    }, [])
 
     return (
         <div className={cx('wrapper')}>

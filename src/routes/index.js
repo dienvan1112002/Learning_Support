@@ -12,6 +12,7 @@ import HienThi from 'src/components/Teacher/Register/HienThiChungChi/HienThi.jsx
 import CreateCourse from '../pages/Course/creates/index.jsx';
 import CourseDetail from 'src/components/CourseDetail/CourseDetail.jsx';
 import TeacherDetail from 'src/components/Teacher/TeacherDetail/TeacherDetail.jsx';
+import TeacherRent from 'src/components/Teacher/TeacherRent.jsx';
 
 const publicRoutes = [
     { path: '/', component: Home },
@@ -19,6 +20,7 @@ const publicRoutes = [
     { path: '/course/:id', component: CourseDetail },
     { path: '/teacher', component: Teacher },
     { path: '/teacher/:id', component: TeacherDetail },
+    { path: '/teacher/:id/rent', component: TeacherRent },
     { path: '/contact', component: Contact },
     { path: '/login', component: Login, },
     { path: '/signup', component: SignUp, },
@@ -26,6 +28,7 @@ const publicRoutes = [
     { path: '/dkgv', component: DKGiangVien, },
     { path: '/dkgv1', component: DKGiangVien1, },
     { path: '/test', component: HienThi, },
+    { path: '/rent', component: TeacherRent, },
 
 ]
 

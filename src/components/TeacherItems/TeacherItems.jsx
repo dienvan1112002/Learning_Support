@@ -44,7 +44,7 @@ const TeacherItems = ({ ins }) => {
                     </div>
                 </div>
                 <div className={styles.subject}>
-                    {ins.subjects.map(sub => <p className={styles.subjectP}>{sub}</p>)}
+                    {ins.subjects.map((sub, index) => <p key={index} className={styles.subjectP}>{sub}</p>)}
                 </div>
                 <div className={styles.para}>
                     <p className={styles.paraP}>{ins.description}</p>

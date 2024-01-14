@@ -21,11 +21,11 @@ const FormLogin = (props) => {
                 username: email,
                 password: password,
             });
-
             if (response.data.status === "success") {
                 const role = response.data.data.role;
                 localStorage.setItem('token', response.data.data.token);
                 localStorage.setItem('username', response.data.data.username);
+                localStorage.setItem('userId', response.data.data.user_id);
                 localStorage.setItem('role', role);
                 if (role === "instructor") {
                     navigate('/instructor');

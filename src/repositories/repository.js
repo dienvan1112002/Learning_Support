@@ -33,7 +33,6 @@ const teacherDetail = (id) => {
 }
 
 const teacherDetailAPI = (id) => {
-  console.log("id = ", id);
   return api.get(`/api/user/instructor/${id}`)
 }
 
@@ -102,6 +101,14 @@ const payment = (id) => {
   return api.post(`/api/user/course/${id}/registration`)
 }
 
+const studentWaitForConfirmation = () => {
+  return api.get('/api/instructor/rent');
+}
+
+const rentInstructor = (id, credentials) => {
+  return api.post(`/api/user/instructor/${id}/rent`, credentials);
+}
+
 export default {
   login,
   teacher,
@@ -127,5 +134,7 @@ export default {
   updateBookmark,
   getCourseByUserOrInstructor,
   getInfoUser,
-  payment
+  payment,
+  studentWaitForConfirmation,
+  rentInstructor
 };
