@@ -17,7 +17,7 @@ const TeacherOverview = ({ teacher }) => {
             navigate('/login');
             return;
         }
-        const res = await repository.updateFollowStatusInstructor(teacher.user._id);
+        const res = await repository.updateFollowStatusInstructor(teacher._id);
         if (res.data.status === 'success') {
             window.location.reload();
         }

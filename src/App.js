@@ -1,12 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Contact from './components/Contact/Contact';
+import Payment from './components/Payment/Payment';
 import RegisterTecher3 from './components/Teacher/Register/RegisterTecher3';
 import Course from './pages/Course/Course';
 import CreateCourse from './pages/Course/creates';
 import DKGiangVien from './pages/DangKiGiangVien/DKGiangVien';
 import DKGiangVien1 from './pages/DangKiGiangVien/DKGiangVien1';
 import HomeGV from './pages/Home/HomeGV';
+import Learning from './pages/Learning/Learning';
 import Login from './pages/Login/Login';
 import Profile from './pages/Profile/Profile';
 import Student from './pages/Student/Student';
@@ -24,6 +26,8 @@ const studentRoutes = [
     { path: '/course', component: Course },
     { path: '/teacher', component: Teacher },
     { path: '/user/contact', component: Contact },
+    { path: '/user/course/:id/learn', component: Learning },
+    { path: '/user/course/:id/buy', component: Payment },
     { path: '/user/profile', component: MainProfile },
     { path: '/user/change-password', component: ChangePassword },
     { path: '/user/notification-settings', component: NotiSetting },

@@ -7,35 +7,25 @@ import styles from './TeacherDetail.module.scss';
 import Footer from 'src/components/Footer/Footer';
 import { useParams } from 'react-router-dom';
 import repository from 'src/repositories/repository';
-import useApi from 'src/utils/useApi';
 
 const cx = classNames.bind(styles);
 const TeacherDetail = () => {
     const { id } = useParams();
     const [teacher, setTeacher] = useState(null)
     let role = localStorage.getItem('role') ?? '';
-    const active = localStorage.getItem('active');
-    if (active === 'instructor') {
-        role = 'instructor'
-    } else if (active === 'student') {
-        role = 'student'
-    }
-
-    const apiFunc = () => {
-        if (role === 'student') {
-            return repository.teacherDetailAPI(id);
-        } else {
-            return repository.teacherDetail(id);
-        }
-    }
-
-    const { result, error } = useApi(apiFunc);
 
     useEffect(() => {
-        if (result?.status == "success") {
-            setTeacher(result.data)
+        let result;
+        const getTeacherInfo = async () => {
+            if (role == 'student') {
+                result = await repository.teacherDetailAPI(id);
+            } else {
+                result = await repository.teacherDetail(id);
+            }
+            setTeacher(result.data.data)
         }
-    }, [result])
+        getTeacherInfo();
+    }, [])
 
     return (
         <div className={cx('wrapper')}>

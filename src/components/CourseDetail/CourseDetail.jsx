@@ -7,7 +7,6 @@ import course4 from '../../assests/sourse/course4.png';
 import Star from '../../assests/teacher/teacher-active/Star.png';
 import { useNavigate, useParams } from 'react-router-dom';
 import repository from 'src/repositories/repository';
-import useApi from 'src/utils/useApi';
 import CourseContent from './CourseContent/CourseContent';
 const cx = classNames.bind(styles);
 
@@ -18,7 +17,7 @@ const CourseDetail = () => {
     const role = localStorage.getItem('role');
 
     const updateBookmark = async () => {
-        if (role !== 'student') {
+        if (role != 'student' && role != 'instructor') {
             navigate('/login');
             return;
         }
@@ -28,16 +27,34 @@ const CourseDetail = () => {
         }
     }
 
-    const apiFunc = () => repository.courseById(id);
+    const redicrectBuyCourse = () => {
+        if (role != 'student' && role != 'instructor') {
+            navigate('/login');
+            return;
+        }
+        navigate(`/user/course/${id}/buy`);
+    }
 
-    const { result, error } = useApi(apiFunc);
+    const redirectContinueLearn = () => {
+        if (role != 'student' && role != 'instructor') {
+            navigate('/login');
+            return;
+        }
+        navigate(`/user/course/${id}/learn`);
+    }
 
     useEffect(() => {
-        if (result?.status == "success") {
-            setCourse(result.data)
-            console.log(result.data);
+        const getCourse = async () => {
+            let res;
+            if (role == 'student' || role == 'instructor') {
+                res = await repository.getCourseByUserOrInstructor(id);
+            } else {
+                res = await repository.courseById(id);
+            }
+            setCourse(res.data.data);
         }
-    }, [result])
+        getCourse();
+    }, [])
 
     return (
         <div className={cx('container')}>
@@ -78,9 +95,9 @@ const CourseDetail = () => {
                             <div className={cx('khoahoc')}>
                                 {
                                     course?.isRegistered == false ? (
-                                        <button>Mua khóa học</button>
+                                        <button onClick={() => redicrectBuyCourse()}>Mua khóa học</button>
                                     ) : (
-                                        <button>Tiêp tục khóa học</button>
+                                        <button onClick={() => redirectContinueLearn()}>Tiêp tục khóa học</button>
                                     )
                                 }
                             </div>

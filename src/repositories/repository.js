@@ -20,6 +20,10 @@ const listCourse = () => {
   return api.get('/course');
 }
 
+const getCourseByUserOrInstructor = (id) => {
+  return api.get(`/api/user/course/${id}`);
+}
+
 const courseById = (id) => {
   return api.get(`/course/${id}`);
 }
@@ -29,6 +33,7 @@ const teacherDetail = (id) => {
 }
 
 const teacherDetailAPI = (id) => {
+  console.log("id = ", id);
   return api.get(`/api/user/instructor/${id}`)
 }
 
@@ -89,6 +94,14 @@ const updateBookmark = (id) => {
   return api.put(`/api/user/course/${id}/bookmarked`);
 }
 
+const getInfoUser = () => {
+  return api.get(`/api/user/info`);
+}
+
+const payment = (id) => {
+  return api.post(`/api/user/course/${id}/registration`)
+}
+
 export default {
   login,
   teacher,
@@ -111,5 +124,8 @@ export default {
   updateInfo,
   updateFollowStatusInstructor,
   teacherDetailAPI,
-  updateBookmark
+  updateBookmark,
+  getCourseByUserOrInstructor,
+  getInfoUser,
+  payment
 };
