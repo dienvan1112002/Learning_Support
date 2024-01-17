@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import getImageFromBaseURL from 'src/helper/get_image';
 import './Sidebar.css';
 
-const MainProfile = () => {
+const MainProfile = ({ user }) => {
     const location = useLocation();
     const [isSubMenuVisible, setIsSubMenuVisible] = useState(false);
 
@@ -15,12 +16,12 @@ const MainProfile = () => {
             <div className='header' style={{ display: 'flex', gap: '20px' }}>
                 <img
                     style={{ width: '50px', height: '50px', borderRadius: '50%' }}
-                    src="https://cdn.24h.com.vn/upload/2-2023/images/2023-06-06/kim5_1-1686027959-673-width740height480.jpg"
+                    src={getImageFromBaseURL(user?.image)}
                     alt=""
                 />
                 <div>
-                    <h2>Thu Thao</h2>
-                    <h3>Ct010203@actvn.edu.vn</h3>
+                    <h2>{user?.name}</h2>
+                    <h3>{user?.email}</h3>
                 </div>
             </div>
             <div className="main-sidebar mt-5">
@@ -47,6 +48,7 @@ const MainProfile = () => {
                         <a href="/user/payment">Thông tin tài khoản thanh toán</a>
                     </div>
                 </div>
+                <a href="/">Quay lại trang chủ</a>
             </div>
         </div>
     );

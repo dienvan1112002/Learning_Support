@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { FaBookmark } from 'react-icons/fa';
-
 import classNames from 'classnames/bind';
 import styles from './CourseDetail.module.scss';
 import course4 from '../../assests/sourse/course4.png';
@@ -109,7 +107,7 @@ const CourseDetail = () => {
                                         <button onClick={() => updateBookmark()}>Bỏ đánh dấu</button>
                                     )
                                 }
-                                <FaBookmark />
+                                <i class="ri-bookmark-fill"></i>
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,4 @@
-import React from 'react';
-import Header from 'src/components/Header/HeaderKhach/Header';
+import React, { useEffect, useState } from 'react';
 import Footer from 'src/components/Footer/Footer';
 import CourseHead from 'src/components/Course/CourseHead/CourseHead';
 import Course from 'src/components/Course/Course';
@@ -9,25 +8,47 @@ import useApi from 'src/utils/useApi';
 import classNames from 'classnames/bind';
 import styles from './Course.module.scss';
 import roleHeaders from 'src/utils/role';
+import ReactPaginate from 'react-paginate';
+import CourseHeader from './CourseHeader';
 
 const cx = classNames.bind(styles);
 const CourseP = () => {
-
-    const apiFunc = () => repository.listCourse();
-
-    const { result, error } = useApi(apiFunc);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [courses, setCourses] = useState(null);
     let role = localStorage.getItem('role') ?? '';
-    const active = localStorage.getItem('active');
 
-    let courses
-    if (result?.status === "success") {
-        courses = result.data;
-    }
+    const itemsPerPage = 3;
 
-    if (active === 'instructor') {
-        role = 'instructor'
-    } else if (active === 'student') {
-        role = 'student'
+    const handlePageClick = ({ selected }) => {
+        setCurrentPage(selected);
+    };
+
+    useEffect(() => {
+        const getCourse = async () => {
+            let res = await repository.listCourse();
+            setCourses(res.data.data)
+        }
+        getCourse()
+    }, [])
+
+
+    const totalItems = courses?.length;
+
+    const pageCount = Math.ceil(totalItems / itemsPerPage);
+
+    const displayedItems = courses && courses.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+
+    const handleGetUrl = async (e) => {
+        if (e === 'bookmarked') {
+            const listCourse = await repository.getCourseBookmark();
+            setCourses(listCourse.data.data)
+        } else if (e === 'all') {
+            const listCourse = await repository.listCourse();
+            setCourses(listCourse.data.data)
+        } else {
+            const listCourse = await repository.getCourseWatching();
+            setCourses(listCourse.data.data)
+        }
     }
 
     return (
@@ -36,15 +57,26 @@ const CourseP = () => {
                 {roleHeaders[role]}
             </div>
             <div className={cx('body')}>
-                <CourseHead />
+                {role == 'instructor' && <CourseHead />}
+                <CourseHeader handleGetUrl={handleGetUrl} />
                 <div className={cx('course-item')}>
-                    {courses && courses.map((course) => {
+                    {displayedItems && displayedItems.map((course) => {
                         return <Course
                             key={course._id}
                             course={course}
                         />
                     })}
                 </div>
+                <ReactPaginate
+                    pageCount={pageCount}
+                    pageRangeDisplayed={5}
+                    marginPagesDisplayed={2}
+                    onPageChange={handlePageClick}
+                    containerClassName={'pagination-container'}
+                    activeClassName={'active'}
+                    previousLabel={'<'}
+                    nextLabel={'>'}
+                />
             </div>
             <div className={cx('footer')}>
                 <Footer />

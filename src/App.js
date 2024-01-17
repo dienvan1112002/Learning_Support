@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Contact from './components/Contact/Contact';
+import FormPayment from './components/Payment/FormPayment';
 import Payment from './components/Payment/Payment';
 import RegisterTecher3 from './components/Teacher/Register/RegisterTecher3';
 import Course from './pages/Course/Course';
@@ -32,6 +33,7 @@ const studentRoutes = [
     { path: '/user/change-password', component: ChangePassword },
     { path: '/user/notification-settings', component: NotiSetting },
     { path: '/user/payment', component: UserPayment },
+    { path: '/user/payment/order', component: FormPayment },
     { path: '/user/register-instructor', component: DKGiangVien },
     { path: '/user/register-instructor/step/1', component: DKGiangVien1 },
     { path: '/user/register-instructor/step/2', component: RegisterTecher3 }

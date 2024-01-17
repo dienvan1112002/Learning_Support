@@ -77,7 +77,7 @@ const updateLesson = (id, credentials) => {
 }
 
 const listAllTeacher = (credentials = null) => {
-  if (credentials) return api.get('/instructor?active_status=online');
+  if (credentials) return api.get('/instructor?status=online');
   return api.get('/instructor?sort=DSC');
 }
 
@@ -93,8 +93,24 @@ const updateBookmark = (id) => {
   return api.put(`/api/user/course/${id}/bookmarked`);
 }
 
+const getCourseBookmark = () => {
+  return api.get('/api/user/course/bookmarked');
+}
+
+const getCourseWatching = () => {
+  return api.get('/api/user/course/watching');
+}
+
 const getInfoUser = () => {
   return api.get(`/api/user/info`);
+}
+
+const updateUserInfo = (credentials) => {
+  return api.put('/api/user/info', credentials);
+}
+
+const updatePassword = (credentials) => {
+  return api.put('/api/user/change-password', credentials);
 }
 
 const payment = (id) => {
@@ -107,6 +123,26 @@ const studentWaitForConfirmation = () => {
 
 const rentInstructor = (id, credentials) => {
   return api.post(`/api/user/instructor/${id}/rent`, credentials);
+}
+
+const getTransactionHistory = () => {
+  return api.get('/api/user/transaction-history');
+}
+
+const orderRecharge = (credentials) => {
+  return api.post(`/api/user/recharge`, credentials);
+}
+
+const returnVNP = (credentials) => {
+  console.log("credentials == ", credentials);
+  let url = '/api/user/vnpay_return?';
+  for (const key in credentials) {
+    if (Object.hasOwnProperty.call(credentials, key)) {
+      const element = credentials[key];
+      url+=`${key}=${element}&`
+    }
+  }
+  return api.get(url);
 }
 
 export default {
@@ -136,5 +172,12 @@ export default {
   getInfoUser,
   payment,
   studentWaitForConfirmation,
-  rentInstructor
+  rentInstructor,
+  getCourseBookmark,
+  getCourseWatching,
+  updateUserInfo,
+  updatePassword,
+  getTransactionHistory,
+  orderRecharge,
+  returnVNP
 };

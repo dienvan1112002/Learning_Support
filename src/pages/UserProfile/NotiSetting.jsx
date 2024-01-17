@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Sidebar from 'src/components/Sidebar/Sidebar';
+import repository from 'src/repositories/repository';
 import './index.css'
 
 const NotiSetting = () => {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const getUser = async () => {
+            let res = await repository.getInfoUser();
+            setUser(res.data.data)
+        }
+        getUser()
+    }, [])
     return (
         <div className='row' style={{ height: '100vh' }}>
             <div className='col-3' style={{ backgroundColor: '#7E9CDE' }}>
-                <Sidebar />
+                <Sidebar user={user} />
             </div>
             <div className='col-9'>
                 <div className='content'>
