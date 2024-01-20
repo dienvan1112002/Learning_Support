@@ -117,8 +117,8 @@ const payment = (id) => {
   return api.post(`/api/user/course/${id}/registration`)
 }
 
-const studentWaitForConfirmation = () => {
-  return api.get('/api/instructor/rent');
+const studentWaitForConfirmation = (status) => {
+  return api.get(`/api/instructor/rent?status=${status}`);
 }
 
 const rentInstructor = (id, credentials) => {
