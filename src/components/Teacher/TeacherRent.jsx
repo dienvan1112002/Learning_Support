@@ -81,7 +81,7 @@ const TeacherRent = () => {
 
         if (res.data.status == "success") {
             alert('Yêu cầu thuê thành công, vui lòng chờ giảng viên chấp nhận.');
-            navigate('/rent');
+            navigate('/');
         }
 
         if (currentToken) {
