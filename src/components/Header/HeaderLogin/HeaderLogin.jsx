@@ -2,9 +2,11 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import styles from './HeaderLogin.module.scss';
 import logo from '../../../assests/logo/shapelogo.png';
-import { PropTypes } from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(styles);
 const HeaderLogin = (props) => {
+    const navigate = useNavigate();
+
     return (
         <div className={cx('container')}>
             <div className={cx('container-right')}>
@@ -19,7 +21,7 @@ const HeaderLogin = (props) => {
                 </div>
             </div>
             <div className={cx('container-left')}>
-                <button>Bạn cần giúp đỡ?</button>
+                <button onClick={() => navigate(-1)}>Quay lại</button>
             </div>
         </div>
     );

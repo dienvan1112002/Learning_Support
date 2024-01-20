@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import Footer from 'src/components/Footer/Footer';
-import { getFirestore, collection, getDocs, onSnapshot } from 'firebase/firestore';
+import { getFirestore, collection, onSnapshot } from 'firebase/firestore';
 
 import classNames from 'classnames/bind';
 import roleHeaders from '../../utils/role';
 import styles from './Student.module.scss';
 import repository from 'src/repositories/repository';
+import formatDate from 'src/helper/formatDate';
 
 const cx = classNames.bind(styles);
 const Student = () => {
-    const [initialData, setInitialData] = useState([]);
-    const [realtimeData, setRealtimeData] = useState([]);
+    const [data, setData] = useState([]);
     const role = localStorage.getItem('role') ?? '';
 
-    const fetchInitialData = async () => {
+    const fetchDataFromDatabase = async () => {
         try {
             const apiData = await repository.studentWaitForConfirmation();
-            setInitialData(apiData.data.data);
+            setData(apiData.data.data);
         } catch (error) {
-            console.error('Error fetching initial data:', error);
+            console.error('Error fetching data from database:', error);
         }
     };
 
@@ -27,27 +27,39 @@ const Student = () => {
         const rentsCollection = collection(db, 'rents');
 
         const unsubscribe = onSnapshot(rentsCollection, (snapshot) => {
-            snapshot.docChanges().forEach((change) => {
-                if (change.type === 'added') {
-                    setRealtimeData((prevData) => [...prevData, change.doc.data()]);
-                }
-            });
+            try {
+                snapshot.docChanges().forEach((change) => {
+                    if (change.type == 'added') {
+                        const newData = change.doc.data();
+                        setData((prevData) => {
+                            const isDataAlreadyExists = prevData.some(item => item.user._id === newData.user._id && item.instructor === newData.instructor);
+                            if (!isDataAlreadyExists) {
+                                return [...prevData, newData];
+                            } else {
+                                return prevData;
+                            }
+                        });
+                    }
+                });
+            } catch (error) {
+                console.error('Error in handleFirestoreUpdates:', error);
+            }
         });
 
         return () => unsubscribe();
     };
 
     useEffect(() => {
-        fetchInitialData();
+        fetchDataFromDatabase();
+    }, []);
 
+    useEffect(() => {
         const unsubscribeFirestore = handleFirestoreUpdates();
 
         return () => {
             unsubscribeFirestore();
         };
     }, []);
-
-    const combinedData = [...initialData, ...realtimeData];
 
     return (
         <div className={cx('wrapper')}>
@@ -56,14 +68,15 @@ const Student = () => {
             </div>
             <div style={{ padding: '50px', backgroundColor: '#F7F7F8' }}>
                 <h1>Hoc vien cho xac nhan</h1>
-                {combinedData.map((rentData, index) => (
+                {data.map((rentData, index) => (
                     <div key={index} style={{ backgroundColor: '#fff', padding: '50px', margin: '25px' }}>
                         <div className='row'>
                             <div className="col-md-9">
-                                <p>{rentData.instructor} đã yêu cầu giảng dạy trực tuyến</p>
+                                <p>{rentData.user.name} đã yêu cầu giảng dạy trực tuyến</p>
                                 <p>Môn học: {rentData.subject}</p>
-                                <p>Mô tả: {rentData.desc}</p>
+                                <p>Mô tả: {rentData.description}</p>
                                 <p>Thời gian thuê: {rentData.time} giờ</p>
+                                <p>Thời gian bắt đầu: {formatDate(rentData.timeStart)} </p>
                             </div>
                             <div className="col-md-3" style={{ display: 'flex', gap: '10px' }}>
                                 <button style={{ height: '36px' }} type='button' className='btn btn-primary'>Chap nhan</button>

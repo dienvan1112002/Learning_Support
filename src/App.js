@@ -3,11 +3,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Contact from './components/Contact/Contact';
 import FormPayment from './components/Payment/FormPayment';
 import Payment from './components/Payment/Payment';
-import RegisterTecher3 from './components/Teacher/Register/RegisterTecher3';
 import Course from './pages/Course/Course';
 import CreateCourse from './pages/Course/creates';
 import DKGiangVien from './pages/DangKiGiangVien/DKGiangVien';
 import DKGiangVien1 from './pages/DangKiGiangVien/DKGiangVien1';
+import DKGiangVien2 from './pages/DangKiGiangVien/DKGiangVien2';
 import HomeGV from './pages/Home/HomeGV';
 import Learning from './pages/Learning/Learning';
 import Login from './pages/Login/Login';
@@ -36,7 +36,7 @@ const studentRoutes = [
     { path: '/user/payment/order', component: FormPayment },
     { path: '/user/register-instructor', component: DKGiangVien },
     { path: '/user/register-instructor/step/1', component: DKGiangVien1 },
-    { path: '/user/register-instructor/step/2', component: RegisterTecher3 }
+    { path: '/user/register-instructor/step/2', component: DKGiangVien2 }
 ];
 
 const instructorRoutes = [

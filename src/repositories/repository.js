@@ -139,10 +139,18 @@ const returnVNP = (credentials) => {
   for (const key in credentials) {
     if (Object.hasOwnProperty.call(credentials, key)) {
       const element = credentials[key];
-      url+=`${key}=${element}&`
+      url += `${key}=${element}&`
     }
   }
   return api.get(url);
+}
+
+const registerInstructor = (credentials) => {
+  return api.post('/api/user/register-instructor', credentials)
+}
+
+const checkRegisterInstructor = () => {
+  return api.get('/api/user/status-instructor');
 }
 
 export default {
@@ -179,5 +187,7 @@ export default {
   updatePassword,
   getTransactionHistory,
   orderRecharge,
-  returnVNP
+  returnVNP,
+  registerInstructor,
+  checkRegisterInstructor
 };

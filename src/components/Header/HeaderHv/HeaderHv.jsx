@@ -8,6 +8,7 @@ import logo from '../../../assests/logo/shapelogo.png';
 
 import { PiBellRingingDuotone } from 'react-icons/pi';
 import { FaRegUserCircle } from 'react-icons/fa';
+import repository from 'src/repositories/repository';
 
 const cx = classNames.bind(styles);
 const navLinks = [
@@ -58,11 +59,16 @@ const HeaderHv = () => {
         }
     };
 
-    const redirectRegisterInstructor = () => {
-        if (role == 'student') {
-            navigate('/user/register-instructor');
+    const redirectRegisterInstructor = async () => {
+        let res = await repository.checkRegisterInstructor();
+        if (res.data.data.status == "pending") {
+            alert("Hệ thống sẽ kiểm tra và trả kết quả phê duyệt tới bạn. Vui lòng quay lại trang chủ")
+        } else if (res.data.data.status == "approve") {
+            localStorage.setItem('role', 'instructor')
+            navigate('/instructor')
+            window.location.reload();
         } else {
-            navigate('/instructor');
+            navigate('/user/register-instructor')
         }
     }
 

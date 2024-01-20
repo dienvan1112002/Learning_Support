@@ -9,12 +9,12 @@ import { useNavigate } from 'react-router-dom';
 import Notification from 'src/components/Notification/Notification';
 
 const cx = classNames.bind(styles);
-const   TeacherOverview = ({ teacher }) => {
+const TeacherOverview = ({ teacher }) => {
     const navigate = useNavigate();
     const role = localStorage.getItem('role');
 
     const updateFollowStatus = async () => {
-        if (role !== 'student') {
+        if (!role) {
             navigate('/login');
             return;
         }

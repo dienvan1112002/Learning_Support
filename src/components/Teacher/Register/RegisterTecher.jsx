@@ -8,6 +8,10 @@ const cx = classNames.bind(styles);
 const RegisterTecher = () => {
     const navigate = useNavigate();
 
+    const redirect = () => {
+        navigate('/user/register-instructor/step/1')
+    }
+
     return (
         <div className={cx('body')}>
             <div className={cx('body-top')}>
@@ -18,7 +22,7 @@ const RegisterTecher = () => {
                     </h3>
 
                     <p>Biến những gì bạn biết thành cơ hội và tiếp cận hàng triệu người trên thế giới</p>
-                    <button onClick={() => navigate('/user/register-instructor/step/1')}>Bắt đầu ngay</button>
+                    <button onClick={() => redirect()}>Bắt đầu ngay</button>
                 </div>
                 <div className={cx('body-top-img')}>
                     <img src={nen} alt="" />

@@ -3,7 +3,6 @@
     justify-content: center;
 }
 .wrapper {
-    width: 70%;
     background-color: #ccc;
     padding: 50px;
     display: flex;
@@ -79,6 +78,7 @@
 .item {
     display: flex;
     gap: 5rem;
+    align-items: center;
 }
 .item-list {
     background-color: #fff;
@@ -150,4 +150,8 @@
     flex-shrink: 0;
     border-radius: 8px;
     background: var(--Blue-100, #7e9cde);
+}
+
+.btn-close {
+    display: none;
 }

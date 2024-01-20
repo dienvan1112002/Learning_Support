@@ -56,15 +56,14 @@ const TeacherRent = () => {
         if (calculateCost() > user?.balance) {
             alert('Tài khoản không đủ, nạp thêm tiền để thử lại');
         }
-
         const rentData = {
-            user: localStorage.getItem("userId"),
-            instructor: id,
+            user: user,
+            instructor: instructor._id,
             time: selectedHour,
             timeStart: selectedDateTime,
             roomId: '',
             status: 'waiting',
-            desc,
+            description: desc,
             subject: selectedSubject
         };
 
@@ -85,31 +84,31 @@ const TeacherRent = () => {
             navigate('/rent');
         }
 
-        // if (currentToken) {
-        //     fetch('https://fcm.googleapis.com/fcm/send', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'Authorization': 'key=AAAAd0Bm2dY:APA91bE0b0wswqjvWDOMwjyFW9DiK0d1SOdKbzzseV5HrWKcLzEj9BCC10ywd22cc9emdDdCPyT_PIT8w3U52IUQdm1ysbRkO9bS9lESpGgkxiLQb2MmwdDe-5LoGQ2pzZl6Sj26ronD',
-        //         },
-        //         body: JSON.stringify({
-        //             to: currentToken,
-        //             notification: {
-        //                 title: 'Rent Saved!',
-        //                 body: 'Your rent has been saved successfully.',
-        //                 click_action: window.location.href,
-        //             },
-        //         }),
-        //     })
-        //         .then(response => {
-        //             console.log('Notification sent successfully:', response);
-        //         })
-        //         .catch(error => {
-        //             console.error('Error sending notification:', error);
-        //         });
-        // } else {
-        //     console.error('No FCM token available. Make sure to call requestForToken after login.');
-        // }
+        if (currentToken) {
+            fetch('https://fcm.googleapis.com/fcm/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'key=AAAAd0Bm2dY:APA91bE0b0wswqjvWDOMwjyFW9DiK0d1SOdKbzzseV5HrWKcLzEj9BCC10ywd22cc9emdDdCPyT_PIT8w3U52IUQdm1ysbRkO9bS9lESpGgkxiLQb2MmwdDe-5LoGQ2pzZl6Sj26ronD',
+                },
+                body: JSON.stringify({
+                    to: currentToken,
+                    notification: {
+                        title: 'Rent Saved!',
+                        body: 'Your rent has been saved successfully.',
+                        click_action: window.location.href,
+                    },
+                }),
+            })
+                .then(response => {
+                    console.log('Notification sent successfully:', response);
+                })
+                .catch(error => {
+                    console.error('Error sending notification:', error);
+                });
+        } else {
+            console.error('No FCM token available. Make sure to call requestForToken after login.');
+        }
     }
 
     useEffect(() => {
