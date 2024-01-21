@@ -56,21 +56,6 @@ const TeacherRent = () => {
         if (calculateCost() > user?.balance) {
             alert('Tài khoản không đủ, nạp thêm tiền để thử lại');
         }
-        const rentData = {
-            user: user,
-            instructor: instructor.user._id,
-            time: selectedHour,
-            timeStart: selectedDateTime,
-            roomId: '',
-            status: 'waiting',
-            description: desc,
-            subject: selectedSubject
-        };
-
-        const db = getFirestore();
-        const rentsCollection = collection(db, 'rents');
-
-        await addDoc(rentsCollection, rentData);
 
         const res = await repository.rentInstructor(id, {
             time: +selectedHour,
@@ -81,6 +66,22 @@ const TeacherRent = () => {
 
         if (res.data.status == "success") {
             alert('Yêu cầu thuê thành công, vui lòng chờ giảng viên chấp nhận.');
+            const rentData = {
+                _id: res.data.data._id,
+                user: user,
+                instructor: instructor.user._id,
+                time: selectedHour,
+                timeStart: selectedDateTime,
+                roomId: '',
+                status: 'waiting',
+                description: desc,
+                subject: selectedSubject
+            };
+
+            const db = getFirestore();
+            const rentsCollection = collection(db, 'rents');
+
+            await addDoc(rentsCollection, rentData);
             navigate('/');
         }
 
