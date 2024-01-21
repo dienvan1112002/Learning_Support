@@ -1,21 +1,38 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Footer from 'src/components/Footer/Footer';
-
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
 import home from '../../assests/home/home.png';
 import { Link } from 'react-router-dom';
-import roleHeaders from '../../utils/role';
 import { requestForToken } from 'src/firebase';
+import Search from 'src/components/Search/Search';
+import HeaderKhach from 'src/components/Header/HeaderKhach/Header';
+import HeaderHv from 'src/components/Header/HeaderHv/HeaderHv';
+import HeaderGv from 'src/components/Header/HeaderGv/HeaderGv';
+import HeaderDkgv from 'src/components/Header/HeaderDkgv/HeaderDkgv';
 
 const cx = classNames.bind(styles);
 const Home = () => {
-
     let role = localStorage.getItem('role') ?? '';
+    let active = localStorage.getItem('active');
+    const [isSearchActive, setSearchActive] = useState(false);
+
+    const roleHeaders = {
+        '': <HeaderKhach toggleSearch={() => setSearchActive(!isSearchActive)} />,
+        null: <HeaderKhach toggleSearch={() => setSearchActive(!isSearchActive)} />,
+        'student': <HeaderHv toggleSearch={() => setSearchActive(!isSearchActive)} />,
+        'instructor': <HeaderGv />,
+        'admin': <HeaderDkgv />
+    };
 
     const displayHeader = () => {
         if (role === 'instructor' || role === 'student') {
             role = 'student'
+        }
+        if (active == 'student') {
+            role = 'student'
+        } else {
+            role = 'instructor'
         }
         return role;
     }
@@ -29,6 +46,7 @@ const Home = () => {
             <div className={cx('header')}>
                 {roleHeaders[displayHeader()]}
             </div>
+            {isSearchActive && <Search onClose={() => setSearchActive(false)} />}
             <div className={cx('body')}>
                 <div className={cx('container-body')}>
                     <div className={cx('body-tieude')}>

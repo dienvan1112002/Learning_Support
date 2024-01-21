@@ -3,16 +3,35 @@ import Footer from 'src/components/Footer/Footer';
 import { getFirestore, collection, onSnapshot } from 'firebase/firestore';
 
 import classNames from 'classnames/bind';
-import roleHeaders from '../../utils/role';
 import styles from './Student.module.scss';
 import repository from 'src/repositories/repository';
 import formatDate from 'src/helper/formatDate';
+import HeaderKhach from 'src/components/Header/HeaderKhach/Header';
+import HeaderHv from 'src/components/Header/HeaderHv/HeaderHv';
+import HeaderGv from 'src/components/Header/HeaderGv/HeaderGv';
+import HeaderDkgv from 'src/components/Header/HeaderDkgv/HeaderDkgv';
 
 const cx = classNames.bind(styles);
 const Student = () => {
     const [data, setData] = useState([]);
     const [listApproved, setListApproved] = useState([]);
-    const role = localStorage.getItem('role') ?? '';
+    let role = localStorage.getItem('role') ?? '';
+    const active = localStorage.getItem('active');
+    const [isSearchActive, setSearchActive] = useState(false);
+
+    const roleHeaders = {
+        '': <HeaderKhach toggleSearch={() => setSearchActive(!isSearchActive)} />,
+        null: <HeaderKhach toggleSearch={() => setSearchActive(!isSearchActive)} />,
+        'student': <HeaderHv toggleSearch={() => setSearchActive(!isSearchActive)} />,
+        'instructor': <HeaderGv />,
+        'admin': <HeaderDkgv />
+    };
+
+    if (active == 'student') {
+        role = 'student'
+    } else {
+        role = 'instructor'
+    }
 
     const fetchDataFromDatabase = async () => {
         try {

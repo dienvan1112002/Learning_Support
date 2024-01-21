@@ -62,6 +62,7 @@ const HeaderGv = () => {
     if (role == 'student') {
       navigate('/register-instructor');
     } else {
+      localStorage.setItem('active', 'student');
       navigate('/');
     }
   }
@@ -87,17 +88,6 @@ const HeaderGv = () => {
                 ))}
               </ul>
             </div>
-          </div>
-          {/* Tìm kiếm */}
-          <div className={cx('header-search')}>
-            <IoMdSearch
-              style={{
-                width: '1.75rem',
-                height: '1.75rem',
-                color: 'rgba(109, 166, 198, 1)',
-              }}
-            />
-            <input type="text" className={cx('header-search-input')} placeholder="Tìm Kiếm..." />
           </div>
         </div>
         {/* đăng kí, đăng nhập */}

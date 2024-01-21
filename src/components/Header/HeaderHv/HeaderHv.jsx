@@ -30,10 +30,11 @@ const navLinks = [
     },
 ];
 
-const HeaderHv = () => {
+const HeaderHv = ({ toggleSearch }) => {
     const navigate = useNavigate();
     const [showDropdown, setShowDropdown] = useState(false);
-    const role = localStorage.getItem('role')
+    let role = localStorage.getItem('role')
+    let active = localStorage.getItem('active');
 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
@@ -65,11 +66,18 @@ const HeaderHv = () => {
             alert("Hệ thống sẽ kiểm tra và trả kết quả phê duyệt tới bạn. Vui lòng quay lại trang chủ")
         } else if (res.data.data.status == "approve") {
             localStorage.setItem('role', 'instructor')
+            localStorage.setItem('active', 'instructor')
             navigate('/instructor')
             window.location.reload();
         } else {
             navigate('/user/register-instructor')
         }
+    }
+
+    if (active == 'student') {
+        role = 'student'
+    } else {
+        role = 'instructor'
     }
 
     return (
@@ -95,16 +103,9 @@ const HeaderHv = () => {
                         </div>
                     </div>
                     {/* Tìm kiếm */}
-                    <div className={cx('header-search')}>
-                        <IoMdSearch
-                            style={{
-                                width: '1.75rem',
-                                height: '1.75rem',
-                                color: 'rgba(109, 166, 198, 1)',
-                            }}
-                        />
-                        <input type="text" className={cx('header-search-input')} placeholder="Tìm Kiếm..." />
-                    </div>
+                    {role != 'instructor' && (
+                        <i onClick={toggleSearch} className="ri-search-line" style={{ cursor: 'pointer' }}></i>
+                    )}
                 </div>
                 {/* đăng kí, đăng nhập */}
                 <div className={cx('header-right')}>
@@ -133,7 +134,7 @@ const HeaderHv = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

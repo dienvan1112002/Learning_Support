@@ -705,8 +705,6 @@ const CreateCourse = () => {
 
     };
 
-    console.log("chapters == ", chapters);
-
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>

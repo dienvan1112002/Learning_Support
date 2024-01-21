@@ -16,8 +16,12 @@ const courseOfInstructor = () => {
   return api.get('api/instructor/course');
 }
 
-const listCourse = () => {
-  return api.get('/course');
+const listCourse = (credentials) => {
+  return api.get('/course', credentials);
+}
+
+const listInstructorSearch = (credentials) => {
+  return api.get('/instructor', credentials);
 }
 
 const getCourseByUserOrInstructor = (id) => {
@@ -189,5 +193,6 @@ export default {
   orderRecharge,
   returnVNP,
   registerInstructor,
-  checkRegisterInstructor
+  checkRegisterInstructor,
+  listInstructorSearch
 };

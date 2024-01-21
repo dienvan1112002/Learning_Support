@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import styles from './styles.module.scss';
 import Footer from 'src/components/Footer/Footer';
-import HeaderLogin from 'src/components/Header/HeaderLogin/HeaderLogin';
 import RegisterTecher from 'src/components/Teacher/Register/RegisterTecher';
 import roleHeaders from 'src/utils/role';
 

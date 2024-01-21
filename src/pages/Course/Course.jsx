@@ -3,19 +3,22 @@ import Footer from 'src/components/Footer/Footer';
 import CourseHead from 'src/components/Course/CourseHead/CourseHead';
 import Course from 'src/components/Course/Course';
 import repository from 'src/repositories/repository';
-import useApi from 'src/utils/useApi';
 
 import classNames from 'classnames/bind';
 import styles from './Course.module.scss';
-import roleHeaders from 'src/utils/role';
 import ReactPaginate from 'react-paginate';
 import CourseHeader from './CourseHeader';
+import HeaderKhach from 'src/components/Header/HeaderKhach/Header';
+import HeaderHv from 'src/components/Header/HeaderHv/HeaderHv';
+import HeaderGv from 'src/components/Header/HeaderGv/HeaderGv';
+import HeaderDkgv from 'src/components/Header/HeaderDkgv/HeaderDkgv';
 
 const cx = classNames.bind(styles);
 const CourseP = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [courses, setCourses] = useState(null);
     let role = localStorage.getItem('role') ?? '';
+    let active = localStorage.getItem('active');
 
     const itemsPerPage = 3;
 
@@ -51,10 +54,32 @@ const CourseP = () => {
         }
     }
 
+    const [isSearchActive, setSearchActive] = useState(false);
+
+    const roleHeaders = {
+        '': <HeaderKhach toggleSearch={() => setSearchActive(!isSearchActive)} />,
+        null: <HeaderKhach toggleSearch={() => setSearchActive(!isSearchActive)} />,
+        'student': <HeaderHv toggleSearch={() => setSearchActive(!isSearchActive)} />,
+        'instructor': <HeaderGv />,
+        'admin': <HeaderDkgv />
+    };
+
+    const displayHeader = () => {
+        if (role === 'instructor' || role === 'student') {
+            role = 'student'
+        }
+        if (active == 'student') {
+            role = 'student'
+        } else {
+            role = 'instructor'
+        }
+        return role;
+    }
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
-                {roleHeaders[role]}
+                {roleHeaders[displayHeader()]}
             </div>
             <div className={cx('body')}>
                 {role == 'instructor' && <CourseHead />}

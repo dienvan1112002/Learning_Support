@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import classNames from 'classnames/bind';
-import { IoMdSearch } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 
 import styles from './header.module.scss';
 import logo from '../../../assests/logo/shapelogo.png';
-import { type } from '@testing-library/user-event/dist/type';
 
 const cx = classNames.bind(styles);
 
-const HeaderKhach = () => {
+const HeaderKhach = ({ toggleSearch }) => {
+    const role = localStorage.getItem('role')
     const navLinks = [
         {
             display: 'Trang chủ',
@@ -52,16 +51,9 @@ const HeaderKhach = () => {
                         </div>
                     </div>
                     {/* Tìm kiếm */}
-                    <div className={cx('header-search')}>
-                        <IoMdSearch
-                            style={{
-                                width: '1.75rem',
-                                height: '1.75rem',
-                                color: 'rgba(109, 166, 198, 1)',
-                            }}
-                        />
-                        <input type="text" className={cx('header-search-input')} placeholder="Tìm Kiếm..." />
-                    </div>
+                    {role != 'instructor' && (
+                        <i onClick={toggleSearch} className="ri-search-line" style={{ cursor: 'pointer' }}></i>
+                    )}
                 </div>
                 {/* đăng kí, đăng nhập */}
                 <div className={cx('header-right')}>

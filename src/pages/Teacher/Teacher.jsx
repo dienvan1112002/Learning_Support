@@ -10,14 +10,20 @@ import TeacherItems from 'src/components/TeacherItems/TeacherItems';
 import roleHeaders from 'src/utils/role';
 import ReactPaginate from 'react-paginate';
 import './pagination.css'
+import HeaderKhach from 'src/components/Header/HeaderKhach/Header';
+import HeaderHv from 'src/components/Header/HeaderHv/HeaderHv';
+import HeaderGv from 'src/components/Header/HeaderGv/HeaderGv';
+import HeaderDkgv from 'src/components/Header/HeaderDkgv/HeaderDkgv';
 
 const cx = classNames.bind(styles);
 
 const Teacher = () => {
     let role = localStorage.getItem('role') ?? '';
-    const active = localStorage.getItem('active');
+    let active = localStorage.getItem('active');
     const [listInstructors, setListInstructors] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
+    const [isSearchActive, setSearchActive] = useState(false);
+
     const itemsPerPage = 9;
 
     const totalItems = listInstructors.length;
@@ -29,12 +35,6 @@ const Teacher = () => {
     const handlePageClick = ({ selected }) => {
         setCurrentPage(selected);
     };
-
-    if (active === 'instructor') {
-        role = 'instructor'
-    } else if (active === 'student') {
-        role = 'student'
-    }
 
     useEffect(() => {
         const getListTeacher = async () => {
@@ -57,10 +57,30 @@ const Teacher = () => {
         }
     }
 
+    const roleHeaders = {
+        '': <HeaderKhach toggleSearch={() => setSearchActive(!isSearchActive)} />,
+        null: <HeaderKhach toggleSearch={() => setSearchActive(!isSearchActive)} />,
+        'student': <HeaderHv toggleSearch={() => setSearchActive(!isSearchActive)} />,
+        'instructor': <HeaderGv />,
+        'admin': <HeaderDkgv />
+    };
+
+    const displayHeader = () => {
+        if (role === 'instructor' || role === 'student') {
+            role = 'student'
+        }
+        if (active == 'student') {
+            role = 'student'
+        } else {
+            role = 'instructor'
+        }
+        return role;
+    }
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
-                {roleHeaders[role]}
+                {roleHeaders[displayHeader()]}
             </div>
             <div className={cx('body')}>
                 <div className={cx('teacher-head')}>

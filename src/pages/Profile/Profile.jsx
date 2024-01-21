@@ -44,11 +44,6 @@ const Profile = () => {
         setEditMode(false);
     };
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        setSelectedImage(file);
-    };
-
     const onChange = (imageList) => {
         setImages(imageList);
         setSelectedImage(imageList[0]?.data_url);
