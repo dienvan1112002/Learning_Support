@@ -4,7 +4,6 @@ import classNames from 'classnames/bind';
 import HeaderGv from 'src/components/Header/HeaderGv/HeaderGv';
 import styles from './Profile.module.scss';
 import Footer from 'src/components/Footer/Footer';
-import Info from 'src/components/Info/info';
 import repository from 'src/repositories/repository';
 import UpdateInfo from 'src/components/Info/UpdateInfo';
 
@@ -12,8 +11,8 @@ const cx = classNames.bind(styles);
 
 const Profile = () => {
     const [editMode, setEditMode] = useState(false);
+    const [singleImage, setSingleImage] = useState([]);
     const [editedTeacher, setEditedTeacher] = useState({});
-    const [images, setImages] = useState([]);
     const [selectedImage, setSelectedImage] = useState(null);
     const [teacher, setTeacher] = useState();
 
@@ -22,6 +21,7 @@ const Profile = () => {
     useEffect(() => {
         const teacherInfo = async () => {
             const teacherData = await repository.instructorInfo();
+            console.log(teacherData.data.data);
             setTeacher(teacherData.data.data)
         }
         teacherInfo()
@@ -29,24 +29,34 @@ const Profile = () => {
 
     const handleEdit = () => {
         setEditMode(true);
-        // Set the initial values for the input fields
         setEditedTeacher({
             name: teacher?.user.name,
             price: teacher.price,
-            description: 'Nhận dạy tất cả các môn khoa học tự nhiên', // You can replace this with the actual description
+            description: 'Nhận dạy tất cả các môn khoa học tự nhiên',
         });
     };
 
-    const handleSave = async () => {
-        console.log('Edited Information:', editedTeacher);
-        console.log('Selected Image:', selectedImage);
+    const handleSave = async (event) => {
+        event.preventDefault();
+        const data = new FormData();
+        if (selectedImage) {
+            data.append('image', selectedImage, selectedImage.name)
+        }
+        data.append('description', editedTeacher.description)
+        data.append('active_status', teacher.active_status)
+        data.append('price', editedTeacher.price)
+        teacher.subjects.forEach(element => {
+            data.append('subjects', element)
+        });
 
+        await repository.updateInstructorInfo(data)
         setEditMode(false);
+        window.location.reload();
     };
 
     const onChange = (imageList) => {
-        setImages(imageList);
-        setSelectedImage(imageList[0]?.data_url);
+        setSelectedImage(imageList[0]?.file);
+        setSingleImage(imageList)
     };
 
     return (
@@ -84,8 +94,7 @@ const Profile = () => {
                                             />
                                         </div>
                                         <ImageUploading
-                                            multiple
-                                            value={images}
+                                            value={singleImage}
                                             onChange={onChange}
                                             maxNumber={maxNumber}
                                             dataURLKey="data_url"

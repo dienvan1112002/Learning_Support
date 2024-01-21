@@ -48,7 +48,6 @@ const CourseHeader = ({ handleGetUrl }) => {
                         <div key={index} className={cx('lists-all', `${div.id === active ? 'active-status' : ''}`)}>
                             <p onClick={() => listCourse(div.status, div.id)}>{div.title}</p>
                         </div>
-
                     )
                 })}
             </div>

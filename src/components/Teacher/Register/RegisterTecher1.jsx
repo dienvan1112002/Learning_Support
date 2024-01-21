@@ -7,42 +7,43 @@ const cx = classNames.bind(styles);
 
 const RegisterTecher1 = () => {
     const navigate = useNavigate();
+
     const [selectedSubjects, setSelectedSubjects] = useState([]);
     const subjects = [
         {
             id: 1,
-            name: 'Toán'
+            name: 'Toán học'
         },
         {
             id: 2,
-            name: 'Ngoại Ngữ'
+            name: 'Vật lý'
         },
         {
             id: 3,
-            name: 'Ngữ Văn'
+            name: 'Hóa học'
         },
         {
             id: 4,
-            name: 'Vật Lý'
+            name: 'Sinh học'
         }, {
             id: 5,
-            name: 'Hóa học'
+            name: 'Văn học'
         },
         {
             id: 6,
-            name: 'Sinh học'
+            name: 'Lịch sử'
         },
         {
             id: 7,
-            name: 'Lịch sử'
+            name: 'Địa lý'
         },
         {
             id: 8,
-            name: 'Địa lí'
+            name: 'Giáo dục công dân'
         },
         {
             id: 9,
-            name: 'Giáo dục công dân'
+            name: 'Tiếng Anh'
         },
     ]
     const [checkedState, setCheckedState] = useState(
@@ -75,7 +76,7 @@ const RegisterTecher1 = () => {
     const handleRedirect = () => {
         localStorage.setItem('selectedSubjects', JSON.stringify(selectedSubjects));
         navigate('/user/register-instructor/step/2')
-}
+    }
 
     return (
         <div className={cx('body')}>

@@ -19,8 +19,17 @@ const UpdateInfo = () => {
         }
     }, [result])
 
-    const handleUpdate = () => {
+    const handleUpdate = async () => {
+        const data = new FormData();
+        data.append('description', instructor.description)
+        data.append('active_status', instructor.active_status)
+        data.append('price', instructor.price)
+        selectedSubjects.forEach(sub => {
+            data.append('subjects', sub);
+        })
+        await repository.updateInstructorInfo(data)
         setEditMode(false);
+        window.location.reload();
     };
 
     return (

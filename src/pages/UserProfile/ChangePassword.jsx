@@ -8,16 +8,32 @@ const ChangePassword = () => {
     const [formData, setFormData] = useState({
         new_password: '',
         old_password: '',
-        rety_password: ''
+        retry_password: ''
     });
+    const [passwordVisibility, setPasswordVisibility] = useState({
+        new_password: false,
+        retry_password: false
+    });
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const togglePasswordVisibility = (field) => {
+        setPasswordVisibility({
+            ...passwordVisibility,
+            [field]: !passwordVisibility[field]
+        });
+    };
 
     useEffect(() => {
         const getUser = async () => {
-            let res = await repository.getInfoUser();
-            setUser(res.data.data)
-        }
-        getUser()
-    }, [])
+            try {
+                let res = await repository.getInfoUser();
+                setUser(res.data.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getUser();
+    }, []);
 
     const handleInputChange = (event) => {
         setFormData({
@@ -27,22 +43,29 @@ const ChangePassword = () => {
     };
 
     const updatePassword = async () => {
-        if (formData.new_password != formData.rety_password) {
-            alert("Mật khẩu mới và nhập lại mật khẩu không khớp. Vui lòng thử lại.")
+        if (formData.new_password !== formData.retry_password) {
+            setErrorMessage("Mật khẩu mới và nhập lại mật khẩu không khớp. Vui lòng thử lại.");
+            return;
         }
-        if (formData.new_password == formData.old_password) {
-            alert("Mật khẩu mới phải khác mật khẩu cũ. Vui lòng thử lại.")
+        if (formData.new_password === formData.old_password) {
+            setErrorMessage("Mật khẩu mới phải khác mật khẩu cũ. Vui lòng thử lại.");
+            return;
         }
+
         try {
             let res = await repository.updatePassword(formData);
+            setPasswordVisibility({
+                new_password: false,
+                retry_password: false
+            });
             console.log(res);
-            alert(res.data.message)
+            setErrorMessage(res.data.message);
             window.location.reload();
         } catch (error) {
             console.log(error);
-            alert(error.response.data.message)
+            setErrorMessage(error.response.data.message);
         }
-    }
+    };
 
     return (
         <div className='row' style={{ height: '100vh' }}>
@@ -58,16 +81,15 @@ const ChangePassword = () => {
                         <div class="mb-3">
                             <label class="form-label">Mật khẩu hiện tại</label>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <input type="text" class="form-control" name="old_password" placeholder="Nhập mật khẩu hiện tại"
+                                <input type="text" style={{ fontSize: '1.5rem' }} class="form-control" name="old_password" placeholder="Nhập mật khẩu hiện tại"
                                     onChange={handleInputChange}
                                 />
-                                <i class="ri-eye-fill"></i>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Mật khẩu mới</label>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <input type="password" class="form-control" name="new_password" placeholder="Nhập mật khẩu mới"
+                                <input type={passwordVisibility.new_password ? 'text' : 'password'} style={{ fontSize: '1.5rem' }} class="form-control" name="new_password" placeholder="Nhập mật khẩu mới"
                                     onChange={handleInputChange}
                                     onPaste={(e) => {
                                         e.preventDefault()
@@ -77,13 +99,16 @@ const ChangePassword = () => {
                                         return false;
                                     }}
                                 />
-                                <i class="ri-eye-fill"></i>
+                                <i
+                                    className={`ri-eye-${passwordVisibility.new_password ? 'off-fill' : 'fill'}`}
+                                    onClick={() => togglePasswordVisibility('new_password')}
+                                ></i>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Nhập lại mật khẩu  mới</label>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <input type="password" class="form-control" name="rety_password" placeholder="Nhập lại mật khẩu mới"
+                                <input type={passwordVisibility.retry_password ? 'text' : 'password'} style={{ fontSize: '1.5rem' }} class="form-control" name="retry_password" placeholder="Nhập lại mật khẩu mới"
                                     onChange={handleInputChange}
                                     onPaste={(e) => {
                                         e.preventDefault()
@@ -93,13 +118,15 @@ const ChangePassword = () => {
                                         return false;
                                     }}
                                 />
-                                <i class="ri-eye-fill"></i>
+                                <i
+                                    className={`ri-eye-${passwordVisibility.retry_password ? 'off-fill' : 'fill'}`}
+                                    onClick={() => togglePasswordVisibility('retry_password')}
+                                ></i>
                             </div>
                         </div>
-                        <button className='btn btn-save' style={{ margin: '50px 0 0 300px' }} onClick={updatePassword}>
-                            <div className='text-save'>
-                                Đổi mật khẩu
-                            </div>
+                        <div style={{ color: 'red' }}>{errorMessage}</div>
+                        <button className="btn btn-save" style={{ margin: '50px 0 0 300px' }} onClick={updatePassword}>
+                            <div className="text-save">Đổi mật khẩu</div>
                         </button>
                     </div>
                 </div>

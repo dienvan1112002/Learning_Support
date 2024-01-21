@@ -83,7 +83,7 @@ const CourseP = () => {
             </div>
             <div className={cx('body')}>
                 {role == 'instructor' && <CourseHead />}
-                <CourseHeader handleGetUrl={handleGetUrl} />
+                {role == 'student' && <CourseHeader handleGetUrl={handleGetUrl} />}
                 <div className={cx('course-item')}>
                     {displayedItems && displayedItems.map((course) => {
                         return <Course

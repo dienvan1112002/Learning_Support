@@ -25,13 +25,13 @@ const CreateCourse = () => {
     const [chapters, setChapters] = useState([
         {
             id: 1,
-            title: 'Gioi thieu',
+            title: 'Giới thiệu',
             isEditing: false,
             assignments: [
                 {
                     id: 1,
                     type: 'video',
-                    title: 'Gioi thieu',
+                    title: 'Giới thiệu',
                     content: '',
                     isEditing: false,
                     isAddContent: false,
@@ -840,7 +840,7 @@ const CreateCourse = () => {
                                 <div key={chapter.id} style={{ backgroundColor: '#F7F7F8', padding: '5px' }}>
                                     <div style={{ padding: '5px' }}>
                                         <div style={{ border: '1px solid', padding: '5px', display: 'flex', gap: '10px' }}>
-                                            <span>Chuong {chapter.id}: </span>
+                                            <span>Chương {chapter.id}: </span>
                                             {chapter.isEditing ? (
                                                 <>
                                                     <input
@@ -848,8 +848,8 @@ const CreateCourse = () => {
                                                         value={chapter.title}
                                                         onChange={(e) => handleInputChapterChange(chapter.id, e.target.value)}
                                                     />
-                                                    <button className='btn btn-outline' onClick={() => handleCancelEdit(chapter.id)}>Huy</button>
-                                                    <button className='btn btn-primary' onClick={() => handleSaveChapterTitle(chapter.id, chapter.title)}>Luu</button>
+                                                    <button className='btn btn-outline' onClick={() => handleCancelEdit(chapter.id)}>Hủy</button>
+                                                    <button className='btn btn-primary' onClick={() => handleSaveChapterTitle(chapter.id, chapter.title)}>Lưu</button>
                                                 </>
                                             ) : (
                                                 <>
@@ -874,10 +874,10 @@ const CreateCourse = () => {
                                                                     onChange={(e) => handleInputAssignmentChange(chapter.id, assignment.id, e.target.value)}
                                                                 />
                                                                 <button className='btn btn-outline' onClick={() => handleCancelEditAssignment(chapter.id, assignment.id)}>
-                                                                    Huy
+                                                                    Hủy
                                                                 </button>
                                                                 <button className='btn btn-primary' onClick={() => handleSaveAssignmentTitle(chapter.id, assignment.id)}>
-                                                                    Luu
+                                                                    Lưu
                                                                 </button>
                                                             </>
                                                         ) : (
@@ -909,8 +909,8 @@ const CreateCourse = () => {
                                                                             )
                                                                         )}
                                                                     />
-                                                                    <button className='btn btn-outline' onClick={() => handleCancelEditContent(chapter.id, assignment.id)}>Huy</button>
-                                                                    <button className='btn btn-primary' onClick={() => handleSaveContent(chapter.id, assignment.id, assignment.content)}>Luu</button>
+                                                                    <button className='btn btn-outline' onClick={() => handleCancelEditContent(chapter.id, assignment.id)}>Hủy</button>
+                                                                    <button className='btn btn-primary' onClick={() => handleSaveContent(chapter.id, assignment.id, assignment.content)}>Lưu</button>
                                                                 </>
                                                             ) : (
                                                                 <>
@@ -922,8 +922,8 @@ const CreateCourse = () => {
                                                                                         value={editedContent}
                                                                                         onChange={(value) => setEditedContent(value)}
                                                                                     />
-                                                                                    <button className='btn btn-outline' onClick={() => setIsEditingContent(false)}>Huy</button>
-                                                                                    <button className='btn btn-primary' onClick={() => handleSaveContent(chapter.id, assignment.id, editedContent)}>Luu</button>
+                                                                                    <button className='btn btn-outline' onClick={() => setIsEditingContent(false)}>Hủy</button>
+                                                                                    <button className='btn btn-primary' onClick={() => handleSaveContent(chapter.id, assignment.id, editedContent)}>Lưu</button>
                                                                                 </>
                                                                             ) : (
                                                                                 <>
@@ -934,7 +934,7 @@ const CreateCourse = () => {
                                                                             )}
                                                                             {isDeletingContent && (
                                                                                 <>
-                                                                                    <button className='btn btn-outline' onClick={() => setIsDeletingContent(false)}>Huy</button>
+                                                                                    <button className='btn btn-outline' onClick={() => setIsDeletingContent(false)}>Hủy</button>
                                                                                     <button className='btn btn-danger' onClick={() => handleDeleteContent(chapter.id, assignment.id)}>Xoa</button>
                                                                                 </>
                                                                             )}
@@ -980,10 +980,10 @@ const CreateCourse = () => {
                                                                                 </div>
                                                                                 <div>
                                                                                     <button className='btn btn-danger' onClick={() => handleCancelAddQuiz(chapter.id, assignment.id)} style={{ border: '1px solid' }}>
-                                                                                        Huy
+                                                                                        Hủy
                                                                                     </button>
                                                                                     <button className='btn btn-info' onClick={() => handleSaveAddQuiz(chapter.id, assignment.id)} style={{ border: '1px solid' }}>
-                                                                                        Luu
+                                                                                        Lưu
                                                                                     </button>
                                                                                 </div>
                                                                             </>
@@ -991,7 +991,7 @@ const CreateCourse = () => {
                                                                     }
 
                                                                     {!assignment.content && assignment.type == 'video' && <button className='btn btn-outline' onClick={() => handleAddContent(chapter.id, assignment.id)} style={{ background: '#fff', border: '1px solid' }}>
-                                                                        + Noi dung
+                                                                        + Nội dung
                                                                     </button>}
                                                                     {
                                                                         assignment.type === 'quizz' && assignment.quiz && assignment.quiz.map((quizItem, quizIndex) => (
@@ -1005,7 +1005,7 @@ const CreateCourse = () => {
                                                                     }
                                                                     {assignment.type == 'quizz' && !assignment.isAddQuiz && (
                                                                         <button className='btn btn-outline' onClick={() => handleAddQuiz(chapter.id, assignment.id)} style={{ background: '#fff', border: '1px solid' }}>
-                                                                            + Cau hoi
+                                                                            + Câu hỏi
                                                                         </button>
                                                                     )}
                                                                 </>
@@ -1015,15 +1015,15 @@ const CreateCourse = () => {
                                                 </div>
                                             ))}
                                             <div style={{ display: 'flex', padding: '20px 0 10px 0', gap: '10px' }}>
-                                                <button className='btn btn-outline' onClick={() => handleAddAssignment(chapter.id, 'video')} style={{ background: '#fff', border: '1px solid' }}>+ Bai giang</button>
-                                                <button className='btn btn-outline' onClick={() => handleAddAssignment(chapter.id, 'quizz')} style={{ background: '#fff', border: '1px solid' }}>+ Bai trac nghiem</button>
+                                                <button className='btn btn-outline' onClick={() => handleAddAssignment(chapter.id, 'video')} style={{ background: '#fff', border: '1px solid' }}>+ Bài giảng</button>
+                                                <button className='btn btn-outline' onClick={() => handleAddAssignment(chapter.id, 'quizz')} style={{ background: '#fff', border: '1px solid' }}>+ Bài trắc nghiệm</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             ))}
                             <div style={{ paddingTop: '10px' }}>
-                                <button className='btn btn-outline' onClick={handleAddChapter} style={{ background: '#fff', border: '1px solid' }}>+ Chuong</button>
+                                <button className='btn btn-outline' onClick={handleAddChapter} style={{ background: '#fff', border: '1px solid' }}>+ Chương</button>
                             </div>
                         </div>
                         <div style={{ marginTop: '10px' }}>

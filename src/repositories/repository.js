@@ -48,7 +48,7 @@ const instructorInfo = () => {
   return api.get('/api/instructor/info');
 }
 
-const updateInfo = (credentials) => {
+const updateInstructorInfo = (credentials) => {
   return api.put('/api/instructor/info', credentials);
 }
 
@@ -176,7 +176,6 @@ export default {
   updateLesson,
   listAllTeacher,
   listNewTeacher,
-  updateInfo,
   updateFollowStatusInstructor,
   teacherDetailAPI,
   updateBookmark,
@@ -194,5 +193,6 @@ export default {
   returnVNP,
   registerInstructor,
   checkRegisterInstructor,
-  listInstructorSearch
+  listInstructorSearch,
+  updateInstructorInfo
 };

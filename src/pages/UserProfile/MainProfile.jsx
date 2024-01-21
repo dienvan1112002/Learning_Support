@@ -8,9 +8,10 @@ import getImageFromBaseURL from 'src/helper/get_image';
 const MainProfile = () => {
     const [singleImage, setSingleImage] = useState([]);
     const [user, setUser] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
-        email: [],
+        email: '',
         image: '',
     });
 
@@ -24,6 +25,19 @@ const MainProfile = () => {
             ...formData,
             [event.target.name]: event.target.value,
         });
+    };
+
+    const handleEditClick = () => {
+        setFormData({
+            ...formData,
+            name: user?.name || '',
+            email: user?.email || '',
+        });
+        setIsEditing(true);
+    };
+
+    const handleCancelEdit = () => {
+        setIsEditing(false);
     };
 
     useEffect(() => {
@@ -45,7 +59,8 @@ const MainProfile = () => {
             }
         });
 
-        const res = await repository.updateUserInfo(data)
+        await repository.updateUserInfo(data)
+        setIsEditing(false);
         window.location.reload();
     }
 
@@ -67,37 +82,59 @@ const MainProfile = () => {
                                         <input type="text" readonly class="form-control-plaintext" id="username" value={user?.username} />
                                     </div>
                                 </div>
-                                <div class="mb-4 row">
-                                    <label class="col-sm-4 col-form-label">Họ và tên:</label>
-                                    <div class="col-sm-8">
+                                {isEditing ? (
+                                    <div>
+                                        {/* Editable input fields during edit mode */}
+                                        <label>Họ và tên:</label>
                                         <input
                                             type="text"
                                             style={{ fontSize: '2rem' }}
-                                            class="form-control"
+                                            className="form-control mb-4"
                                             name="name"
-                                            // value={formData.name}
+                                            value={formData.name}
                                             onChange={handleInputChange}
                                         />
-                                    </div>
-                                </div>
-                                <div class="mb-4 row">
-                                    <label class="col-sm-4 col-form-label">Email:</label>
-                                    <div class="col-sm-8">
+                                        <label>Email:</label>
                                         <input
                                             type="text"
                                             style={{ fontSize: '2rem' }}
-                                            class="form-control"
+                                            className="form-control mb-4"
                                             name="email"
-                                            // value={formData.email}
+                                            value={formData.email}
                                             onChange={handleInputChange}
                                         />
+                                        <div style={{ display: 'flex', gap: '10px' }}>
+                                            <button className="btn btn-save" onClick={updateInfo}>
+                                                <div className="text-save">Lưu</div>
+                                            </button>
+                                            <button className="btn btn-danger" onClick={handleCancelEdit}>
+                                                <div className="text-save">Hủy</div>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                                <button className='btn btn-save' style={{ margin: '50px 0 0 300px' }}>
-                                    <div className='text-save' onClick={updateInfo}>
-                                        Lưu
+                                ) : (
+                                    <div>
+                                        <div class="mb-4 row">
+                                            <label class="col-sm-4 col-form-label">Họ và tên:</label>
+                                            <div class="col-sm-8">
+                                                <div>{user?.name}</div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4 row">
+                                            <label class="col-sm-4 col-form-label">Email:</label>
+                                            <div class="col-sm-8">
+                                                <div>{user?.email}</div>
+                                            </div>
+                                        </div>
+                                        <div style={{ display: 'flex', gap: '10px' }}>
+                                            <button className='btn btn-save'>
+                                                <div className='text-save' onClick={handleEditClick}>
+                                                    Sửa
+                                                </div>
+                                            </button>
+                                        </div>
                                     </div>
-                                </button>
+                                )}
                             </div>
                         </div>
                         <div className="col-4">

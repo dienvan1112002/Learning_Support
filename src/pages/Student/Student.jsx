@@ -101,7 +101,7 @@ const Student = () => {
                 {roleHeaders[role]}
             </div>
             <div style={{ padding: '50px', backgroundColor: '#F7F7F8' }}>
-                <h1>Hoc vien cho xac nhan</h1>
+                <h1>Học viên chờ xác nhận</h1>
                 {data.map((rentData, index) => (
                     <div key={index} style={{ backgroundColor: '#fff', padding: '50px', margin: '25px' }}>
                         <div className='row'>
@@ -113,8 +113,8 @@ const Student = () => {
                                 <p>Thời gian bắt đầu: {formatDate(rentData.timeStart)} </p>
                             </div>
                             <div className="col-md-3" style={{ display: 'flex', gap: '10px' }}>
-                                <button onClick={() => acceptConfirm(rentData._id)} style={{ height: '36px' }} type='button' className='btn btn-primary'>Chap nhan</button>
-                                <button style={{ height: '36px' }} type='button' className='btn btn-primary'>Tu choi</button>
+                                <button onClick={() => acceptConfirm(rentData._id)} style={{ height: '36px' }} type='button' className='btn btn-primary'>Chấp nhận</button>
+                                <button style={{ height: '36px' }} type='button' className='btn btn-primary'>Từ chối</button>
                             </div>
                         </div>
                     </div>
@@ -136,7 +136,7 @@ const Student = () => {
 
             <br />
             <div style={{ padding: '50px', backgroundColor: '#F7F7F8' }}>
-                <h1>Hoc vien da xac nhan</h1>
+                <h1>Học viên đã xác nhận</h1>
                 {listApproved.map((rentData, index) => (
                     <div key={index} style={{ backgroundColor: '#fff', padding: '50px', margin: '25px' }}>
                         <div className='row'>
@@ -148,7 +148,7 @@ const Student = () => {
                                 <p>Thời gian bắt đầu: {formatDate(rentData.timeStart)} </p>
                             </div>
                             <div className="col-md-2" style={{ display: 'flex', gap: '10px' }}>
-                                <button style={{ height: '36px' }} type='button' className='btn btn-primary'>Vao phong</button>
+                                <button style={{ height: '36px' }} type='button' className='btn btn-primary'>Vào phòng</button>
                             </div>
                         </div>
                     </div>
