@@ -38,7 +38,7 @@ const UpdateInfo = () => {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h2>Thông tin hiển thị</h2>
                     <button
-                        style={{ padding: '10px 20px' }}
+                        style={{ padding: '10px 20px', fontSize: '11.25px' }}
                         type="button"
                         className="btn btn-outline-secondary"
                         onClick={() => setEditMode(true)}

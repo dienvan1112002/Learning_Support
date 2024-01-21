@@ -41,7 +41,7 @@
 .infoName {
     align-self: stretch;
     color: var(--grey-30, #4c4c4c);
-    font-family: Inter;
+    font-family: Be Vietnam Pro;
     font-size: 22px;
     font-style: normal;
     font-weight: 500;
@@ -50,7 +50,7 @@
 .infoNameH {
     align-self: stretch;
     color: var(--grey-30, #4c4c4c);
-    font-family: Inter;
+    font-family: Be Vietnam Pro;
     font-size: 22px;
     font-style: normal;
     font-weight: 500;
@@ -65,7 +65,7 @@
     width: 231px;
     margin: 0px;
     color: var(--grey-50, #808080);
-    font-family: Inter;
+    font-family: Be Vietnam Pro;
     font-size: 18px;
     font-style: normal;
     font-weight: 400;
@@ -79,7 +79,7 @@
 .starP {
     margin: 0;
     color: #000;
-    font-family: Inter;
+    font-family: Be Vietnam Pro;
     font-size: 18px;
     font-style: normal;
     font-weight: 400;

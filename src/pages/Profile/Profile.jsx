@@ -73,6 +73,7 @@ const Profile = () => {
                                             <div style={{ fontStyle: 'bold', fontWeight: 700 }} className='col-md-4'>Tên:</div>
                                             <input
                                                 className='col-md-8 form-control'
+                                                style={{ fontSize: '1.5rem' }}
                                                 value={editedTeacher.name}
                                                 onChange={(e) => setEditedTeacher({ ...editedTeacher, name: e.target.value })}
                                             />
@@ -81,6 +82,7 @@ const Profile = () => {
                                             <div style={{ fontStyle: 'bold', fontWeight: 700 }} className='col-md-4'>Giá thuê:</div>
                                             <input
                                                 className='col-md-8 form-control'
+                                                style={{ fontSize: '1.5rem' }}
                                                 value={editedTeacher.price}
                                                 onChange={(e) => setEditedTeacher({ ...editedTeacher, price: e.target.value })}
                                             />
@@ -89,6 +91,7 @@ const Profile = () => {
                                             <div style={{ fontStyle: 'bold', fontWeight: 700 }} className='col-md-4'>Mô tả:</div>
                                             <input
                                                 className='col-md-8 form-control'
+                                                style={{ fontSize: '1.5rem' }}
                                                 value={editedTeacher.description}
                                                 onChange={(e) => setEditedTeacher({ ...editedTeacher, description: e.target.value })}
                                             />
@@ -103,7 +106,7 @@ const Profile = () => {
                                                 <div className='row' style={{ display: 'flex', padding: '10px' }}>
                                                     <div style={{ fontStyle: 'bold', fontWeight: 700 }} className='col-md-4'>Chọn ảnh:</div>
                                                     <div className='col-md-8'>
-                                                        <button type="button" className="btn btn-primary" onClick={onImageUpload}>Chọn ảnh</button>
+                                                        <button style={{ padding: '10px 20px', fontSize: '11.25px' }} type="button" className="btn btn-primary" onClick={onImageUpload}>Chọn ảnh</button>
                                                         {imageList.map((image) => (
                                                             <img key={image.key} src={image.data_url} alt="Selected" style={{ width: '100px', height: '100px', margin: '10px' }} />
                                                         ))}
@@ -130,9 +133,9 @@ const Profile = () => {
                                 )}
                                 <div style={{ paddingTop: '60px', paddingLeft: '180px' }}>
                                     {editMode ? (
-                                        <button type="button" className="btn btn-success" onClick={handleSave}>Lưu</button>
+                                        <button style={{ padding: '10px 20px', fontSize: '11.25px' }} type="button" className="btn btn-success" onClick={handleSave}>Lưu</button>
                                     ) : (
-                                        <button type="button" className="btn btn-primary" onClick={handleEdit}>Sửa</button>
+                                        <button style={{ padding: '10px 20px', fontSize: '11.25px' }} type="button" className="btn btn-primary" onClick={handleEdit}>Sửa</button>
                                     )}
                                 </div>
                             </div>

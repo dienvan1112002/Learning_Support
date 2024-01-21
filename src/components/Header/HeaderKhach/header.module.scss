@@ -27,7 +27,8 @@
 
 .header-left {
     display: flex;
-    gap: 5.9375rem;
+    gap: 6rem;
+    align-items: center;
 }
 
 .header-container {
@@ -71,8 +72,8 @@
     align-items: center;
     border-radius: 0.5rem;
     background: #fff;
-    font-size: 1.1rem;
-    font-weight: 500; /* Thay font-width thành font-weight */
+    font-size: 1.5rem;
+    font-weight: 500;
     white-space: nowrap; 
     text-transform: uppercase;
 }

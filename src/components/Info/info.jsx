@@ -24,7 +24,7 @@ const Info = () => {
                     <h2>Thông tin hiển thị</h2>
                     <button
                         onClick={() => navigate('/instructor/profile')}
-                        style={{ padding: '10px 20px' }}
+                        style={{ padding: '10px 20px', fontSize: '11.25px' }}
                         type="button"
                         className="btn btn-outline-secondary"
                     >
