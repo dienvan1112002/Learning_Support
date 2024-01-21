@@ -18,7 +18,6 @@ const Learning = () => {
     const handleToggleChapterExpand = (chapterIndex) => {
         setExpandedChapterIndex(expandedChapterIndex === chapterIndex ? null : chapterIndex);
     };
-
     useEffect(() => {
         const getCourse = async () => {
             let res = await repository.getCourseByUserOrInstructor(id);
@@ -162,7 +161,7 @@ const Learning = () => {
                     )}
                 </div>
                 <div className='col-3 learning-sidebar card'>
-                    <h2>Noi dung khoa hoc</h2>
+                    <h2>Nội dung khóa học</h2>
                     {course?.chapters.map((chapter, chapterIndex) => (
                         <div key={chapterIndex} className="learning-chapter">
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>

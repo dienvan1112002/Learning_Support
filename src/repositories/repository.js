@@ -161,6 +161,10 @@ const confirmRent = (id, credentials) => {
   return api.put(`/api/instructor/rent/${id}`, credentials);
 }
 
+const deleteCourse = (id) => {
+  return api.delete(`/api/instructor/course/${id}`)
+}
+
 export default {
   login,
   teacher,
@@ -199,5 +203,6 @@ export default {
   checkRegisterInstructor,
   listInstructorSearch,
   updateInstructorInfo,
-  confirmRent
+  confirmRent,
+  deleteCourse
 };

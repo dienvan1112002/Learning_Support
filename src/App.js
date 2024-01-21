@@ -56,7 +56,7 @@ function App() {
                         <Route key={index} path={route.path} element={<route.component />} />
                     ))}
 
-                    {isAuthenticated && userRole === 'student' &&
+                    {isAuthenticated && (userRole === 'student' || userRole === 'instructor') &&
                         (
                             studentRoutes.map((route, index) => (
                                 <Route key={index} path={route.path} element={<route.component />} />
