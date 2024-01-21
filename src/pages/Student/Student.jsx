@@ -18,6 +18,15 @@ const Student = () => {
     let role = localStorage.getItem('role') ?? '';
     const active = localStorage.getItem('active') ?? 'student';
     const [isSearchActive, setSearchActive] = useState(false);
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        const getUser = async () => {
+            let res = await repository.instructorInfo();
+            setUser(res.data.data)
+        };
+        getUser()
+    }, [])
 
     const roleHeaders = {
         '': <HeaderKhach toggleSearch={() => setSearchActive(!isSearchActive)} />,
@@ -53,7 +62,7 @@ const Student = () => {
 
     const handleFirestoreUpdates = () => {
         const db = getFirestore();
-        const rentsCollection = collection(db, 'rents');
+        const rentsCollection = collection(db, 'rents')
 
         const unsubscribe = onSnapshot(rentsCollection, (snapshot) => {
             try {
@@ -62,7 +71,9 @@ const Student = () => {
                         const newData = change.doc.data();
                         setData((prevData) => {
                             const isDataAlreadyExists = prevData.some(item => item.user._id === newData.user._id && item.instructor === newData.instructor);
-                            if (!isDataAlreadyExists) {
+                            console.log("isDataAlreadyExists == ", isDataAlreadyExists);
+                            console.log("user?._id == ", user?._id);
+                            if (!isDataAlreadyExists && newData.instructor == user?._id) {
                                 return [...prevData, newData];
                             } else {
                                 return prevData;
@@ -91,8 +102,22 @@ const Student = () => {
         };
     }, []);
 
-    const acceptConfirm = (id) => {
-        console.log("id == ", id);
+    const acceptConfirm = async (id) => {
+        await repository.confirmRent(id, {
+            status: 'approve'
+        })
+        window.location.reload();
+    }
+
+    const rejectConfirm = async (id) => {
+        await repository.confirmRent(id, {
+            status: 'rejected'
+        })
+        window.location.reload();
+    }
+
+    const redirectRoom = (id) => {
+        window.open(`https://topaz-nine-sunstone.glitch.me/?room=${id}`, "_blank");
     }
 
     return (
@@ -114,7 +139,7 @@ const Student = () => {
                             </div>
                             <div className="col-md-3" style={{ display: 'flex', gap: '10px' }}>
                                 <button onClick={() => acceptConfirm(rentData._id)} style={{ height: '36px' }} type='button' className='btn btn-primary'>Chấp nhận</button>
-                                <button style={{ height: '36px' }} type='button' className='btn btn-primary'>Từ chối</button>
+                                <button onClick={() => rejectConfirm(rentData._id)} style={{ height: '36px' }} type='button' className='btn btn-primary'>Từ chối</button>
                             </div>
                         </div>
                     </div>
@@ -148,7 +173,7 @@ const Student = () => {
                                 <p>Thời gian bắt đầu: {formatDate(rentData.timeStart)} </p>
                             </div>
                             <div className="col-md-2" style={{ display: 'flex', gap: '10px' }}>
-                                <button style={{ height: '36px' }} type='button' className='btn btn-primary'>Vào phòng</button>
+                                <button onClick={() => redirectRoom(rentData.roomId)} style={{ height: '36px' }} type='button' className='btn btn-primary'>Vào phòng</button>
                             </div>
                         </div>
                     </div>

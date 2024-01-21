@@ -58,7 +58,7 @@ const TeacherRent = () => {
         }
         const rentData = {
             user: user,
-            instructor: instructor._id,
+            instructor: instructor.user._id,
             time: selectedHour,
             timeStart: selectedDateTime,
             roomId: '',

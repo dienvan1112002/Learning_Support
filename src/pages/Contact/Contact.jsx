@@ -8,6 +8,7 @@ import Contact from 'src/components/Contact/Contact';
 import HeaderHv from 'src/components/Header/HeaderHv/HeaderHv';
 import HeaderGv from 'src/components/Header/HeaderGv/HeaderGv';
 import HeaderDkgv from 'src/components/Header/HeaderDkgv/HeaderDkgv';
+import Search from 'src/components/Search/Search';
 
 const cx = classNames.bind(styles);
 const ContactP = () => {
@@ -41,6 +42,7 @@ const ContactP = () => {
             <div className={cx('header')}>
                 {roleHeaders[displayHeader()]}
             </div>
+            {isSearchActive && <Search onClose={() => setSearchActive(false)} />}
             <div className={cx('body')}>
                 <Contact />
             </div>

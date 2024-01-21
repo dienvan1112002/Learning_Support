@@ -157,6 +157,10 @@ const checkRegisterInstructor = () => {
   return api.get('/api/user/status-instructor');
 }
 
+const confirmRent = (id, credentials) => {
+  return api.put(`/api/instructor/rent/${id}`, credentials);
+}
+
 export default {
   login,
   teacher,
@@ -194,5 +198,6 @@ export default {
   registerInstructor,
   checkRegisterInstructor,
   listInstructorSearch,
-  updateInstructorInfo
+  updateInstructorInfo,
+  confirmRent
 };
