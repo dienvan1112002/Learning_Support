@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Footer from 'src/components/Footer/Footer';
-import { getFirestore, collection, onSnapshot } from 'firebase/firestore';
-
+import { getFirestore, collection, onSnapshot, getDocs, query, where, doc, updateDoc } from 'firebase/firestore';
 import classNames from 'classnames/bind';
 import styles from './Student.module.scss';
 import repository from 'src/repositories/repository';
@@ -62,7 +61,7 @@ const Student = () => {
                         const newData = change.doc.data();
                         setData((prevData) => {
                             const isDataAlreadyExists = prevData.some(item => item.user._id === newData.user._id && item.instructor === newData.instructor);
-                            if (!isDataAlreadyExists && newData.instructor == localStorage.getItem('userId')) {
+                            if (!isDataAlreadyExists && newData.instructor == localStorage.getItem('userId') && newData.status == 'waiting') {
                                 return [...prevData, newData];
                             } else {
                                 return prevData;
@@ -95,6 +94,22 @@ const Student = () => {
         await repository.confirmRent(id, {
             status: 'approve'
         })
+        const db = getFirestore();
+        const rentsCollection = collection(db, 'rents');
+        try {
+            const q = query(rentsCollection, where('_id', '==', id));
+            const querySnapshot = await getDocs(q);
+
+            querySnapshot.forEach(async (doc) => {
+                await updateDoc(doc.ref, {
+                    status: 'approve'
+                });
+            });
+
+            console.log('Status updated successfully.');
+        } catch (error) {
+            console.error('Error updating status:', error);
+        }
         window.location.reload();
     }
 
