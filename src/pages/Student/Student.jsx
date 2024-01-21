@@ -18,15 +18,6 @@ const Student = () => {
     let role = localStorage.getItem('role') ?? '';
     const active = localStorage.getItem('active') ?? 'student';
     const [isSearchActive, setSearchActive] = useState(false);
-    const [user, setUser] = useState({});
-
-    useEffect(() => {
-        const getUser = async () => {
-            let res = await repository.instructorInfo();
-            setUser(res.data.data)
-        };
-        getUser()
-    }, [])
 
     const roleHeaders = {
         '': <HeaderKhach toggleSearch={() => setSearchActive(!isSearchActive)} />,
@@ -71,9 +62,7 @@ const Student = () => {
                         const newData = change.doc.data();
                         setData((prevData) => {
                             const isDataAlreadyExists = prevData.some(item => item.user._id === newData.user._id && item.instructor === newData.instructor);
-                            console.log("isDataAlreadyExists == ", isDataAlreadyExists);
-                            console.log("user?._id == ", user?._id);
-                            if (!isDataAlreadyExists && newData.instructor == user?._id) {
+                            if (!isDataAlreadyExists && newData.instructor == localStorage.getItem('userId')) {
                                 return [...prevData, newData];
                             } else {
                                 return prevData;
