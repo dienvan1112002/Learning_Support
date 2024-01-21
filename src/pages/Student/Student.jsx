@@ -117,6 +117,22 @@ const Student = () => {
         await repository.confirmRent(id, {
             status: 'rejected'
         })
+        const db = getFirestore();
+        const rentsCollection = collection(db, 'rents');
+        try {
+            const q = query(rentsCollection, where('_id', '==', id));
+            const querySnapshot = await getDocs(q);
+
+            querySnapshot.forEach(async (doc) => {
+                await updateDoc(doc.ref, {
+                    status: 'rejected'
+                });
+            });
+
+            console.log('Status updated successfully.');
+        } catch (error) {
+            console.error('Error updating status:', error);
+        }
         window.location.reload();
     }
 
