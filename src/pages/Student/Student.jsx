@@ -16,7 +16,7 @@ const Student = () => {
     const [data, setData] = useState([]);
     const [listApproved, setListApproved] = useState([]);
     let role = localStorage.getItem('role') ?? '';
-    const active = localStorage.getItem('active');
+    const active = localStorage.getItem('active') ?? 'student';
     const [isSearchActive, setSearchActive] = useState(false);
 
     const roleHeaders = {

@@ -18,7 +18,7 @@ const CourseP = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [courses, setCourses] = useState(null);
     let role = localStorage.getItem('role') ?? '';
-    let active = localStorage.getItem('active');
+    let active = localStorage.getItem('active') ?? 'student';
 
     const itemsPerPage = 3;
 

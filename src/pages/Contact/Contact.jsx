@@ -12,7 +12,7 @@ import HeaderDkgv from 'src/components/Header/HeaderDkgv/HeaderDkgv';
 const cx = classNames.bind(styles);
 const ContactP = () => {
     let role = localStorage.getItem('role') ?? '';
-    let active = localStorage.getItem('active');
+    let active = localStorage.getItem('active') ?? 'student';
 
     const [isSearchActive, setSearchActive] = useState(false);
 

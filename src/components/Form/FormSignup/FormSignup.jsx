@@ -33,6 +33,7 @@ const FormSignup = () => {
                     localStorage.setItem('username', response.data.data.username);
                     localStorage.setItem('userId', response.data.data.user_id);
                     localStorage.setItem('role', response.data.data.role);
+                    localStorage.setItem('active', 'student');
                     navigate('/');
                 }
             }

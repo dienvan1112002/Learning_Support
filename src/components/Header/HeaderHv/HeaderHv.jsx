@@ -34,7 +34,7 @@ const HeaderHv = ({ toggleSearch }) => {
     const navigate = useNavigate();
     const [showDropdown, setShowDropdown] = useState(false);
     let role = localStorage.getItem('role')
-    let active = localStorage.getItem('active');
+    let active = localStorage.getItem('active') ?? 'student';
 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);

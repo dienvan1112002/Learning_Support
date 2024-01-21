@@ -19,7 +19,7 @@ const cx = classNames.bind(styles);
 
 const Teacher = () => {
     let role = localStorage.getItem('role') ?? '';
-    let active = localStorage.getItem('active');
+    let active = localStorage.getItem('active') ?? 'student';
     const [listInstructors, setListInstructors] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [isSearchActive, setSearchActive] = useState(false);

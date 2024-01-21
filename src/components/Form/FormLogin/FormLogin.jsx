@@ -29,9 +29,11 @@ const FormLogin = (props) => {
                 localStorage.setItem('role', role);
                 if (role === "instructor") {
                     navigate('/instructor');
+                    localStorage.setItem('active', 'instructor')
                     window.location.reload(false);
                 } else {
                     navigate('/');
+                    localStorage.setItem('active', 'student')
                     window.location.reload(false);
                 }
             }
