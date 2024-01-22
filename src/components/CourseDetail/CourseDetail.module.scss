@@ -60,7 +60,7 @@
     font-weight: 600;
     line-height: 150%;
 }
-.danhgia {
+.danhgia1 {
     display: flex;
     height: 2.875rem;
     padding-bottom: 1rem;
@@ -183,6 +183,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
+    margin-bottom: 6rem;
     align-self: stretch;
 }
 .course-detail-bottom-para {
@@ -204,5 +205,90 @@
         font-style: normal;
         font-weight: 400;
         line-height: 150%; /* 1.6875rem */
+    }
+}
+.danhgia {
+    display: flex;
+    padding: 32px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    align-self: stretch;
+    background: #cccccc;
+}
+.danhgia-head {
+    h3 {
+        color: var(--brand-400, #4360a8);
+        font-family: Be Vietnam Pro;
+        font-size: 30px;
+        font-style: normal;
+        font-weight: 800;
+        line-height: 150%; /* 45px */
+    }
+}
+.comment {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3rem;
+    align-self: stretch;
+}
+.comment-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+}
+.comment-info-chitiet {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+.comment-info-chitiet-top {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+.comment-info-name {
+    display: flex;
+    width: 341px;
+    align-items: flex-start;
+    gap: 10px;
+    p {
+        display: flex;
+        width: 341px;
+        align-items: flex-start;
+        gap: 10px;
+        color: var(--absolute-black, #000);
+        font-family: Be Vietnam Pro;
+        font-size: 30px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 150%; /* 45px */
+    }
+}
+.comment-info-time {
+    p {
+        color: var(--absolute-black, #000);
+        font-family: Be Vietnam Pro;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 150%; /* 36px */
+    }
+}
+.comment-info-star {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+.comment-info-chitiet-nd {
+    p {
+        color: var(--absolute-black, #000);
+        font-family: Be Vietnam Pro;
+        font-size: 24px;
+
+        font-weight: 200;
     }
 }

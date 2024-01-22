@@ -6,6 +6,7 @@ import styles from './Profile.module.scss';
 import Footer from 'src/components/Footer/Footer';
 import repository from 'src/repositories/repository';
 import UpdateInfo from 'src/components/Info/UpdateInfo';
+import getImageFromBaseURL from 'src/helper/get_image';
 
 const cx = classNames.bind(styles);
 
@@ -108,7 +109,7 @@ const Profile = () => {
                                                     <div className='col-md-8'>
                                                         <button style={{ padding: '10px 20px', fontSize: '11.25px' }} type="button" className="btn btn-primary" onClick={onImageUpload}>Chọn ảnh</button>
                                                         {imageList.map((image) => (
-                                                            <img key={image.key} src={image.data_url} alt="Selected" style={{ width: '100px', height: '100px', margin: '10px' }} />
+                                                            <img key={image.key} src={getImageFromBaseURL(image.data_url)} alt="Selected" style={{ width: '100px', height: '100px', margin: '10px' }} />
                                                         ))}
                                                     </div>
                                                 </div>
@@ -140,7 +141,7 @@ const Profile = () => {
                                 </div>
                             </div>
                             <div className="col-md-4" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
-                                <img style={{ width: '200px', height: '200px', borderRadius: '50%' }} src={selectedImage || teacher?.user.image} alt="" />
+                                <img style={{ width: '200px', height: '200px', borderRadius: '50%' }} src={getImageFromBaseURL(selectedImage || teacher?.user.image)} alt="" />
                             </div>
                         </div>
                     </div>

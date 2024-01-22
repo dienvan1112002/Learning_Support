@@ -7,6 +7,7 @@ import star from '../../../assests/teacher/teacher-active/Star.png';
 import repository from 'src/repositories/repository';
 import { useNavigate } from 'react-router-dom';
 import Notification from 'src/components/Notification/Notification';
+import getImageFromBaseURL from 'src/helper/get_image';
 
 const cx = classNames.bind(styles);
 const TeacherOverview = ({ teacher }) => {
@@ -30,7 +31,7 @@ const TeacherOverview = ({ teacher }) => {
                 <div className={cx('container-info')}>
                     <div className={cx('info-left')}>
                         <div className={cx('info-img')}>
-                            {teacher?.user?.image && <img src={teacher?.user?.image} alt="cogiao" />}
+                            {teacher?.user?.image && <img src={getImageFromBaseURL(teacher?.user?.image)} alt="cogiao" />}
                         </div>
                         <div className={cx('info-btn')}>
                             <div className={cx('thue')}>
@@ -66,13 +67,13 @@ const TeacherOverview = ({ teacher }) => {
                                 <div>
                                     <b>Đánh giá:</b>
                                 </div>
-                                {teacher?.avg_rating && (
+                                {teacher?.avg_rating > 0 && (
                                     <div className={cx('danhgia-chitiet')}>
                                         <img src={star} alt="" />
-                                        <p>{teacher?.avg_rating} (41)</p>
+                                        <p>{Math.round(teacher?.avg_rating * 10) / 10} ({teacher.reviews.length})</p>
                                     </div>
                                 )}
-                                {!teacher?.avg_rating && <p>Chưa có đánh giá</p>}
+                                {teacher?.avg_rating == 0 && <p>Chưa có đánh giá</p>}
                             </div>
 
                             <div className={cx('khoahoc')}>

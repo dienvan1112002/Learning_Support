@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './TeacherItems.module.css';
 import green from '../../assests/teacher/teacher-active/Chamxanh.png';
 import star from '../../assests/teacher/teacher-active/Star.png';
+import getImageFromBaseURL from 'src/helper/get_image';
 
 const TeacherItems = ({ ins }) => {
     const navigate = useNavigate();
@@ -16,12 +17,12 @@ const TeacherItems = ({ ins }) => {
     return (
         <div className={styles.container}>
             <div className={styles.img}>
-                <img src={ins.user.image} alt="" />
+                <img style={{ height: '100%', width: '100%' }} src={getImageFromBaseURL(ins.user.image)} alt="" />
             </div>
             <div className={styles.info}>
                 <div className={styles.avt}>
                     <div className={styles.avtCon}>
-                        <img src={ins.user.image} alt="" />
+                        <img src={getImageFromBaseURL(ins.user.image)} alt="" />
                     </div>
                     <div className={styles.infoActive}>
                         <div className={styles.infoName}>
@@ -35,11 +36,10 @@ const TeacherItems = ({ ins }) => {
                         </div>
                     </div>
                     <div className={styles.star}>
-
-                        {ins.avg_rating && (
+                        {ins.avg_rating > 0 && (
                             <><div className="w-6 h-6">
                                 <img src={star} alt="" />
-                            </div><p className={styles.starP}>{ins.avg_rating}</p></>
+                            </div><p className={styles.starP}>{Math.round(ins.avg_rating * 10) / 10}</p></>
                         )}
                     </div>
                 </div>

@@ -11,6 +11,7 @@ const cx = classNames.bind(styles);
 const Course = ({ course }) => {
     const navigate = useNavigate();
     const role = localStorage.getItem('role')
+    const active = localStorage.getItem('active')
 
     const showCourse = (id) => {
         navigate(`/course/${id}`);
@@ -43,7 +44,7 @@ const Course = ({ course }) => {
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
                         <button className={cx('btn-primary-no-bs')} onClick={() => showCourse(course._id)}>Xem khóa học</button>
-                        {role === 'instructor' && <button onClick={() => deleteCourse(course._id)} style={{ fontWeight: 700, fontSize: '11.25px' }} type="button" className="btn btn-danger">Xóa</button>}
+                        {role === 'instructor' && active === "instructor" && <button onClick={() => deleteCourse(course._id)} style={{ fontWeight: 700, fontSize: '11.25px' }} type="button" className="btn btn-danger">Xóa</button>}
                     </div>
                 </div>
                 <div className={cx('course-img')}>

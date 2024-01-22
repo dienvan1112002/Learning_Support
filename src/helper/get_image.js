@@ -1,5 +1,8 @@
 function getImageFromBaseURL(imageURL) {
-    const imageBaseURL = 'http://localhost:3001/';  // May be add in .env file
+    if (imageURL?.includes('http')) {
+        return imageURL;
+    }
+    const imageBaseURL = 'http://localhost:3001/';
     return `${imageBaseURL}${imageURL}`;
 }
 

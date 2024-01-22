@@ -173,7 +173,7 @@ const MainProfile = () => {
                                             &nbsp;
                                             {imageList.map((image, index) => (
                                                 <div key={index} className="image-item" >
-                                                    <img src={image.data_url} alt="" width="100" />
+                                                    <img src={getImageFromBaseURL(image.data_url)} alt="" width="100" />
                                                     <div className="image-item__btn-wrapper">
                                                     </div>
                                                 </div>

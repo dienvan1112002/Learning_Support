@@ -6,9 +6,9 @@ import time from '../../../assests/sourse/time/time.png';
 
 const cx = classNames.bind(styles);
 
-const CourseContent = ({ chapter }) => {
+const CourseContent = ({ chapter, status }) => {
     const handleItemClick = (videoUrl) => {
-        if (videoUrl) {
+        if (videoUrl && status !== true) {
             window.open(videoUrl, '_blank');
         }
     };
@@ -29,7 +29,9 @@ const CourseContent = ({ chapter }) => {
                             className={cx('lists-item')}
                             id={`index__${lesson._id}`}
                             onClick={() => handleItemClick(lesson.content.url)}
-                            style={{ cursor: lesson.lessonType === 'video' ? 'pointer' : 'default' }}
+                            style={{
+                                cursor: status !== true && lesson.lessonType === 'video' ? 'pointer' : 'default',
+                            }}
                         >
                             <div className={cx('lists-item-name')}>
                                 <div className={cx('lists-item-title')}>
@@ -39,10 +41,11 @@ const CourseContent = ({ chapter }) => {
                                     <p>Bài {index + 1}</p>
                                 </div>
                             </div>
-                            {/* <div className={cx('lists-item-time')}>
-                                <img src={time} alt="" />
-                                <p>45 Phút</p>
-                            </div> */}
+                            <div className={cx('preview-label')}>
+                                {lesson.lessonType === 'video' && status !== true && chapter.index === 0 && (
+                                    <p>Xem trước</p>
+                                )}
+                            </div>
                         </div>
                     ))}
                 </div>

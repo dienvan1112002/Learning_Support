@@ -165,6 +165,14 @@ const deleteCourse = (id) => {
   return api.delete(`/api/instructor/course/${id}`)
 }
 
+const saveReviewCourse = (id, credentials) => {
+  return api.post(`/api/user/course/${id}/review`, credentials)
+}
+
+const saveReviewInstructor = (id, credentials) => {
+  return api.post(`/api/user/instructor/${id}/review`, credentials)
+}
+
 export default {
   login,
   teacher,
@@ -204,5 +212,7 @@ export default {
   listInstructorSearch,
   updateInstructorInfo,
   confirmRent,
-  deleteCourse
+  deleteCourse,
+  saveReviewCourse,
+  saveReviewInstructor
 };
