@@ -25,6 +25,14 @@ const TeacherOverview = ({ teacher }) => {
         }
     }
 
+    const redirectRent = () => {
+        if (!role) {
+            navigate('/login');
+            return;
+        }
+        navigate(`/teacher/${teacher._id}/rent`);
+    }
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
@@ -35,7 +43,7 @@ const TeacherOverview = ({ teacher }) => {
                         </div>
                         <div className={cx('info-btn')}>
                             <div className={cx('thue')}>
-                                <button onClick={() => navigate(`/teacher/${teacher._id}/rent`)}>Thuê</button>
+                                <button onClick={redirectRent}>Thuê</button>
                             </div>
                             <div className={cx('follow')}>
                                 {teacher?.isFollowed == false ?

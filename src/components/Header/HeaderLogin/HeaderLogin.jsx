@@ -5,6 +5,7 @@ import logo from '../../../assests/logo/shapelogo.png';
 import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(styles);
 const HeaderLogin = (props) => {
+    let role = localStorage.getItem('role') ?? '';
     const navigate = useNavigate();
 
     return (
@@ -20,9 +21,10 @@ const HeaderLogin = (props) => {
                     <p>{props.title}</p>
                 </div>
             </div>
-            <div className={cx('container-left')}>
+            {role != '' && <div className={cx('container-left')}>
                 <button onClick={() => navigate(-1)}>Quay lại</button>
-            </div>
+            </div>}
+
         </div>
     );
 };
