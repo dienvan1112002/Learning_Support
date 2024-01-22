@@ -61,17 +61,25 @@ const HeaderHv = ({ toggleSearch }) => {
     };
 
     const redirectRegisterInstructor = async () => {
-        let res = await repository.checkRegisterInstructor();
-        if (res.data.data.status == "pending") {
-            alert("Hệ thống sẽ kiểm tra và trả kết quả phê duyệt tới bạn. Vui lòng quay lại trang chủ")
-        } else if (res.data.data.status == "approve") {
-            localStorage.setItem('role', 'instructor')
-            localStorage.setItem('active', 'instructor')
-            navigate('/instructor')
-            window.location.reload();
-        } else {
-            navigate('/user/register-instructor')
+        try {
+            let res = await repository.checkRegisterInstructor();
+            if (res.data.data.status == "pending") {
+                alert("Hệ thống sẽ kiểm tra và trả kết quả phê duyệt tới bạn. Vui lòng quay lại trang chủ")
+            } else if (res.data.data.status == "approve") {
+                localStorage.setItem('role', 'instructor')
+                localStorage.setItem('active', 'instructor')
+                navigate('/instructor')
+                window.location.reload();
+            } else {
+                navigate('/user/register-instructor')
+            }
+        } catch (error) {
+            console.log("error == ", error);
+            if (error.response.status == 401) {
+                navigate('/login')
+            }
         }
+
     }
 
     if (active == 'student') {
