@@ -158,8 +158,8 @@ const Student = () => {
                                 <p>Thời gian bắt đầu: {formatDate(rentData.timeStart)} </p>
                             </div>
                             <div className="col-md-3" style={{ display: 'flex', gap: '10px' }}>
-                                <button onClick={() => acceptConfirm(rentData._id)} style={{ padding: '10px 20px', fontSize: '11.25px', height: '36px' }} type='button' className='btn btn-primary'>Chấp nhận</button>
-                                <button onClick={() => rejectConfirm(rentData._id)} style={{ padding: '10px 20px', fontSize: '11.25px', height: '36px' }} type='button' className='btn btn-primary'>Từ chối</button>
+                                <button onClick={() => acceptConfirm(rentData._id)} className={`${cx('button-action')} btn btn-primary`} type='button'>Chấp nhận</button>
+                                <button onClick={() => rejectConfirm(rentData._id)} className={`${cx('button-action')} btn btn-primary`} type='button'>Từ chối</button>
                             </div>
                         </div>
                     </div>
@@ -180,7 +180,7 @@ const Student = () => {
                                 <p>Thời gian bắt đầu: {formatDate(rentData.timeStart)} </p>
                             </div>
                             <div className="col-md-2" style={{ display: 'flex', gap: '10px' }}>
-                                <button onClick={() => redirectRoom(rentData.roomId)} style={{ padding: '10px 20px', fontSize: '11.25px', height: '36px' }} type='button' className='btn btn-primary'>Vào phòng</button>
+                                <button onClick={() => redirectRoom(rentData.roomId)} className={`${cx('button-action')} btn btn-primary`} type='button'>Vào phòng</button>
                             </div>
                         </div>
                     </div>

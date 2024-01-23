@@ -6,7 +6,11 @@ h4 {
 .wrapper {
     width: 100%;
 }
-.header {
+.button-action {
+    padding: 10px 20px !important;
+    font-size: 11.25px !important;
+    height: 36px !important;
+    background: var(--blue-100) !important;
 }
 .body {
     display: flex;
