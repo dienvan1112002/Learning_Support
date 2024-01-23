@@ -1,9 +1,10 @@
 export const firebaseConfig = {
-    apiKey: "AIzaSyAH1ocHoprXt-H7HHw1MkonXE_44uosywE",
-    authDomain: "learning-support-2fe9e.firebaseapp.com",
-    projectId: "learning-support-2fe9e",
-    storageBucket: "learning-support-2fe9e.appspot.com",
-    messagingSenderId: "512181590486",
-    appId: "1:512181590486:web:453d85f14cb38e7a7eec77",
-    measurementId: "G-HJFGF4RR90"
+    apiKey: "AIzaSyCPmQCc5NtLSXQi7n8ewywdcT8VIk1fW8w",
+    authDomain: "learning-support-a7bd4.firebaseapp.com",
+    databaseURL: "https://learning-support-a7bd4-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "learning-support-a7bd4",
+    storageBucket: "learning-support-a7bd4.appspot.com",
+    messagingSenderId: "95766175940",
+    appId: "1:95766175940:web:547927e10e5dbc0ea3e991",
+    measurementId: "G-J2J1HKQYDV"
 };

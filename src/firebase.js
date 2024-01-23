@@ -7,7 +7,7 @@ const messaging = getMessaging();
 
 export const requestForToken = async () => {
     try {
-        const currentToken = await getToken(messaging, { vapidKey: 'BDrFWvK5_HYBNNEXVNYuwNkvwH6e7rakjgeHrE2gqBsI3aPjt9GJfmCKmFI09Xx6hLv5zji9rjPa-gbIXBFZ7YQ' });
+        const currentToken = await getToken(messaging, { vapidKey: 'BIhrwto18-5m6W6OJqg93h4wBJ9_RpwXSj6wQQoxBMq2umJqo0fXfmrH0YL4oYurahFgOSi6cnjdsHZHiIyjxTM' });
         console.log('current token for client:', currentToken || 'No registration token available.');
         localStorage.setItem('fcm_token', currentToken);
     } catch (err) {

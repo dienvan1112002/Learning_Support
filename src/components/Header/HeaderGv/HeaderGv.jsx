@@ -13,10 +13,6 @@ import './headergv.css'
 const cx = classNames.bind(styles);
 const navLinks = [
   {
-    display: 'Trang chủ',
-    url: '/instructor',
-  },
-  {
     display: 'Thông tin',
     url: '/instructor/profile',
   },
@@ -80,9 +76,14 @@ const HeaderGv = () => {
             {/* Menu */}
             <div className={cx('nav-menu flex-row')}>
               <ul className={cx('nav-list')}>
+                <li key={0} className={cx('nav-item')}>
+                  <NavLink style={{ color: 'black' }} to={'/instructor'} className={cx('nav-a font-semibold font-bold')} end >
+                    Trang chủ
+                  </NavLink>
+                </li>
                 {navLinks.map((item, index) => (
                   <li key={index} className={cx('nav-item')}>
-                    <NavLink style={{ color: 'black' }} to={item.url} className={cx('nav-a font-semibold font-bold')}>
+                    <NavLink style={{ color: 'black' }} to={item.url} className={cx('nav-a font-semibold font-bold')} >
                       {item.display}
                     </NavLink>
                   </li>
