@@ -1,6 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Contact from './components/Contact/Contact';
+import CourseInstructor from './components/CourseDetail/CourseInstructor/CourseInstructor';
 import FormPayment from './components/Payment/FormPayment';
 import Payment from './components/Payment/Payment';
 import Course from './pages/Course/Course';
@@ -12,6 +13,7 @@ import HomeGV from './pages/Home/HomeGV';
 import Learning from './pages/Learning/Learning';
 import Login from './pages/Login/Login';
 import Profile from './pages/Profile/Profile';
+import Rent from './pages/Rent/Rent';
 import Student from './pages/Student/Student';
 import Teacher from './pages/Teacher/Teacher';
 import ChangePassword from './pages/UserProfile/ChangePassword';
@@ -26,6 +28,7 @@ const userRole = localStorage.getItem('role');
 const studentRoutes = [
     { path: '/course', component: Course },
     { path: '/teacher', component: Teacher },
+    { path: '/rent/list', component: Rent },
     { path: '/user/contact', component: Contact },
     { path: '/user/course/:id/learn', component: Learning },
     { path: '/user/course/:id/buy', component: Payment },
@@ -43,6 +46,7 @@ const instructorRoutes = [
     { path: '/instructor', component: HomeGV },
     { path: '/instructor/profile', component: Profile },
     { path: '/instructor/course', component: Course },
+    { path: '/instructor/course/:id', component: CourseInstructor },
     { path: '/instructor/student', component: Student },
     { path: '/instructor/course/create', component: CreateCourse },
 ];

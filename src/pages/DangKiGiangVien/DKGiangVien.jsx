@@ -17,9 +17,7 @@ const DKGiangVien = () => {
             <div className={cx('body')}>
                 <RegisterTecher />
             </div>
-            <div className={cx('footer')}>
-                <Footer />
-            </div>
+            <Footer />
         </div>
     );
 };

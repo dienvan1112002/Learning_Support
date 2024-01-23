@@ -13,8 +13,11 @@ const RegisterTecher3 = () => {
     const navigate = useNavigate()
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const [editingItemId, setEditingItemId] = useState(null);
-    const [singleImage, setSingleImage] = useState([]);
+    const [isChecked, setIsChecked] = useState(false);
+
+    const handleCheckboxChange = () => {
+        setIsChecked(!isChecked);
+    };
     const [certificateImage, setCertificateImage] = useState([]);
     const [academicLevelImage, setAcademicLevelImage] = useState([]);
     const [avatar, setAvatar] = useState([]);
@@ -22,12 +25,7 @@ const RegisterTecher3 = () => {
     const [items, setItems] = useState([
         {
             id: 1,
-            item: 'Chứng chỉ thiết kế hệ thống',
-            isEditting: false
-        },
-        {
-            id: 2,
-            item: 'Chứng chỉ tin học loại B',
+            item: '',
             isEditting: false
         },
     ]);
@@ -35,12 +33,7 @@ const RegisterTecher3 = () => {
     const [itemhv, setItemhv] = useState([
         {
             id: 1,
-            item: 'Sinh viên năm 4 KMA, GPA',
-            isEditting: false
-        },
-        {
-            id: 2,
-            item: 'Chứng chỉ tin học loại B',
+            item: '',
             isEditting: false
         },
     ]);
@@ -58,28 +51,54 @@ const RegisterTecher3 = () => {
         listType === 'items' ? setItems(updatedList) : setItemhv(updatedList);
     };
 
-    const handleOnChangeItem = (itemId, value) => {
-        setItems((prevChapters) =>
-            prevChapters.map((chapter) =>
-                chapter.id === itemId ? { ...chapter, item: value } : chapter
-            )
-        );
+    const handleOnChangeItem = (itemId, value, type) => {
+        if (type == 'chungchi') {
+            setItems((prevChapters) =>
+                prevChapters.map((chapter) =>
+                    chapter.id === itemId ? { ...chapter, item: value } : chapter
+                )
+            );
+        } else {
+            setItemhv((prevChapters) =>
+                prevChapters.map((chapter) =>
+                    chapter.id === itemId ? { ...chapter, item: value } : chapter
+                )
+            );
+        }
+
     }
 
-    const handleSaveItem = (itemId, value) => {
-        setItems((prevChapters) =>
-            prevChapters.map((chapter) =>
-                chapter.id === itemId ? { ...chapter, item: value, isEditting: false } : chapter
-            )
-        );
+    const handleSaveItem = (itemId, value, type) => {
+        if (type == 'chungchi') {
+            setItems((prevChapters) =>
+                prevChapters.map((chapter) =>
+                    chapter.id === itemId ? { ...chapter, item: value, isEditting: false } : chapter
+                )
+            );
+        } else {
+            setItemhv((prevChapters) =>
+                prevChapters.map((chapter) =>
+                    chapter.id === itemId ? { ...chapter, item: value, isEditting: false } : chapter
+                )
+            );
+        }
+
     }
 
-    const handleCancelEdit = (itemId) => {
-        setItems((prevChapters) =>
-            prevChapters.map((chapter) =>
-                chapter.id === itemId ? { ...chapter, isEditting: false } : chapter
-            )
-        );
+    const handleCancelEdit = (itemId, type) => {
+        if (type == 'chungchi') {
+            setItems((prevChapters) =>
+                prevChapters.map((chapter) =>
+                    chapter.id === itemId ? { ...chapter, isEditting: false } : chapter
+                )
+            );
+        } else {
+            setItemhv((prevChapters) =>
+                prevChapters.map((chapter) =>
+                    chapter.id === itemId ? { ...chapter, isEditting: false } : chapter
+                )
+            );
+        }
     }
 
     useEffect(() => {
@@ -102,7 +121,7 @@ const RegisterTecher3 = () => {
         const newItem = {
             id: items.length + 1,
             checked: false,
-            item: 'New Chứng chỉ',
+            item: '',
         };
 
         setItems([...items, newItem]);
@@ -111,34 +130,36 @@ const RegisterTecher3 = () => {
         const newItemhv = {
             id: itemhv.length + 1,
             checked: false,
-            item: 'New Trình độ',
+            item: '',
         };
 
         setItemhv([...itemhv, newItemhv]);
     };
 
     const handleSaveCer = async () => {
-        const data = new FormData();
-        certificateImage.forEach((image, index) => {
-            if (image && image.name) {
-                data.append('certificates', image, image.name);
-                data.append('certificates', items[index].item);
-            }
-        });
+        if (isChecked) {
+            const data = new FormData();
+            certificateImage.forEach((image, index) => {
+                if (image && image.name) {
+                    data.append('certificates', image, image.name);
+                    data.append('certificates', items[index].item);
+                }
+            });
 
-        academicLevelImage.forEach((image, index) => {
-            if (image && image.name) {
-                data.append('academic_level', image, image.name);
-                data.append('academic_level', itemhv[index].item);
-            }
-        });
+            academicLevelImage.forEach((image, index) => {
+                if (image && image.name) {
+                    data.append('academic_level', image, image.name);
+                    data.append('academic_level', itemhv[index].item);
+                }
+            });
 
-        JSON.parse(localStorage.getItem('selectedSubjects')).forEach(sub => {
-            data.append('subjects', sub);
-        })
-        let res = await repository.registerInstructor(data);
-        if (res.status == 200) {
-            setShow(true)
+            JSON.parse(localStorage.getItem('selectedSubjects')).forEach(sub => {
+                data.append('subjects', sub);
+            })
+            let res = await repository.registerInstructor(data);
+            if (res.status == 200) {
+                setShow(true)
+            }
         }
     }
 
@@ -157,17 +178,21 @@ const RegisterTecher3 = () => {
                                         <div className={cx('item-list')}>
                                             {item.isEditting ? (
                                                 <>
-                                                    <input
+                                                    <input className={cx('item-span')}
                                                         type="text"
                                                         value={item.item}
-                                                        onChange={(e) => handleOnChangeItem(item.id, e.target.value)}
+                                                        onChange={(e) => handleOnChangeItem(item.id, e.target.value, 'chungchi')}
                                                     />
-                                                    <i class="ri-save-3-line" onClick={() => handleSaveItem(item.id, item.item)}></i>
-                                                    <i class="ri-delete-bin-line" onClick={() => handleCancelEdit(item.id)}></i>
+                                                    <div className={cx('item-btn')}>
+                                                        <div className={cx('item-btn-icon')}>
+                                                            <i class="ri-save-3-line" onClick={() => handleSaveItem(item.id, item.item, 'chungchi')}></i>
+                                                            <i class="ri-delete-bin-line" onClick={() => handleCancelEdit(item.id, 'chungchi')}></i>
+                                                        </div>
+                                                    </div>
                                                 </>
                                             ) : (
                                                 <>
-                                                    <span>{item.item}</span>
+                                                    <span className={cx('item-span')}>{item.item}</span>
                                                     <div className={cx('item-btn')}>
                                                         <div className={cx('item-btn-icon')}>
                                                             <i className="ri-pencil-line" onClick={(e) => handleEdit(item.id, 'items', e)}></i>
@@ -206,19 +231,31 @@ const RegisterTecher3 = () => {
                                 {itemhv.map((item) => (
                                     <li className={cx('item')} key={item.id}>
                                         <div className={cx('item-list')}>
-                                            <input
-                                                type="text"
-                                                value={item.item}
-                                                disabled={editingItemId !== item.id}
-                                                checked={item.checked}
-                                                onChange={(e) => setItems(e.target.value)}
-                                            />
-                                        </div>
-                                        <div className={cx('item-btn')}>
-                                            <div className={cx('item-btn-icon')}>
-                                                <i className="ri-pencil-line" onClick={(e) => handleEdit(item.id, 'itemhv', e)}></i>
-                                                <i class="ri-delete-bin-line" onClick={() => handleDelete(item.id, 'itemhv')}></i>
-                                            </div>
+                                            {item.isEditting ? (
+                                                <>
+                                                    <input className={cx('item-span')}
+                                                        type="text"
+                                                        value={item.item}
+                                                        onChange={(e) => handleOnChangeItem(item.id, e.target.value, 'trinhdo')}
+                                                    />
+                                                    <div className={cx('item-btn')}>
+                                                        <div className={cx('item-btn-icon')}>
+                                                            <i class="ri-save-3-line" onClick={() => handleSaveItem(item.id, item.item, 'trinhdo')}></i>
+                                                            <i class="ri-delete-bin-line" onClick={() => handleCancelEdit(item.id, 'trinhdo')}></i>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <span className={cx('item-span')}>{item.item}</span>
+                                                    <div className={cx('item-btn')}>
+                                                        <div className={cx('item-btn-icon')}>
+                                                            <i className="ri-pencil-line" onClick={(e) => handleEdit(item.id, 'itemhv', e)}></i>
+                                                            <i class="ri-delete-bin-line" onClick={() => handleDelete(item.id, 'itemhv')}></i>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            )}
                                         </div>
                                         <div className={cx('item-btn-file')}>
                                             <input
@@ -239,11 +276,11 @@ const RegisterTecher3 = () => {
                     </div>
                 </div>
                 <div className={cx('checkbox')}>
-                    <input type="checkbox" />
+                    <input type="checkbox" checked={isChecked} onChange={handleCheckboxChange} />
                     <p>Đồng ý với điều khoản sử dụng và chính sách quyền riêng tư</p>
                 </div>
                 <div className={cx('wrapper-bottom')}>
-                    <button onClick={handleSaveCer}>
+                    <button style={{ color: '#fff' }} onClick={handleSaveCer} disabled={!isChecked}>
                         Gửi đi
                     </button>
                 </div>
@@ -259,7 +296,7 @@ const RegisterTecher3 = () => {
                     </Modal.Footer>
                 </Modal>
             </div>
-        </div>
+        </div >
     );
 };
 

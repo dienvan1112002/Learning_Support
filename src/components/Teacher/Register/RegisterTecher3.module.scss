@@ -3,7 +3,6 @@
     justify-content: center;
 }
 .wrapper {
-    background-color: #ccc;
     padding: 50px;
     display: flex;
     gap: 6rem;
@@ -34,6 +33,7 @@
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    width: 700px;
 }
 .content-chungchi-item {
     display: flex;
@@ -83,12 +83,24 @@
 .item-list {
     background-color: #fff;
 }
+.item-span {
+    width: 400px !important;
+    background: #f1eded;
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 32px;
+}
 .item-btn {
     display: flex;
     cursor: pointer;
     gap: 1rem;
     justify-content: center;
     align-items: center;
+    width: 20%;
     button {
         border: 1px solid var(--Blue-300, #5773ba);
         background: #fff;
@@ -106,8 +118,9 @@
 }
 .item-list {
     display: flex;
-    width: 40%;
+    width: 100%;
     gap: 10px;
+    align-items: center;
     input {
         width: 100%;
         color: var(--Absolute-Black, #000);

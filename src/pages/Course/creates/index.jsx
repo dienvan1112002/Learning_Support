@@ -865,7 +865,7 @@ const CreateCourse = () => {
                                             {chapter.assignments.map((assignment) => (
                                                 <div key={assignment.id} style={{ border: '1px solid', padding: '10px 20px 10px 20px' }}>
                                                     <div style={{ display: 'flex', gap: '10px' }}>
-                                                        <span>Bai {assignment.id}:</span>
+                                                        <span>Bài {assignment.id}:</span>
                                                         {assignment.isEditing ? (
                                                             <>
                                                                 <input

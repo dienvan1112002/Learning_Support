@@ -68,7 +68,7 @@ const Home = () => {
                             <button>Khám phá khóa học</button>
                         </Link>
                         <Link to="teacher">
-                            <button className={cx('bg-slate-100 rounded text-black')}>Tự chọn gia sư</button>
+                            <button className={cx('bg-slate-100 rounded')}>Tự chọn gia sư</button>
                         </Link>
                     </div>
                 </div>

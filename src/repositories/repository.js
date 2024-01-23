@@ -173,7 +173,17 @@ const saveReviewInstructor = (id, credentials) => {
   return api.post(`/api/user/instructor/${id}/review`, credentials)
 }
 
+const getListRentByUser = (status) => {
+  return api.get(`/api/user/rent?status=${status}`);
+}
+
+const cancelRentByUser = (id) => {
+  return api.put(`/api/user/rent/${id}`);
+}
+
 export default {
+  getListRentByUser,
+  cancelRentByUser,
   login,
   teacher,
   courseOfInstructor,

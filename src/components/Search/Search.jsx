@@ -9,13 +9,13 @@ const Search = ({ onClose }) => {
     const [isInputFilled, setIsInputFilled] = useState(false);
     const [course, setCourse] = useState([]);
     const [instructor, setInstructor] = useState([]);
-    const debounced = React.useCallback(debounce(fetchData, 500), []);
+    const debounced = React.useCallback(debounce(fetchData, 800), []);
 
     const handleInputChange = (event) => {
         const value = event.target.value;
         setSearchInput(value);
         setIsInputFilled(value.trim() !== '');
-        fetchData(value)
+        debounced(value);
     };
 
     async function fetchData(searchTerm) {
@@ -38,9 +38,6 @@ const Search = ({ onClose }) => {
         onClose();
     };
 
-    console.log("course == ", course);
-    console.log("instructor == ", instructor);
-
     return (
         <div className="global-search global-search-modal">
             <div className="global-search-inner">
@@ -54,7 +51,7 @@ const Search = ({ onClose }) => {
                         value={searchInput}
                         onChange={(e) => {
                             handleInputChange(e)
-                            debounced(e.target.value, 1000);
+                            debounced(e.target.value, 800);
                         }}
                     />
                     <a className="clear" href="#">✕</a>

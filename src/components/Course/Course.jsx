@@ -14,7 +14,11 @@ const Course = ({ course }) => {
     const active = localStorage.getItem('active')
 
     const showCourse = (id) => {
-        navigate(`/course/${id}`);
+        if (role == 'instructor') {
+            navigate(`/instructor/course/${id}`);
+        } else {
+            navigate(`/course/${id}`);
+        }
     }
 
     const deleteCourse = async (id) => {
@@ -68,7 +72,7 @@ const Course = ({ course }) => {
                             <p>Được cập nhật cách đây {daysFromNow(course.updatedAt)} ngày</p>
                         </div>
                         <div className={cx('course-bottom-box')}>
-                            <p>{course.title}</p>
+                            <p>{course.subject}</p>
                         </div>
                     </div>
                     <div className={cx('course-bottom-author')}>

@@ -28,6 +28,10 @@ const navLinks = [
         display: 'Liên Hệ',
         url: '/contact',
     },
+    {
+        display: 'Đơn thuê',
+        url: '/rent/list'
+    }
 ];
 
 const HeaderHv = ({ toggleSearch }) => {

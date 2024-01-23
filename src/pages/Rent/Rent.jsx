@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Footer from 'src/components/Footer/Footer';
 import { getFirestore, collection, onSnapshot, getDocs, query, where, doc, updateDoc } from 'firebase/firestore';
 import classNames from 'classnames/bind';
-import styles from './Student.module.scss';
+import styles from './Rent.module.scss';
 import repository from 'src/repositories/repository';
 import formatDate from 'src/helper/formatDate';
 import HeaderKhach from 'src/components/Header/HeaderKhach/Header';
@@ -11,7 +11,7 @@ import HeaderGv from 'src/components/Header/HeaderGv/HeaderGv';
 import HeaderDkgv from 'src/components/Header/HeaderDkgv/HeaderDkgv';
 
 const cx = classNames.bind(styles);
-const Student = () => {
+const Rent = () => {
     const [data, setData] = useState([]);
     const [listApproved, setListApproved] = useState([]);
     let role = localStorage.getItem('role') ?? '';
@@ -34,7 +34,7 @@ const Student = () => {
 
     const fetchDataFromDatabase = async () => {
         try {
-            const apiData = await repository.studentWaitForConfirmation('waiting');
+            const apiData = await repository.getListRentByUser('waiting');
             setData(apiData.data.data);
         } catch (error) {
             console.error('Error fetching data from database:', error);
@@ -43,7 +43,7 @@ const Student = () => {
 
     const fetchApproved = async () => {
         try {
-            const apiData = await repository.studentWaitForConfirmation('approve');
+            const apiData = await repository.getListRentByUser('approve');
             setListApproved(apiData.data.data);
         } catch (error) {
             console.error('Error fetching data from database:', error);
@@ -61,7 +61,7 @@ const Student = () => {
                         const newData = change.doc.data();
                         setData((prevData) => {
                             const isDataAlreadyExists = prevData.some(item => item.user._id === newData.user._id && item.instructor === newData.instructor);
-                            if (!isDataAlreadyExists && newData.user._id == localStorage.getItem('userId') && newData.status == 'waiting') {
+                            if (!isDataAlreadyExists && newData.instructor == localStorage.getItem('userId') && newData.status == 'waiting') {
                                 return [...prevData, newData];
                             } else {
                                 return prevData;
@@ -90,33 +90,8 @@ const Student = () => {
         };
     }, []);
 
-    const acceptConfirm = async (id) => {
-        await repository.confirmRent(id, {
-            status: 'approve'
-        })
-        const db = getFirestore();
-        const rentsCollection = collection(db, 'rents');
-        try {
-            const q = query(rentsCollection, where('_id', '==', id));
-            const querySnapshot = await getDocs(q);
-
-            querySnapshot.forEach(async (doc) => {
-                await updateDoc(doc.ref, {
-                    status: 'approve'
-                });
-            });
-
-            console.log('Status updated successfully.');
-        } catch (error) {
-            console.error('Error updating status:', error);
-        }
-        window.location.reload();
-    }
-
     const rejectConfirm = async (id) => {
-        await repository.confirmRent(id, {
-            status: 'rejected'
-        })
+        await repository.cancelRentByUser(id)
         const db = getFirestore();
         const rentsCollection = collection(db, 'rents');
         try {
@@ -146,20 +121,19 @@ const Student = () => {
                 {roleHeaders[role]}
             </div>
             <div style={{ padding: '50px', backgroundColor: '#F7F7F8' }}>
-                <h1>Học viên chờ xác nhận</h1>
+                <h1>Đơn chờ xác nhận</h1>
                 {data.map((rentData, index) => (
                     <div key={index} style={{ backgroundColor: '#fff', padding: '50px', margin: '25px' }}>
                         <div className='row'>
                             <div className="col-md-9">
-                                <p>{rentData.user.name} đã yêu cầu giảng dạy trực tuyến</p>
+                                <p>Giảng viên: {rentData.instructor.user.name}</p>
                                 <p>Môn học: {rentData.subject}</p>
                                 <p>Mô tả: {rentData.description}</p>
                                 <p>Thời gian thuê: {rentData.time} giờ</p>
                                 <p>Thời gian bắt đầu: {formatDate(rentData.timeStart)} </p>
                             </div>
                             <div className="col-md-3" style={{ display: 'flex', gap: '10px' }}>
-                                <button onClick={() => acceptConfirm(rentData._id)} style={{ padding: '10px 20px', fontSize: '11.25px', height: '36px' }} type='button' className='btn btn-primary'>Chấp nhận</button>
-                                <button onClick={() => rejectConfirm(rentData._id)} style={{ padding: '10px 20px', fontSize: '11.25px', height: '36px' }} type='button' className='btn btn-primary'>Từ chối</button>
+                                <button onClick={() => rejectConfirm(rentData._id)} className={`${cx('button-action')} btn btn-primary`} type='button'>Hủy</button>
                             </div>
                         </div>
                     </div>
@@ -168,19 +142,20 @@ const Student = () => {
 
             <br />
             <div style={{ padding: '50px', backgroundColor: '#F7F7F8' }}>
-                <h1>Học viên đã xác nhận</h1>
+                <h1>Đơn đã xác nhận</h1>
                 {listApproved.map((rentData, index) => (
                     <div key={index} style={{ backgroundColor: '#fff', padding: '50px', margin: '25px' }}>
                         <div className='row'>
                             <div className="col-md-9">
-                                <p>{rentData.user.name} đã yêu cầu giảng dạy trực tuyến</p>
+                                <p>Giảng viên: {rentData.instructor.user.name}</p>
                                 <p>Môn học: {rentData.subject}</p>
                                 <p>Mô tả: {rentData.description}</p>
                                 <p>Thời gian thuê: {rentData.time} giờ</p>
                                 <p>Thời gian bắt đầu: {formatDate(rentData.timeStart)} </p>
                             </div>
                             <div className="col-md-2" style={{ display: 'flex', gap: '10px' }}>
-                                <button onClick={() => redirectRoom(rentData.roomId)} style={{ padding: '10px 20px', fontSize: '11.25px', height: '36px' }} type='button' className='btn btn-primary'>Vào phòng</button>
+                                <button className={`${cx('button-action')} btn btn-primary`}
+                                    onClick={() => redirectRoom(rentData.roomId)} type='button'>Vào phòng</button>
                             </div>
                         </div>
                     </div>
@@ -194,4 +169,4 @@ const Student = () => {
     );
 }
 
-export default Student;
+export default Rent;

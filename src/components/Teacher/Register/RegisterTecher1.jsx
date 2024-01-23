@@ -134,7 +134,7 @@ const RegisterTecher1 = () => {
                 }
             </div>
             <div className={cx('btn')}>
-                <button onClick={handleRedirect}>Tiếp</button>
+                <button style={{ color: '#fff' }} onClick={handleRedirect}>Tiếp</button>
             </div>
         </div>
     );

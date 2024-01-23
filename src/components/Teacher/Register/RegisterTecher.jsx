@@ -22,7 +22,7 @@ const RegisterTecher = () => {
                     </h3>
 
                     <p>Biến những gì bạn biết thành cơ hội và tiếp cận hàng triệu người trên thế giới</p>
-                    <button onClick={() => redirect()}>Bắt đầu ngay</button>
+                    <button style={{ color: '#fff' }} onClick={() => redirect()}>Bắt đầu ngay</button>
                 </div>
                 <div className={cx('body-top-img')}>
                     <img src={nen} alt="" />
