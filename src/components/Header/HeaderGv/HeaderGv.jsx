@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import classNames from 'classnames/bind';
-import { IoMdSearch } from 'react-icons/io';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 import styles from './HeaderGV.module.scss';
 import logo from '../../../assests/logo/shapelogo.png';
 
 import { PiBellRingingDuotone } from 'react-icons/pi';
 import { FaRegUserCircle } from 'react-icons/fa';
+
+import './headergv.css'
 
 const cx = classNames.bind(styles);
 const navLinks = [
@@ -81,9 +82,9 @@ const HeaderGv = () => {
               <ul className={cx('nav-list')}>
                 {navLinks.map((item, index) => (
                   <li key={index} className={cx('nav-item')}>
-                    <Link to={item.url} className={cx('nav-a text-black font-semibold font-bold')}>
+                    <NavLink style={{ color: 'black' }} to={item.url} className={cx('nav-a font-semibold font-bold')}>
                       {item.display}
-                    </Link>
+                    </NavLink>
                   </li>
                 ))}
               </ul>

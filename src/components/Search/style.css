@@ -276,7 +276,6 @@ nav ul {
     padding: var(--spacing-sm);
 }
 a:any-link {
-    color: var(--fm-text-link-dark);
     font-weight: var(--fm-fw-medium);
     text-decoration: none;
 }

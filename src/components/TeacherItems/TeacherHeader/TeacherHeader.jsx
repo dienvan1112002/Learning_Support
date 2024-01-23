@@ -5,7 +5,8 @@ import styles from './TeacherHeader.module.scss';
 const cx = classNames.bind(styles);
 
 const TeacherHeader = ({ handleGetUrl }) => {
-    const [active, setActive] = useState();
+    const [active, setActive] = useState(1);
+
     const listNewTeacher = async (status, id) => {
         setActive(id)
         switch (status) {
@@ -49,7 +50,7 @@ const TeacherHeader = ({ handleGetUrl }) => {
             <div className={cx('lists')}>
                 {renderDiv.map((div, index) => {
                     return (
-                        <div key={index} className={cx('lists-all', `${div.id === active ? 'active-status' : ''}`)}>
+                        <div key={index} className={cx('lists-all', { 'active-status': div.id === active })}>
                             <p onClick={() => listNewTeacher(div.status, div.id)}>{div.title}</p>
                         </div>
 

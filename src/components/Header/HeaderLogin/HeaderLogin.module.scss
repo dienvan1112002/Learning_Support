@@ -22,6 +22,7 @@ p {
 .container-logo {
     display: flex;
     gap: 2.75rem;
+    align-items: center;
     img {
         display: flex;
         width: 5rem;
@@ -47,7 +48,7 @@ p {
     font-size: 28px;
     font-weight: 600;
     p {
-        margin-top: 2.25rem;
+        margin-top: 15px;
     }
 }
 .container-left {

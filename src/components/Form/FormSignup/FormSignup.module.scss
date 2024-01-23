@@ -7,7 +7,7 @@
     flex-shrink: 0;
     align-self: stretch;
     border-radius: 9px;
-    background: #ccc;
+    background: #fff;
 }
 .container-login {
     display: flex;
@@ -17,7 +17,6 @@
     align-items: flex-start;
     gap: 2rem;
     border-radius: 12px;
-    background: var(--absolute-white, #ccc);
 }
 .login-head {
     display: flex;

@@ -6,7 +6,7 @@ const subjects = [
     "Văn học",
     "Lịch sử",
     "Địa lý",
-    "Giáo dục công dân",
+    "GDCD",
     "Tiếng Anh",
 ]
 

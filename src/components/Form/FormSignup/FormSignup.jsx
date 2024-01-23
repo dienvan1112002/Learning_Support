@@ -13,6 +13,7 @@ const FormSignup = () => {
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
     const [checked, setChecked] = useState(false);
+    const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
     const handleCheckboxChange = () => {
@@ -36,6 +37,8 @@ const FormSignup = () => {
                     localStorage.setItem('active', 'student');
                     navigate('/');
                 }
+            } else {
+                setMessage("Vui lòng Đồng ý với điều khoản sử dụng và chính sách quyền riêng tư");
             }
         } catch (error) {
             console.log(error);
@@ -96,6 +99,7 @@ const FormSignup = () => {
                             </button>
                         </div>
                     </div>
+                    {message && <p style={{ color: 'red', textAlign: 'center' }}>{message}</p>}
                     <div className={cx('or')}>
                         <p>Hoặc</p>
                     </div>

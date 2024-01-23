@@ -21,7 +21,7 @@ const CourseDetail = () => {
     const [course, setCourse] = useState(null);
     const { id } = useParams();
     let role = localStorage.getItem('role') ?? '';
-    let active = localStorage.getItem('active') ?? 'student';
+    let active = localStorage.getItem('active') ?? '';
     const [value, setValue] = React.useState(1);
     const [comment, setComment] = useState('');
 
@@ -102,8 +102,10 @@ const CourseDetail = () => {
         }
         if (active == 'student') {
             role = 'student'
-        } else {
+        } else if (active == 'instructor') {
             role = 'instructor'
+        } else {
+            role = ''
         }
         return role;
     }

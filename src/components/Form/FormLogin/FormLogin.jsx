@@ -14,6 +14,7 @@ const FormLogin = (props) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
 
     const handleSubmit = async () => {
         try {
@@ -39,6 +40,7 @@ const FormLogin = (props) => {
             }
         } catch (error) {
             console.log(error);
+            setMessage("Sai tài khoản hoặc mật khẩu. Vui lòng nhập lại.")
         }
     };
 
@@ -80,6 +82,7 @@ const FormLogin = (props) => {
                             <button type="submit">{props.title}</button>
                         </div>
                     </div>
+                    {message && <p style={{ color: 'red', textAlign: 'center' }}>{message}</p>}
                     <div className={cx('or')}>
                         <p>Hoặc</p>
                     </div>

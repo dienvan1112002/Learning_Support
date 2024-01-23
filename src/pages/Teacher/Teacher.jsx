@@ -20,7 +20,7 @@ const cx = classNames.bind(styles);
 
 const Teacher = () => {
     let role = localStorage.getItem('role') ?? '';
-    let active = localStorage.getItem('active') ?? 'student';
+    let active = localStorage.getItem('active') ?? '';
     const [listInstructors, setListInstructors] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [isSearchActive, setSearchActive] = useState(false);
@@ -72,8 +72,10 @@ const Teacher = () => {
         }
         if (active == 'student') {
             role = 'student'
-        } else {
+        } else if (active == 'instructor') {
             role = 'instructor'
+        } else {
+            role = ''
         }
         return role;
     }

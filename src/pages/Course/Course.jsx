@@ -19,7 +19,7 @@ const CourseP = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [courses, setCourses] = useState(null);
     let role = localStorage.getItem('role') ?? '';
-    let active = localStorage.getItem('active') ?? 'student';
+    let active = localStorage.getItem('active') ?? '';
 
     const itemsPerPage = 3;
 
@@ -71,8 +71,10 @@ const CourseP = () => {
         }
         if (active == 'student') {
             role = 'student'
-        } else {
+        } else if (active == 'instructor') {
             role = 'instructor'
+        } else {
+            role = ''
         }
         return role;
     }
@@ -85,7 +87,7 @@ const CourseP = () => {
             {isSearchActive && <Search onClose={() => setSearchActive(false)} />}
             <div className={cx('body')}>
                 {role == 'instructor' && <CourseHead />}
-                {role == 'student' && <CourseHeader handleGetUrl={handleGetUrl} />}
+                {role != 'instructor' && <CourseHeader handleGetUrl={handleGetUrl} />}
                 <div className={cx('course-item')}>
                     {displayedItems && displayedItems.map((course) => {
                         return <Course

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import { IoMdSearch } from 'react-icons/io';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 import styles from './HeaderHV.module.scss';
 import logo from '../../../assests/logo/shapelogo.png';
@@ -102,9 +102,9 @@ const HeaderHv = ({ toggleSearch }) => {
                             <ul className={cx('nav-list')}>
                                 {navLinks.map((item, index) => (
                                     <li key={index} className={cx('nav-item')}>
-                                        <Link to={item.url} className={cx('nav-a text-black font-semibold font-bold')}>
+                                        <NavLink style={{ color: 'black' }} to={item.url} exact className={cx('nav-a font-semibold font-bold')}>
                                             {item.display}
-                                        </Link>
+                                        </NavLink>
                                     </li>
                                 ))}
                             </ul>

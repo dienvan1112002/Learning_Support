@@ -10,11 +10,12 @@ import HeaderKhach from 'src/components/Header/HeaderKhach/Header';
 import HeaderHv from 'src/components/Header/HeaderHv/HeaderHv';
 import HeaderGv from 'src/components/Header/HeaderGv/HeaderGv';
 import HeaderDkgv from 'src/components/Header/HeaderDkgv/HeaderDkgv';
+import './home.css'
 
 const cx = classNames.bind(styles);
 const Home = () => {
     let role = localStorage.getItem('role') ?? '';
-    let active = localStorage.getItem('active') ?? 'student';
+    let active = localStorage.getItem('active') ?? '';
     const [isSearchActive, setSearchActive] = useState(false);
 
     const roleHeaders = {
@@ -31,8 +32,10 @@ const Home = () => {
         }
         if (active == 'student') {
             role = 'student'
-        } else {
+        } else if (active == 'instructor') {
             role = 'instructor'
+        } else {
+            role = ''
         }
         return role;
     }
@@ -40,6 +43,8 @@ const Home = () => {
     useEffect(() => {
         requestForToken();
     }, [])
+    console.log("role == ", role);
+    console.log("role == ", displayHeader());
 
     return (
         <div className={cx('wrapper')}>

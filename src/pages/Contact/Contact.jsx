@@ -13,7 +13,7 @@ import Search from 'src/components/Search/Search';
 const cx = classNames.bind(styles);
 const ContactP = () => {
     let role = localStorage.getItem('role') ?? '';
-    let active = localStorage.getItem('active') ?? 'student';
+    let active = localStorage.getItem('active') ?? '';
 
     const [isSearchActive, setSearchActive] = useState(false);
 
@@ -31,8 +31,10 @@ const ContactP = () => {
         }
         if (active == 'student') {
             role = 'student'
-        } else {
+        } else if (active == 'instructor') {
             role = 'instructor'
+        } else {
+            role = ''
         }
         return role;
     }

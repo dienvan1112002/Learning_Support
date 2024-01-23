@@ -9,6 +9,7 @@ import CourseHead from 'src/components/Course/CourseHead/CourseHead';
 import Course from 'src/components/Course/Course';
 import repository from 'src/repositories/repository';
 import useApi from 'src/utils/useApi';
+import './home.css'
 
 const cx = classNames.bind(styles);
 
@@ -22,6 +23,7 @@ const HomeGV = () => {
     if (result) {
         courses = result.data;
     }
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>

@@ -39,7 +39,7 @@ const RegisterTecher1 = () => {
         },
         {
             id: 8,
-            name: 'Giáo dục công dân'
+            name: 'GDCD'
         },
         {
             id: 9,
