@@ -7,6 +7,7 @@ import Footer from 'src/components/Footer/Footer';
 import repository from 'src/repositories/repository';
 import UpdateInfo from 'src/components/Info/UpdateInfo';
 import getImageFromBaseURL from 'src/helper/get_image';
+import numberWithCommas from 'src/helper/formatNumber';
 
 const cx = classNames.bind(styles);
 
@@ -97,24 +98,6 @@ const Profile = () => {
                                                 onChange={(e) => setEditedTeacher({ ...editedTeacher, description: e.target.value })}
                                             />
                                         </div>
-                                        <ImageUploading
-                                            value={singleImage}
-                                            onChange={onChange}
-                                            maxNumber={maxNumber}
-                                            dataURLKey="data_url"
-                                        >
-                                            {({ imageList, onImageUpload }) => (
-                                                <div className='row' style={{ display: 'flex', padding: '10px' }}>
-                                                    <div style={{ fontStyle: 'bold', fontWeight: 700 }} className='col-md-4'>Chọn ảnh:</div>
-                                                    <div className='col-md-8'>
-                                                        <button style={{ padding: '10px 20px', fontSize: '11.25px' }} type="button" className="btn btn-primary" onClick={onImageUpload}>Chọn ảnh</button>
-                                                        {imageList.map((image) => (
-                                                            <img key={image.key} src={getImageFromBaseURL(image.data_url)} alt="Selected" style={{ width: '100px', height: '100px', margin: '10px' }} />
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </ImageUploading>
                                     </>
                                 ) : (
                                     <>
@@ -124,11 +107,11 @@ const Profile = () => {
                                         </div>
                                         <div className='row' style={{ display: 'flex', padding: '10px' }}>
                                             <div style={{ fontStyle: 'bold, fontWeight: 700' }} className='col-md-4'>Giá thuê:</div>
-                                            <div className='col-md-8'>{teacher?.price} đ/h</div>
+                                            <div className='col-md-8'>{numberWithCommas(+teacher?.price)} đ/h</div>
                                         </div>
                                         <div className='row' style={{ display: 'flex', padding: '10px' }}>
                                             <div style={{ fontStyle: 'bold', fontWeight: 700 }} className='col-md-4'>Mô tả:</div>
-                                            <div className='col-md-8'>Nhận dạy tất cả các môn khoa học tự nhiên</div>
+                                            <div className='col-md-8'>{teacher?.description}</div>
                                         </div>
                                     </>
                                 )}
