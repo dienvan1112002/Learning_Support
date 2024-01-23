@@ -141,46 +141,40 @@ const MainProfile = () => {
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
                                 <img
                                     style={{ width: '200px', height: '200px', borderRadius: '50%' }}
-                                    src={getImageFromBaseURL(user?.image)}
+                                    src={singleImage[0]?.data_url || getImageFromBaseURL(user?.image)}
                                     alt=""
                                 />
-                                <ImageUploading
-                                    value={singleImage}
-                                    onChange={onChangeImage}
-                                    dataURLKey="data_url"
-                                    acceptType={["jpg"]}
-                                >
-                                    {({
-                                        imageList,
-                                        onImageUpload,
-                                        onImageRemoveAll,
-                                        onImageUpdate,
-                                        onImageRemove,
-                                        isDragging,
-                                        dragProps
-                                    }) => (
-                                        <div>
-                                            <button
-                                                style={isDragging ? { color: "red" } : null}
-                                                onClick={onImageUpload}
-                                                {...dragProps}
-                                                className='btn btn-save'
-                                            >
-                                                <div className="text-save">
-                                                    Chọn ảnh
-                                                </div>
-                                            </button>
-                                            &nbsp;
-                                            {imageList.map((image, index) => (
-                                                <div key={index} className="image-item" >
-                                                    <img src={getImageFromBaseURL(image.data_url)} alt="" width="100" />
-                                                    <div className="image-item__btn-wrapper">
+                                {isEditing && (
+                                    <ImageUploading
+                                        value={singleImage}
+                                        onChange={onChangeImage}
+                                        dataURLKey="data_url"
+                                        acceptType={["jpg"]}
+                                    >
+                                        {({
+                                            imageList,
+                                            onImageUpload,
+                                            onImageRemoveAll,
+                                            onImageUpdate,
+                                            onImageRemove,
+                                            isDragging,
+                                            dragProps
+                                        }) => (
+                                            <div>
+                                                <button
+                                                    style={isDragging ? { color: "red" } : null}
+                                                    onClick={onImageUpload}
+                                                    {...dragProps}
+                                                    className='btn btn-save'
+                                                >
+                                                    <div className="text-save">
+                                                        Chọn ảnh
                                                     </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </ImageUploading>
+                                                </button>
+                                            </div>
+                                        )}
+                                    </ImageUploading>
+                                )}
                                 <span>Dung lượng file tối đa 1 MB</span>
                                 <span>Định dạng:.JPEG, .PNG</span>
                             </div>

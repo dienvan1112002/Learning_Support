@@ -91,50 +91,48 @@ const Student = () => {
     }, []);
 
     const acceptConfirm = async (id) => {
-        await repository.confirmRent(id, {
-            status: 'approve'
-        })
         const db = getFirestore();
         const rentsCollection = collection(db, 'rents');
+
         try {
+            await repository.confirmRent(id, {
+                status: 'approve'
+            })
             const q = query(rentsCollection, where('_id', '==', id));
             const querySnapshot = await getDocs(q);
 
-            querySnapshot.forEach(async (doc) => {
-                await updateDoc(doc.ref, {
-                    status: 'approve'
-                });
-            });
+            const updates = querySnapshot.docs.map((doc) => updateDoc(doc.ref, { status: 'approve' }));
+            await Promise.all(updates);
 
             console.log('Status updated successfully.');
         } catch (error) {
             console.error('Error updating status:', error);
         }
+
         window.location.reload();
-    }
+    };
 
     const rejectConfirm = async (id) => {
-        await repository.confirmRent(id, {
-            status: 'rejected'
-        })
         const db = getFirestore();
         const rentsCollection = collection(db, 'rents');
+
         try {
+            await repository.confirmRent(id, {
+                status: 'rejected'
+            })
             const q = query(rentsCollection, where('_id', '==', id));
             const querySnapshot = await getDocs(q);
 
-            querySnapshot.forEach(async (doc) => {
-                await updateDoc(doc.ref, {
-                    status: 'rejected'
-                });
-            });
+            const updates = querySnapshot.docs.map((doc) => updateDoc(doc.ref, { status: 'rejected' }));
+            await Promise.all(updates);
 
             console.log('Status updated successfully.');
         } catch (error) {
             console.error('Error updating status:', error);
         }
+
         window.location.reload();
-    }
+    };
 
     const redirectRoom = (id) => {
         window.open(`https://topaz-nine-sunstone.glitch.me/?room=${id}`, "_blank");

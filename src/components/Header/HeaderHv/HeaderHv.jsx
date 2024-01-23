@@ -134,11 +134,11 @@ const HeaderHv = ({ toggleSearch }) => {
                                 <ul>
                                     <li>
                                         <Link to="/user/profile" onClick={closeDropdown}>
-                                            Ho so cua toi
+                                            Hồ sơ của tôi
                                         </Link>
                                     </li>
                                     <li>
-                                        <span onClick={handleLogout}>Logout</span>
+                                        <span onClick={handleLogout}>Đăng xuất</span>
                                     </li>
                                 </ul>
                             </div>

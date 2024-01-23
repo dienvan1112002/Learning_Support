@@ -106,12 +106,12 @@ const HeaderGv = () => {
               <div className={cx('dropdown')}>
                 <ul>
                   <li>
-                    <Link to="/instructor/profile" onClick={closeDropdown}>
-                      Ho so cua toi
+                    <Link to="/user/profile" onClick={closeDropdown}>
+                      Hồ sơ của tôi
                     </Link>
                   </li>
                   <li>
-                    <span onClick={handleLogout}>Logout</span>
+                    <span onClick={handleLogout}>Đăng xuất</span>
                   </li>
                 </ul>
               </div>

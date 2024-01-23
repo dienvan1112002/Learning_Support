@@ -158,8 +158,10 @@
   
 .dropdown {
     position: absolute;
-    top: 100%;
+    top: 150%;
     right: 0;
     z-index: 1000;
     white-space: nowrap;
+    background-color: #fff;
+    padding: 10px;
 }
