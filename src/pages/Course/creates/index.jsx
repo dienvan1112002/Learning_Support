@@ -36,21 +36,23 @@ const CreateCourse = () => {
                     isEditing: false,
                     isAddContent: false,
                     isAddQuiz: false,
+                    isEditingContent: false,
+                    isDeletingContent: false,
                     quiz: [
                         {
                             id: 1,
-                            question: 'Mulalsada sdada',
+                            question: '',
                             isAddQuestion: false,
                             answers: [
                                 {
                                     id: 1,
-                                    text: 'A',
+                                    text: '',
                                     isCorrect: false
                                 },
                                 {
                                     id: 2,
-                                    text: 'B',
-                                    isCorrect: true
+                                    text: '',
+                                    isCorrect: false
                                 },
                             ]
                         },
@@ -465,6 +467,7 @@ const CreateCourse = () => {
                                         ...assignment,
                                         content: content,
                                         isAddContent: false,
+                                        isEditingContent: false
                                     }
                                     : assignment
                             ),
@@ -493,13 +496,77 @@ const CreateCourse = () => {
     };
 
     const handleEditContentAssignment = (chapterId, assignmentId) => {
-        const currentAssignment = chapters.find((chapter) => chapter.id === chapterId)?.assignments.find((assignment) => assignment.id === assignmentId);
-
-        if (currentAssignment) {
-            setIsEditingContent(true);
-            setEditedContent(currentAssignment.content);
-        }
+        setChapters((prevChapters) => {
+            const updatedChapters = prevChapters.map((chapter) => {
+                if (chapter.id === chapterId) {
+                    const updatedAssignments = chapter.assignments.map((assignment) => {
+                        if (assignment.id === assignmentId) {
+                            setEditedContent(assignment.content);
+                            return {
+                                ...assignment,
+                                isEditingContent: true,
+                            };
+                        }
+                        return assignment;
+                    });
+                    return {
+                        ...chapter,
+                        assignments: updatedAssignments,
+                    };
+                }
+                return chapter;
+            });
+            return updatedChapters;
+        });
     };
+
+    const handleCancelEditContentAssignment = (chapterId, assignmentId) => {
+        setChapters((prevChapters) => {
+            const updatedChapters = prevChapters.map((chapter) => {
+                if (chapter.id === chapterId) {
+                    const updatedAssignments = chapter.assignments.map((assignment) => {
+                        if (assignment.id === assignmentId) {
+                            return {
+                                ...assignment,
+                                isEditingContent: false,
+                            };
+                        }
+                        return assignment;
+                    });
+                    return {
+                        ...chapter,
+                        assignments: updatedAssignments,
+                    };
+                }
+                return chapter;
+            });
+            return updatedChapters;
+        });
+    };
+
+    const handleDeleteContentAssignment = (chapterId, assignmentId) => {
+        setChapters((prevChapters) => {
+            const updatedChapters = prevChapters.map((chapter) => {
+                if (chapter.id === chapterId) {
+                    const updatedAssignments = chapter.assignments.map((assignment) => {
+                        if (assignment.id === assignmentId) {
+                            return {
+                                ...assignment,
+                                content: '',
+                            };
+                        }
+                        return assignment;
+                    });
+                    return {
+                        ...chapter,
+                        assignments: updatedAssignments,
+                    };
+                }
+                return chapter;
+            });
+            return updatedChapters;
+        });
+    }
 
     const handleCancelEditContent = (chapterId, assignmentId) => {
         setChapters((prevChapters) =>
@@ -702,8 +769,9 @@ const CreateCourse = () => {
             alert('Đăng kí khóa học thất bại');
             console.error(error);
         }
-
     };
+
+    console.log("chapters == ", chapters);
 
     return (
         <div className={cx('wrapper')}>
@@ -916,23 +984,23 @@ const CreateCourse = () => {
                                                                 <>
                                                                     {assignment.content && (
                                                                         <>
-                                                                            {isEditingContent ? (
+                                                                            {assignment.isEditingContent ? (
                                                                                 <>
                                                                                     <ReactQuill
                                                                                         value={editedContent}
                                                                                         onChange={(value) => setEditedContent(value)}
                                                                                     />
-                                                                                    <button className='btn btn-outline' onClick={() => setIsEditingContent(false)}>Hủy</button>
+                                                                                    <button className='btn btn-outline' onClick={() => handleCancelEditContentAssignment(chapter.id, assignment.id)}>Hủy</button>
                                                                                     <button className='btn btn-primary' onClick={() => handleSaveContent(chapter.id, assignment.id, editedContent)}>Lưu</button>
                                                                                 </>
                                                                             ) : (
                                                                                 <>
                                                                                     <div dangerouslySetInnerHTML={{ __html: assignment.content }} />
                                                                                     <i className="ri-pencil-line" onClick={() => handleEditContentAssignment(chapter.id, assignment.id)}></i>
-                                                                                    <i className="ri-delete-bin-line" onClick={() => setIsDeletingContent(true)}></i>
+                                                                                    <i className="ri-delete-bin-line" onClick={() => handleDeleteContentAssignment(chapter.id, assignment.id)}></i>
                                                                                 </>
                                                                             )}
-                                                                            {isDeletingContent && (
+                                                                            {assignment.isDeletingContent && (
                                                                                 <>
                                                                                     <button className='btn btn-outline' onClick={() => setIsDeletingContent(false)}>Hủy</button>
                                                                                     <button className='btn btn-danger' onClick={() => handleDeleteContent(chapter.id, assignment.id)}>Xoa</button>
