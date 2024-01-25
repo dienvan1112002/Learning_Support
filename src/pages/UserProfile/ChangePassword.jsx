@@ -12,6 +12,7 @@ const ChangePassword = () => {
     });
     const [passwordVisibility, setPasswordVisibility] = useState({
         new_password: false,
+        old_password: false,
         retry_password: false
     });
     const [errorMessage, setErrorMessage] = useState('');
@@ -56,6 +57,7 @@ const ChangePassword = () => {
             let res = await repository.updatePassword(formData);
             setPasswordVisibility({
                 new_password: false,
+                old_password: false,
                 retry_password: false
             });
             console.log(res);
@@ -81,9 +83,13 @@ const ChangePassword = () => {
                         <div class="mb-3">
                             <label class="form-label">Mật khẩu hiện tại</label>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <input type="text" style={{ fontSize: '1.5rem' }} class="form-control" name="old_password" placeholder="Nhập mật khẩu hiện tại"
+                                <input type={passwordVisibility.old_password ? 'text' : 'password'} style={{ fontSize: '1.5rem' }} class="form-control" name="old_password" placeholder="Nhập mật khẩu hiện tại"
                                     onChange={handleInputChange}
                                 />
+                                <i
+                                    className={`ri-eye-${passwordVisibility.old_password ? 'off-fill' : 'fill'}`}
+                                    onClick={() => togglePasswordVisibility('old_password')}
+                                ></i>
                             </div>
                         </div>
                         <div class="mb-3">

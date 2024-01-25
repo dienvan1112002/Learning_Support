@@ -9,13 +9,15 @@ import HeaderKhach from 'src/components/Header/HeaderKhach/Header';
 import HeaderHv from 'src/components/Header/HeaderHv/HeaderHv';
 import HeaderGv from 'src/components/Header/HeaderGv/HeaderGv';
 import HeaderDkgv from 'src/components/Header/HeaderDkgv/HeaderDkgv';
+import numberWithCommas from 'src/helper/formatNumber';
+import Search from 'src/components/Search/Search';
 
 const cx = classNames.bind(styles);
 const Rent = () => {
     const [data, setData] = useState([]);
     const [listApproved, setListApproved] = useState([]);
     let role = localStorage.getItem('role') ?? '';
-    const active = localStorage.getItem('active') ?? 'student';
+    const active = localStorage.getItem('active') ?? '';
     const [isSearchActive, setSearchActive] = useState(false);
 
     const roleHeaders = {
@@ -26,10 +28,18 @@ const Rent = () => {
         'admin': <HeaderDkgv />
     };
 
-    if (active == 'student') {
-        role = 'student'
-    } else {
-        role = 'instructor'
+    const displayHeader = () => {
+        if (role === 'instructor' || role === 'student') {
+            role = 'student'
+        }
+        if (active == 'student') {
+            role = 'student'
+        } else if (active == 'instructor') {
+            role = 'instructor'
+        } else {
+            role = ''
+        }
+        return role;
     }
 
     const fetchDataFromDatabase = async () => {
@@ -117,8 +127,9 @@ const Rent = () => {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
-                {roleHeaders[role]}
+                {roleHeaders[displayHeader()]}
             </div>
+            {isSearchActive && <Search onClose={() => setSearchActive(false)} />}
             <div style={{ padding: '50px', backgroundColor: '#F7F7F8' }}>
                 <h1>Đơn chờ xác nhận</h1>
                 {data.map((rentData, index) => (
@@ -129,6 +140,7 @@ const Rent = () => {
                                 <p>Môn học: {rentData.subject}</p>
                                 <p>Mô tả: {rentData.description}</p>
                                 <p>Thời gian thuê: {rentData.time} giờ</p>
+                                <p>Giá: {numberWithCommas(rentData.price)}</p>
                                 <p>Thời gian bắt đầu: {formatDate(rentData.timeStart)} </p>
                             </div>
                             <div className="col-md-3" style={{ display: 'flex', gap: '10px' }}>
@@ -150,6 +162,7 @@ const Rent = () => {
                                 <p>Môn học: {rentData.subject}</p>
                                 <p>Mô tả: {rentData.description}</p>
                                 <p>Thời gian thuê: {rentData.time} giờ</p>
+                                <p>Giá: {numberWithCommas(rentData.price)}</p>
                                 <p>Thời gian bắt đầu: {formatDate(rentData.timeStart)} </p>
                             </div>
                             <div className="col-md-2" style={{ display: 'flex', gap: '10px' }}>

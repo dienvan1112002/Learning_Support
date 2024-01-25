@@ -20,9 +20,20 @@ const FormSignup = () => {
         setChecked(!checked); // Toggle the value when the checkbox changes
     };
 
+    function ValidateEmail(mail) {
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+            return (true)
+        }
+        return (false)
+    }
+
     const handleSubmit = async () => {
         try {
             if (checked) {
+                if (!ValidateEmail(email)) {
+                    setMessage("Vui lòng nhập đúng định dạng email");
+                    return;
+                }
                 const response = await axios.post('http://localhost:3001/auth/signup', {
                     username: user,
                     password: password,
@@ -61,13 +72,13 @@ const FormSignup = () => {
                 <div className={cx('login-content')}>
                     <div className={cx('content')}>
                         <div className={cx('content-name')}>
-                            <label htmlFor="user">Số điện thoại/email</label>
+                            <label htmlFor="user">Email</label>
                             <input
                                 onChange={(e) => setEmail(e.target.value)}
                                 type="text"
                                 id="user"
                                 name="user"
-                                placeholder="Tên đăng nhập/email"
+                                placeholder="Email"
                             />
                         </div>
                         <div className={cx('content-name')}>

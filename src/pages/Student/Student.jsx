@@ -9,6 +9,7 @@ import HeaderKhach from 'src/components/Header/HeaderKhach/Header';
 import HeaderHv from 'src/components/Header/HeaderHv/HeaderHv';
 import HeaderGv from 'src/components/Header/HeaderGv/HeaderGv';
 import HeaderDkgv from 'src/components/Header/HeaderDkgv/HeaderDkgv';
+import numberWithCommas from 'src/helper/formatNumber';
 
 const cx = classNames.bind(styles);
 const Student = () => {
@@ -61,7 +62,7 @@ const Student = () => {
                         const newData = change.doc.data();
                         setData((prevData) => {
                             const isDataAlreadyExists = prevData.some(item => item.user._id === newData.user._id && item.instructor === newData.instructor);
-                            if (!isDataAlreadyExists && newData.user._id == localStorage.getItem('userId') && newData.status == 'waiting') {
+                            if (!isDataAlreadyExists && newData.instructor._id == localStorage.getItem('userId') && newData.status == 'waiting') {
                                 return [...prevData, newData];
                             } else {
                                 return prevData;
@@ -153,6 +154,7 @@ const Student = () => {
                                 <p>Môn học: {rentData.subject}</p>
                                 <p>Mô tả: {rentData.description}</p>
                                 <p>Thời gian thuê: {rentData.time} giờ</p>
+                                <p>Giá: {numberWithCommas(rentData.price)}</p>
                                 <p>Thời gian bắt đầu: {formatDate(rentData.timeStart)} </p>
                             </div>
                             <div className="col-md-3" style={{ display: 'flex', gap: '10px' }}>

@@ -43,8 +43,6 @@ const Home = () => {
     useEffect(() => {
         requestForToken();
     }, [])
-    console.log("role == ", role);
-    console.log("role == ", displayHeader());
 
     return (
         <div className={cx('wrapper')}>

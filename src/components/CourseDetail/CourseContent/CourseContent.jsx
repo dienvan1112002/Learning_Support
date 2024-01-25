@@ -7,6 +7,7 @@ import time from '../../../assests/sourse/time/time.png';
 const cx = classNames.bind(styles);
 
 const CourseContent = ({ chapter, status }) => {
+    let role = localStorage.getItem('role');
     const handleItemClick = (videoUrl) => {
         if (videoUrl && status !== true) {
             window.open(videoUrl, '_blank');
@@ -42,9 +43,10 @@ const CourseContent = ({ chapter, status }) => {
                                 </div>
                             </div>
                             <div className={cx('preview-label')}>
-                                {lesson.lessonType === 'video' && status !== true && chapter.index === 0 && (
-                                    <p>Xem trước</p>
-                                )}
+                                {lesson.lessonType === 'video' && status !== true && chapter.index === 0 &&
+                                    role != 'instructor' && (
+                                        <p>Xem trước</p>
+                                    )}
                             </div>
                         </div>
                     ))}

@@ -29,7 +29,12 @@ const CourseP = () => {
 
     useEffect(() => {
         const getCourse = async () => {
-            let res = await repository.listCourse();
+            let res;
+            if (role == "instructor") {
+                res = await repository.courseOfInstructor();
+            } else {
+                res = await repository.listCourse();
+            }
             setCourses(res.data.data)
         }
         getCourse()
@@ -43,6 +48,7 @@ const CourseP = () => {
     const displayedItems = courses && courses.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
 
     const handleGetUrl = async (e) => {
+        console.log("e == ", e);
         if (e === 'bookmarked') {
             const listCourse = await repository.getCourseBookmark();
             setCourses(listCourse.data.data)

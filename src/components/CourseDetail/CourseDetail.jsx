@@ -14,6 +14,8 @@ import HeaderHv from '../Header/HeaderHv/HeaderHv';
 import HeaderGv from '../Header/HeaderGv/HeaderGv';
 import HeaderDkgv from '../Header/HeaderDkgv/HeaderDkgv';
 import Search from '../Search/Search';
+import numberWithCommas from 'src/helper/formatNumber';
+import Footer from '../Footer/Footer';
 const cx = classNames.bind(styles);
 
 const CourseDetail = () => {
@@ -75,6 +77,7 @@ const CourseDetail = () => {
 
             setCourse((prevCourse) => ({
                 ...prevCourse,
+                hasReview: true,
                 reviews: [...prevCourse.reviews, newReview],
             }));
 
@@ -125,7 +128,7 @@ const CourseDetail = () => {
                                 <h2>{course?.title}</h2>
                             </div>
                             <div className={cx('chude')}>
-                                <h3>Chủ đề:</h3> <h4 className={cx('thiet-ke')}>{course?.subject}</h4>
+                                <h2>Môn học:</h2> <h4 className={cx('thiet-ke')}>{course?.subject}</h4>
                             </div>
                             <div className={cx('danhgia1')}>
                                 <div>
@@ -149,15 +152,15 @@ const CourseDetail = () => {
                         </div>
                         <div className={cx('course-detail-info-gia')}>
                             <div className={cx('gia')}>
-                                <p>{course?.price} VND</p>
+                                <p>{numberWithCommas(course?.price || '')} VND</p>
                             </div>
                             <div className={cx('course-detail-info-gia-btn')}>
                                 <div className={cx('khoahoc')}>
                                     {
                                         course?.isRegistered == false ? (
-                                            <button onClick={() => redicrectBuyCourse()}>Mua khóa học</button>
+                                            <button style={{ color: '#fff' }} onClick={() => redicrectBuyCourse()}>Mua khóa học</button>
                                         ) : (
-                                            <button onClick={() => redirectContinueLearn()}>Tiêp tục khóa học</button>
+                                            <button style={{ color: '#fff' }} onClick={() => redirectContinueLearn()}>Tiêp tục khóa học</button>
                                         )
                                     }
                                 </div>
@@ -174,12 +177,11 @@ const CourseDetail = () => {
                             </div>
                         </div>
                     </div>
-                    <div className={cx('course-detail-img')}>
-                        <img src={getImageFromBaseURL(course?.cover_image)} alt="" />
+                    <div className={cx('course-detail-img')} style={{ backgroundImage: `url(${getImageFromBaseURL(course?.cover_image)})` }}>
                     </div>
                 </div>
                 <div className={cx('course-detail-bottom')}>
-                    <div className={cx('course-detail-bottom-para')}>
+                    <div className={cx('course-detail-bottom-para')} style={{ marginTop: '20px' }}>
                         <p>Mô tả</p>
                     </div>
                     <div className={cx('course-detail-bottom-destruction')}>
@@ -244,7 +246,8 @@ const CourseDetail = () => {
                     </div>
                 </div>
             </div>
-        </div>
+            <Footer />
+        </div >
 
     );
 };

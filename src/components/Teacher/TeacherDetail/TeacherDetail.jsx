@@ -57,9 +57,7 @@ const TeacherDetail = () => {
                 <TeacherOverview teacher={teacher} />
                 <TeacherMota teacher={teacher} />
             </div>
-            <div className={cx('footer')}>
-                <Footer />
-            </div>
+            <Footer />
         </div>
     );
 }

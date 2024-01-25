@@ -33,6 +33,7 @@ const Course = ({ course }) => {
             }
         } catch (error) {
             console.error("Error deleting course:", error);
+            alert(error.response.data.message)
         }
     };
 
@@ -73,6 +74,10 @@ const Course = ({ course }) => {
                         </div>
                         <div className={cx('course-bottom-box')}>
                             <p>{course.subject}</p>
+                        </div>
+                        <div className={cx('course-bottom-box')}>
+                            {active == 'instructor' && course.status == 'pending' && <p>Đang xem xét</p>}
+                            {active == 'instructor' && course.status == 'approve' && <p>Đã được chấp nhận</p>}
                         </div>
                     </div>
                     <div className={cx('course-bottom-author')}>

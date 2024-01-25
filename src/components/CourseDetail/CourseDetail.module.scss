@@ -1,6 +1,6 @@
 .container {
     display: flex;
-    padding: 2rem 10.125rem;
+    padding: 2rem 10.125rem 8rem;
     flex-direction: column;
     align-items: flex-start;
 }
@@ -176,6 +176,9 @@
     align-self: stretch;
     border-radius: 0.75rem;
     border: 1px solid var(--white-97, #f7f7f8);
+    background-position: center top;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .course-detail-bottom {
@@ -214,7 +217,7 @@
     align-items: flex-start;
     gap: 20px;
     align-self: stretch;
-    background: #cccccc;
+    background: #efeeee;
 }
 .danhgia-head {
     h3 {

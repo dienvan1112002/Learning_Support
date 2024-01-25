@@ -23,6 +23,9 @@ const CourseHeader = ({ handleGetUrl }) => {
             case 'bookmarked':
                 handleGetUrl('bookmarked');
                 break;
+            case 'watching':
+                handleGetUrl('watching');
+                break;
             default:
                 handleGetUrl('all');
         }

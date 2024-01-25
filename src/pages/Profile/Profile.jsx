@@ -34,7 +34,7 @@ const Profile = () => {
         setEditedTeacher({
             name: teacher?.user.name,
             price: teacher.price,
-            description: 'Nhận dạy tất cả các môn khoa học tự nhiên',
+            description: teacher.description,
         });
     };
 

@@ -86,12 +86,12 @@ const Search = ({ onClose }) => {
                                 <ul>
                                     {course.length > 0 && course.map(c => (
                                         <li className="ResultListItem" key={c._id}>
-                                            <a href={`/course/${c._id}`}>
+                                            <a style={{ color: '#fff' }} href={`/course/${c._id}`}>
                                                 <img height="24" width="24" src={getImageFromBaseURL(c.cover_image)} alt={c.title} />
                                             </a>
                                             <div>
                                                 <h4>
-                                                    <a href={`/course/${c._id}`}>{c.title}</a>
+                                                    <a style={{ color: '#fff' }} href={`/course/${c._id}`}>{c.title}</a>
                                                 </h4>
                                                 <div className="subtitle">
                                                     {c.description}
@@ -109,12 +109,12 @@ const Search = ({ onClose }) => {
                                 <ul>
                                     {instructor.length > 0 && instructor.map(i => (
                                         <li className="ResultListItem" key={i._id}>
-                                            <a href={`/teacher/${i._id}`}>
+                                            <a style={{ color: '#fff' }} href={`/teacher/${i._id}`}>
                                                 <img height="24" width="24" src={getImageFromBaseURL(i.user.image)} alt={i.user.name} />
                                             </a>
                                             <div>
                                                 <h4>
-                                                    <a href={`/teacher/${i._id}`}>{i.user.name}</a>
+                                                    <a style={{ color: '#fff' }} href={`/teacher/${i._id}`}>{i.user.name}</a>
                                                 </h4>
                                                 <div className="subtitle">
                                                     {i.description}

@@ -88,14 +88,14 @@ const Learning = () => {
                 <button onClick={() => navigate(`/course/${id}`)}>
                     <i style={{ fontSize: '30px' }} className="ri-arrow-left-line"></i>
                 </button>
-                <h2>{course?.title}</h2>
+                <h1 style={{ fontWeight: 'bold' }}>{course?.title}</h1>
             </div>
             <div className='wrapper-learning row'>
                 <div className='col-9 learning-video'>
                     {selectedLesson && selectedLesson.lessonType == 'video' && (
                         <>
                             <YouTube videoId={getYouTubeVideoId(selectedLesson?.content.url)} opts={{ width: '100%' }} />
-                            <div style={{ padding: '20px' }}>{selectedLesson?.title}</div>
+                            <div style={{ padding: '20px' }}><strong>{selectedLesson?.title}</strong> </div>
                         </>
                     )}
                     {selectedLesson && selectedLesson.lessonType === 'quizz' && (
@@ -103,7 +103,7 @@ const Learning = () => {
                             <div>{selectedLesson?.title}</div>
                             {selectedLesson.content.list_question.map((question, questionIndex) => (
                                 <div key={questionIndex} style={{ padding: '20px' }}>
-                                    <div>{question.question}</div>
+                                    <div>Câu {questionIndex + 1}: {question.question.slice(3, question.question.length - 4)}</div>
                                     <ul>
                                         {question.answers.map((answer, answerIndex) => (
                                             <li key={answer._id} style={{ backgroundColor: getAnswerBackgroundColor(questionIndex, answer._id) }}>
@@ -160,8 +160,8 @@ const Learning = () => {
                         </div>
                     )}
                 </div>
-                <div className='col-3 learning-sidebar card'>
-                    <h2>Nội dung khóa học</h2>
+                <div className='col-3 learning-sidebar card' style={{ backgroundColor: '#eff4f8' }}>
+                    <h2 style={{ fontWeight: 'bold' }}>Nội dung khóa học</h2>
                     {course?.chapters.map((chapter, chapterIndex) => (
                         <div key={chapterIndex} className="learning-chapter">
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -169,10 +169,12 @@ const Learning = () => {
                                     <div className="lesson-title" onClick={() => handleToggleChapterExpand(chapterIndex)}>
                                         {chapter.title}
                                     </div>
-                                    <div className="lesson-time">{currentLessonIndex + 1}/{chapter.lessons.length} | {currentLesson?.time}</div>
+                                    <div className="lesson-time">{chapter.lessons.length}/{chapter.lessons.length}</div>
                                 </div>
-                                {expandedChapterIndex === chapterIndex && (
-                                    <i className="ri-arrow-up-line icon-size"></i>
+                                {expandedChapterIndex === chapterIndex ? (
+                                    <i className="ri-arrow-up-s-line icon-size"></i>
+                                ) : (
+                                    <i className="ri-arrow-down-s-line icon-size"></i>
                                 )}
                             </div>
 
@@ -181,13 +183,19 @@ const Learning = () => {
                                     {chapter.lessons.map((lesson, lessonIndex) => (
                                         <div
                                             key={lessonIndex}
+                                            className="learning-chapter-content"
                                             style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                                             onClick={() => handleLessonClick(lesson)}
                                         >
                                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                                 <div className="lesson-title">{lesson.title}</div>
                                                 <div className="lesson-time">
-                                                    <i className="ri-video-fill"></i> {lesson.time}
+                                                    {lesson.lessonType == "video" ? (
+                                                        <i className="ri-video-fill"></i>
+                                                    ) : (
+                                                        <i class="ri-book-open-line"></i>
+                                                    )}
+                                                    {lesson.time}
                                                 </div>
                                             </div>
                                             <i className="ri-checkbox-circle-fill"></i>

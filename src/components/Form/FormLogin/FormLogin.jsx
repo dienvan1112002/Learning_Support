@@ -15,11 +15,6 @@ const FormLogin = (props) => {
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
 
-    useEffect(() => {
-        console.log("change");
-        setPassword('');
-    }, [message]);
-
     const handleSubmit = async () => {
         try {
             console.log("email == ", email);
@@ -49,6 +44,7 @@ const FormLogin = (props) => {
             }
         } catch (error) {
             console.error(error);
+            setPassword('');
             setMessage("Sai tài khoản hoặc mật khẩu. Vui lòng nhập lại.");
         }
     };
@@ -69,7 +65,7 @@ const FormLogin = (props) => {
                                 type="text"
                                 id="username"
                                 name="username"
-                                placeholder="Tên đăng nhập/email"
+                                placeholder="Tên đăng nhập"
                             />
                         </div>
                         <div className={cx('content-name')}>

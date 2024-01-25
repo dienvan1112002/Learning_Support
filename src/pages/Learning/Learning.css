@@ -10,6 +10,12 @@
     padding: 10px;
 }
 
+.learning-chapter-content:hover {
+    background-color: rgb(216 220 224);
+}
+.learning-chapter-content:active {
+    background-color: var(--blue-100);
+}
 .child {
     flex-direction: column;
 }

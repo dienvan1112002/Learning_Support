@@ -55,35 +55,51 @@ const TeacherRent = () => {
         const currentToken = localStorage.getItem('fcm_token');
         if (calculateCost() > user?.balance) {
             alert('Tài khoản không đủ, nạp thêm tiền để thử lại');
+            return;
         }
 
-        const res = await repository.rentInstructor(id, {
-            time: +selectedHour,
-            timeStart: selectedDateTime,
-            subject: selectedSubject,
-            description: desc
-        });
+        if (selectedSubject == '') {
+            alert('Vui lòng chọn môn học');
+            return;
+        }
 
-        if (res.data.status == "success") {
-            alert('Yêu cầu thuê thành công, vui lòng chờ giảng viên chấp nhận.');
-            const rentData = {
-                _id: res.data.data._id,
-                user: user,
-                instructor: instructor.user._id,
-                time: selectedHour,
+        if (selectedHour == '') {
+            alert('Vui lòng chọn thời gian thuê');
+            return;
+        }
+        try {
+            const res = await repository.rentInstructor(id, {
+                time: +selectedHour,
                 timeStart: selectedDateTime,
-                roomId: '',
-                status: 'waiting',
-                description: desc,
-                subject: selectedSubject
-            };
+                subject: selectedSubject,
+                description: desc
+            });
 
-            const db = getFirestore();
-            const rentsCollection = collection(db, 'rents');
+            if (res.data.status == "success") {
+                alert('Yêu cầu thuê thành công, vui lòng chờ giảng viên chấp nhận.');
+                const rentData = {
+                    _id: res.data.data._id,
+                    user: user,
+                    instructor: instructor.user._id,
+                    time: selectedHour,
+                    timeStart: selectedDateTime,
+                    roomId: '',
+                    status: 'waiting',
+                    description: desc,
+                    subject: selectedSubject,
+                    price: res.data.data.price
+                };
 
-            await addDoc(rentsCollection, rentData);
-            navigate('/');
+                const db = getFirestore();
+                const rentsCollection = collection(db, 'rents');
+
+                await addDoc(rentsCollection, rentData);
+                navigate('/');
+            }
+        } catch (error) {
+            alert(error.response.data.message)
         }
+
 
         if (currentToken) {
             fetch('https://fcm.googleapis.com/fcm/send', {
@@ -122,7 +138,7 @@ const TeacherRent = () => {
         <div className='row'>
             <div className="card rent-info">
                 <h1 style={{ textAlign: 'center' }}>THUÊ GIẢNG VIÊN</h1>
-                <div style={{ border: '1px solid gray', padding: '15px' }}>
+                <div className='rent-detail'>
                     <div className="mb-4 row" style={{ alignItems: 'center' }}>
                         <label className="col-sm-4 col-form-label">Giảng viên:</label>
                         <div className="col-sm-8">
@@ -136,9 +152,10 @@ const TeacherRent = () => {
                                 id="subject"
                                 name="subject"
                                 value={selectedSubject}
+                                className="time-select form-control"
                                 onChange={handleSubjectChange}
                             >
-                                <option value="" disabled>Select a subject</option>
+                                <option disabled value="">Môn học</option>
                                 {instructor?.subjects.map((subject) => (
                                     <option key={subject} value={subject}>
                                         {subject}
@@ -168,9 +185,9 @@ const TeacherRent = () => {
                                 name="hour"
                                 value={selectedHour}
                                 onChange={handleHourChange}
-                                className="form-control"
+                                className="time-select form-control"
                             >
-                                <option value="" disabled>Select an hour</option>
+                                <option disabled value="">Thời gian muốn thuê</option>
                                 {[...Array(24).keys()].map((hour) => (
                                     <option key={hour + 1} value={hour + 1}>
                                         {hour + 1}
@@ -200,13 +217,13 @@ const TeacherRent = () => {
                     <div className="mb-4 row" style={{ alignItems: 'center' }}>
                         <label className="col-sm-4 col-form-label">Mô tả:</label>
                         <div className="col-sm-8">
-                            <input type="text" className="form-control-plaintext" name='desc' onChange={(e) => setDesc(e.target.value)} />
+                            <input style={{ border: '1px solid #e3dede' }} type="text" className="form-control-plaintext" name='desc' onChange={(e) => setDesc(e.target.value)} />
                         </div>
                     </div>
                 </div>
-                <div style={{ display: 'flex', gap: '10px', padding: '10px' }}>
-                    <button onClick={() => saveRent()} style={{ width: '50px' }} className='btn btn-info'>Thue</button>
-                    <button onClick={() => navigate(`/teacher/${id}`)} style={{ width: '50px' }} className='btn btn-danger'>Dong</button>
+                <div style={{ display: 'flex', gap: '10px', paddingTop: '25px' }}>
+                    <button onClick={() => saveRent()} style={{ color: '#fff', background: 'var(--blue-100)', padding: '10px 20px' }} className='btn'>Thuê</button>
+                    <button onClick={() => navigate(`/teacher/${id}`)} style={{ color: '#fff', background: 'var(--blue-100)', padding: '10px 20px' }} className='btn'>Đóng</button>
                 </div>
             </div>
         </div>

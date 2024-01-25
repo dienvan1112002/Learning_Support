@@ -59,10 +59,6 @@ const CourseInstructor = () => {
         return role;
     }
 
-    console.log('====================================');
-    console.log("course == ", course);
-    console.log('====================================');
-
     return (
         <div>
             <div className={cx('header')}>
@@ -135,7 +131,7 @@ const CourseInstructor = () => {
                         {course && course.reviews.map((review, index) => (
                             <div key={index}>
                                 <div>
-                                    <img style={{ width: '50px', borderRadius: '50%' }} src={getImageFromBaseURL(review.user.image)} alt="teacher" />
+                                    <img style={{ width: '50px', borderRadius: '50%', height: '50px' }} src={getImageFromBaseURL(review.user.image)} alt="teacher" />
                                 </div>
                                 <div className={cx('comment-info-chitiet')}>
                                     <div className={cx('comment-info-chitiet-top')}>
