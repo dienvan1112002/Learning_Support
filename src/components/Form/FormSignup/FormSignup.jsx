@@ -36,12 +36,18 @@ const FormSignup = () => {
                     localStorage.setItem('role', response.data.data.role);
                     localStorage.setItem('active', 'student');
                     navigate('/');
+                } else {
+                    console.log('====================================');
+                    console.log(response);
+                    console.log('====================================');
                 }
             } else {
                 setMessage("Vui lòng Đồng ý với điều khoản sử dụng và chính sách quyền riêng tư");
             }
         } catch (error) {
             console.log(error);
+            setPassword("")
+            setMessage(error.response.data.message)
         }
     };
 
@@ -81,6 +87,7 @@ const FormSignup = () => {
                                 type="password"
                                 id="password"
                                 name="password"
+                                value={password}
                                 placeholder="Nhập mật khẩu"
                             />
                         </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import repository from 'src/repositories/repository';
+import './FormPayment.css'
 
 function OrderForm() {
     const [formData, setFormData] = useState({
@@ -24,7 +25,7 @@ function OrderForm() {
                 <div className="form-group">
                     <label htmlFor="amount">Số tiền</label>
                     <input
-                        type="text"
+                        type="number"
                         className="form-control"
                         id="amount"
                         name="amount"

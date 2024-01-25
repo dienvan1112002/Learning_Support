@@ -1,11 +1,10 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import classNames from 'classnames/bind';
+import axios from 'axios';
+import google from '../../../assests/logo/google.png';
 
 import styles from './FormLogin.module.scss';
-import classNames from 'classnames/bind';
-import google from '../../../assests/logo/google.png';
-import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -16,31 +15,41 @@ const FormLogin = (props) => {
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
 
+    useEffect(() => {
+        console.log("change");
+        setPassword('');
+    }, [message]);
+
     const handleSubmit = async () => {
         try {
+            console.log("email == ", email);
+            console.log("password == ", password);
             const response = await axios.post('http://localhost:3001/auth/signin', {
                 username: email,
                 password: password,
             });
-            if (response.data.status === "success") {
-                const role = response.data.data.role;
-                localStorage.setItem('token', response.data.data.token);
-                localStorage.setItem('username', response.data.data.username);
-                localStorage.setItem('userId', response.data.data.user_id);
+
+            if (response.data.status === 'success') {
+                const { role, token, username, user_id } = response.data.data;
+
+                localStorage.setItem('token', token);
+                localStorage.setItem('username', username);
+                localStorage.setItem('userId', user_id);
                 localStorage.setItem('role', role);
-                if (role === "instructor") {
+
+                if (role === 'instructor') {
                     navigate('/instructor');
-                    localStorage.setItem('active', 'instructor')
+                    localStorage.setItem('active', 'instructor');
                     window.location.reload(false);
                 } else {
                     navigate('/');
-                    localStorage.setItem('active', 'student')
+                    localStorage.setItem('active', 'student');
                     window.location.reload(false);
                 }
             }
         } catch (error) {
-            console.log(error);
-            setMessage("Sai tài khoản hoặc mật khẩu. Vui lòng nhập lại.")
+            console.error(error);
+            setMessage("Sai tài khoản hoặc mật khẩu. Vui lòng nhập lại.");
         }
     };
 
@@ -70,6 +79,7 @@ const FormLogin = (props) => {
                                 type="password"
                                 id="password"
                                 name="password"
+                                value={password}
                                 placeholder="Nhập mật khẩu"
                             />
                             <p>Quên mật khẩu?</p>
